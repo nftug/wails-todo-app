@@ -16,7 +16,7 @@
 
 <TheDrawer />
 
-<main id="content" class="overflow-y-auto hidden-scroll-bar">
+<main>
   <slot />
 </main>
 
