@@ -12,13 +12,9 @@
   onMount(() => {
     footer = document.getElementById('footer')
   })
-
-  function setFooterHeight() {
-    $footerHeight = footer?.offsetHeight ?? 0
-  }
 </script>
 
-<svelte:window on:resize={setFooterHeight} />
+<svelte:window on:resize={() => ($footerHeight = footer?.offsetHeight ?? 0)} />
 
 <footer>
   <BottomNav id="footer" {activeUrl} classInner="grid-cols-2" classOuter="md:hidden z-40 h-14">

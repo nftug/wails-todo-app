@@ -2,8 +2,6 @@
   import { footerHeight, headerHeight } from './stores'
 
   let innerHeight: number
-  let contentHeight: number
-
   $: contentHeight = innerHeight - $headerHeight - $footerHeight
 </script>
 
