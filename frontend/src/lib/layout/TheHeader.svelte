@@ -11,14 +11,16 @@
     Navbar
   } from 'flowbite-svelte'
   import { SearchOutline } from 'flowbite-svelte-icons'
-  import { SITE_TITLE, drawerHidden, headerHeight } from './stores'
+  import { SITE_TITLE, drawerHidden } from './stores'
+
+  export let height: number
 
   $: activeUrl = $page.url.pathname
 </script>
 
-<header class="sticky top-0 z-40 flex-none w-full" id="header" bind:offsetHeight={$headerHeight}>
+<header class="sticky top-0 z-40 flex-none w-full" id="header" bind:offsetHeight={height}>
   <Navbar fluid>
-    <NavHamburger class="m-0 ms-2 me-4 md:block" onClick={() => ($drawerHidden = !$drawerHidden)} />
+    <NavHamburger class="m-0 ms-2 me-4 md:block" onClick={() => ($drawerHidden = !drawerHidden)} />
 
     <NavBrand href="/">
       <span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white">

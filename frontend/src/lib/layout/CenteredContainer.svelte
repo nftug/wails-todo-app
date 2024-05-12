@@ -1,7 +1,15 @@
 <script lang="ts">
-  import { footerHeight, headerHeight } from './stores'
+  import {
+    FooterHeightContext,
+    HeaderHeightContext,
+    type HeightStore
+  } from '$routes/+layout.svelte'
+  import { getContext } from 'svelte'
 
   let innerHeight: number
+  const headerHeight = getContext<HeightStore>(HeaderHeightContext)
+  const footerHeight = getContext<HeightStore>(FooterHeightContext)
+
   $: contentHeight = innerHeight - $headerHeight - $footerHeight
 </script>
 
