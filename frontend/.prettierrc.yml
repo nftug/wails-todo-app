@@ -1,0 +1,12 @@
+printWidth: 100
+singleQuote: true
+tabWidth: 2
+trailingComma: 'none'
+semi: false
+parser: 'typescript'
+plugins:
+  - prettier-plugin-svelte
+overrides:
+  - files: '*.svelte'
+    options:
+      parser: svelte
