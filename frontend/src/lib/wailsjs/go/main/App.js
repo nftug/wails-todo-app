@@ -6,6 +6,6 @@ export function Greet(arg1) {
   return window['go']['main']['App']['Greet'](arg1);
 }
 
-export function ShowErrorMessage(arg1) {
-  return window['go']['main']['App']['ShowErrorMessage'](arg1);
+export function ShowMessageDialog(arg1) {
+  return window['go']['main']['App']['ShowMessageDialog'](arg1);
 }

@@ -1,6 +1,7 @@
 <script lang="ts">
   import CenteredContainer from '$lib/layout/CenteredContainer.svelte'
-  import { Greet, ShowErrorMessage } from '$lib/wailsjs/go/main/App.js'
+  import { Greet, ShowMessageDialog } from '$lib/wailsjs/go/main/App.js'
+  import { dialog } from '$lib/wailsjs/go/models'
   import { Button, Heading, Input, P } from 'flowbite-svelte'
 
   let resultText: string = 'Please enter your name below 👇'
@@ -11,7 +12,11 @@
     try {
       resultText = await Greet(name)
     } catch (e) {
-      await ShowErrorMessage(e as string)
+      await ShowMessageDialog({
+        message: e as string,
+        title: 'Error',
+        type: dialog.DialogType.error
+      })
       nameInput.focus()
     }
 

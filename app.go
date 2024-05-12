@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"strings"
+	"wails-note-app/types/dialog"
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
@@ -35,12 +36,7 @@ func (a *App) Greet(name string) (string, error) {
 	return fmt.Sprintf("Hello %s, It's show time!", name), nil
 }
 
-func (a *App) ShowErrorMessage(message string) {
-	message = strings.ToUpper(message[:1]) + message[1:] + "."
-
-	runtime.MessageDialog(a.ctx, runtime.MessageDialogOptions{
-		Type:    runtime.ErrorDialog,
-		Title:   "Error",
-		Message: message,
-	})
+func (a *App) ShowMessageDialog(opt dialog.DialogOptions) dialog.DialogButton {
+	ret, _ := runtime.MessageDialog(a.ctx, opt.ToRuntimeOptions())
+	return dialog.GetDialogButtonResult(ret)
 }
