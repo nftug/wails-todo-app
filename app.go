@@ -5,7 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"strings"
-	"wails-note-app/types/dialog"
+
+	"github.com/nftug/wails-todo-app/types/dialog"
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )

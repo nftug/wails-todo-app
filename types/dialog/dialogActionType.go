@@ -3,7 +3,7 @@ package dialog
 import (
 	"runtime"
 
-	"github.com/ahmetb/go-linq/v3"
+	"github.com/samber/lo"
 )
 
 type DialogActionType string
@@ -34,18 +34,10 @@ func (t *DialogActionType) GetButtons() []string {
 			buttons = []DialogButton{}
 		}
 
-		var results []string
-		if runtime.GOOS == "darwin" {
-			linq.From(buttons).
-				SelectT(func(b DialogButton) string { return MacButtonNames[b] }).
-				ToSlice(&results)
-		} else {
-			linq.From(buttons).
-				SelectT(func(b DialogButton) string { return string(b) }).
-				ToSlice(&results)
-		}
-
-		return results
+		return lo.
+			Map(buttons, func(b DialogButton, _ int) string {
+				return lo.Ternary(runtime.GOOS == "darwin", MacButtonNames[b], string(b))
+			})
 	}
 }
 
@@ -62,14 +54,6 @@ func (t *DialogActionType) GetDefaultButton() string {
 		default:
 			action = DialogButton(*new(string))
 		}
-
-		var button string
-		if runtime.GOOS == "darwin" {
-			button = MacButtonNames[action]
-		} else {
-			button = string(action)
-		}
-
-		return button
+		return lo.Ternary(runtime.GOOS == "darwin", MacButtonNames[action], string(action))
 	}
 }

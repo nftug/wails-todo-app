@@ -2,7 +2,8 @@ package main
 
 import (
 	"embed"
-	"wails-note-app/types/dialog"
+
+	"github.com/nftug/wails-todo-app/types/dialog"
 
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
