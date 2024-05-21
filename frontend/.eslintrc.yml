@@ -37,3 +37,4 @@ rules:
       caughtErrorsIgnorePattern: '^_'
       destructuredArrayIgnorePattern: '^_'
   eqeqeq: error
+  '@typescript-eslint/no-namespace': off

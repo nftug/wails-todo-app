@@ -3,7 +3,9 @@ package main
 import (
 	"embed"
 
-	"github.com/nftug/wails-todo-app/types/dialog"
+	"github.com/nftug/wails-todo-app/domain/todo"
+	"github.com/nftug/wails-todo-app/presentation/app"
+	"github.com/nftug/wails-todo-app/presentation/types/dialog"
 
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
@@ -15,7 +17,7 @@ var assets embed.FS
 
 func main() {
 	// Create an instance of the app structure
-	app := NewApp()
+	a := app.NewApp()
 
 	// Create application with options
 	err := wails.Run(&options.App{
@@ -26,11 +28,12 @@ func main() {
 			Assets: assets,
 		},
 		BackgroundColour: &options.RGBA{R: 27, G: 38, B: 54, A: 1},
-		OnStartup:        app.startup,
+		OnStartup:        a.Startup,
 		Bind: []interface{}{
-			app,
+			a,
 		},
 		EnumBind: []interface{}{
+			todo.StatusSeq,
 			dialog.AllDialogTypes,
 			dialog.AllDialogActionTypes,
 			dialog.AllDialogButtons,

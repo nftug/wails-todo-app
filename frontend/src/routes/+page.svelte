@@ -1,6 +1,6 @@
 <script lang="ts">
   import CenteredContainer from '$lib/layout/CenteredContainer.svelte'
-  import { Greet, ShowMessageDialog } from '$lib/wailsjs/go/main/App.js'
+  import { Greet, ShowMessageDialog } from '$lib/wailsjs/go/app/App.js'
   import { dialog } from '$lib/wailsjs/go/models'
   import { Button, Heading, Input, P } from 'flowbite-svelte'
 

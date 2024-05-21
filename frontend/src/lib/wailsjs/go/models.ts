@@ -38,3 +38,30 @@ export namespace dialog {
 
 }
 
+export namespace todo {
+	
+	export enum StatusItem {
+	    Backlog = "Backlog",
+	    Todo = "Todo",
+	    Doing = "Doing",
+	    Done = "Done",
+	}
+	export class CreateCommand {
+	    title: string;
+	    description?: string;
+	    status: StatusItem;
+	
+	    static createFrom(source: any = {}) {
+	        return new CreateCommand(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.title = source["title"];
+	        this.description = source["description"];
+	        this.status = source["status"];
+	    }
+	}
+
+}
+

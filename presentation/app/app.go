@@ -1,4 +1,4 @@
-package main
+package app
 
 import (
 	"context"
@@ -6,7 +6,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/nftug/wails-todo-app/types/dialog"
+	"github.com/nftug/wails-todo-app/domain/todo"
+	"github.com/nftug/wails-todo-app/presentation/types/dialog"
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
@@ -23,7 +24,7 @@ func NewApp() *App {
 
 // startup is called when the app starts. The context is saved
 // so we can call the runtime methods
-func (a *App) startup(ctx context.Context) {
+func (a *App) Startup(ctx context.Context) {
 	a.ctx = ctx
 }
 
@@ -40,4 +41,8 @@ func (a *App) Greet(name string) (string, error) {
 func (a *App) ShowMessageDialog(opt dialog.DialogOptions) dialog.DialogButton {
 	ret, _ := runtime.MessageDialog(a.ctx, opt.ToRuntimeOptions())
 	return dialog.GetDialogButtonResult(ret)
+}
+
+func (a *App) CreateTodo(command todo.CreateCommand) {
+	todo.NewTodo(command)
 }
