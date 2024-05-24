@@ -1,14 +1,18 @@
 package todo
 
+import "time"
+
 type CreateCommand struct {
 	Title       string     `json:"title"`
 	Description *string    `json:"description"`
 	Status      StatusItem `json:"status"`
+	DueDate     *time.Time `json:"dueDate"`
 }
 
-type EditCommand struct {
-	Title       string  `json:"title"`
-	Description *string `json:"description"`
+type UpdateCommand struct {
+	Title       string     `json:"title"`
+	Description *string    `json:"description"`
+	DueDate     *time.Time `json:"dueDate"`
 }
 
 type UpdateStatusCommand struct {

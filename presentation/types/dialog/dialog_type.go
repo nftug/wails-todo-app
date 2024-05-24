@@ -1,6 +1,10 @@
 package dialog
 
-import "github.com/wailsapp/wails/v2/pkg/runtime"
+import (
+	"strings"
+
+	"github.com/wailsapp/wails/v2/pkg/runtime"
+)
 
 type DialogType string
 
@@ -14,7 +18,8 @@ const (
 var AllDialogTypes = []DialogType{InfoDialog, WarningDialog, ErrorDialog, QuestionDialog}
 
 func (t DialogType) TSName() string {
-	return string(t)
+	typeStr := string(t)
+	return strings.ToUpper(typeStr[:1]) + typeStr[1:]
 }
 
 func (t *DialogType) ToRuntimeType() runtime.DialogType {

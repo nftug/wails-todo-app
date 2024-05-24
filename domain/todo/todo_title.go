@@ -4,18 +4,24 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/nftug/wails-todo-app/domain/myerror"
+	"github.com/nftug/wails-todo-app/domain/shared/myerror"
 )
 
-type Title struct {
+type Title interface {
+	Value() string
+	String() string
+	Equals(other Title) bool
+}
+
+type titleImpl struct {
 	value string
 }
 
 func ReconstructTitle(value string) Title {
-	return Title{value}
+	return &titleImpl{value}
 }
 
-func NewTitle(value string) (*Title, error) {
+func NewTitle(value string) (Title, error) {
 	const MaxLength = 150
 
 	value = strings.TrimSpace(value)
@@ -26,13 +32,13 @@ func NewTitle(value string) (*Title, error) {
 		return nil, myerror.NewInvalidArgError("title", "%d文字以内で入力してください", MaxLength)
 	}
 
-	return &Title{value}, nil
+	return &titleImpl{value}, nil
 }
 
-func (t *Title) Value() string { return t.value }
+func (t *titleImpl) Value() string { return t.value }
 
-func (t *Title) String() string { return t.value }
+func (t *titleImpl) String() string { return t.value }
 
-func (t *Title) Equals(other *Title) bool {
-	return reflect.DeepEqual(t.value, other.value)
+func (t *titleImpl) Equals(other Title) bool {
+	return reflect.DeepEqual(t.Value(), other.Value())
 }

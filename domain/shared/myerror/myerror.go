@@ -47,5 +47,14 @@ func NewInvalidArgError(field string, format string, a ...any) error {
 	return &MyError{
 		code:    InvalidArgError,
 		content: &errorContent{field, fmt.Sprintf(format, a...)},
+		inner:   fmt.Errorf(format, a...),
+	}
+}
+
+func NewNotFoundError(itemName string) error {
+	return &MyError{
+		code:    NotFoundError,
+		content: &errorContent{itemName, "Not found."},
+		inner:   fmt.Errorf("%s is not found", itemName),
 	}
 }

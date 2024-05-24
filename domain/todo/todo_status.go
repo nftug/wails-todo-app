@@ -4,34 +4,43 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/nftug/wails-todo-app/domain/myerror"
+	"github.com/nftug/wails-todo-app/domain/shared/myerror"
 	"github.com/samber/lo"
 )
 
-type Status struct {
+type Status interface {
+	Value() StatusItem
+	String() string
+	UpdatedAt() time.Time
+	Equals(other Status) bool
+}
+
+type statusImpl struct {
 	value     StatusItem
 	updatedAt time.Time
 }
 
 func ReconstructStatus(value StatusItem, updatedAt time.Time) Status {
-	return Status{value, updatedAt}
+	return &statusImpl{value, updatedAt}
 }
 
-func NewStatus(value StatusItem) (*Status, error) {
-	if !lo.Contains(StatusSeq, value) {
+func NewStatus(value StatusItem) (Status, error) {
+	if lo.IsEmpty(value) {
+		value = StatusTodo
+	} else if !lo.Contains(StatusSeq, value) {
 		return nil, myerror.NewInvalidArgError("status", "不正なステータスです")
 	}
-	return &Status{value, time.Now()}, nil
+	return &statusImpl{value, time.Now()}, nil
 }
 
-func (s Status) String() string { return string(s.value) }
+func (s statusImpl) String() string { return string(s.value) }
 
-func (s *Status) Value() StatusItem { return s.value }
+func (s *statusImpl) Value() StatusItem { return s.value }
 
-func (s *Status) UpdatedAt() time.Time { return s.updatedAt }
+func (s *statusImpl) UpdatedAt() time.Time { return s.updatedAt }
 
-func (s *Status) Equals(other *Status) bool {
-	return reflect.DeepEqual(s.value, other.value)
+func (s *statusImpl) Equals(other Status) bool {
+	return reflect.DeepEqual(s.Value(), other.Value())
 }
 
 // ステータスのEnum
