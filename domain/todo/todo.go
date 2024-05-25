@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/samber/lo"
+	"github.com/nftug/wails-todo-app/library/nullable"
 )
 
 type Todo struct {
@@ -16,7 +16,7 @@ type Todo struct {
 	status      Status
 	dueDate     DueDate
 	createdAt   time.Time
-	updatedAt   time.Time
+	updatedAt   nullable.Nullable[time.Time]
 }
 
 // Getter
@@ -29,9 +29,7 @@ func (t Todo) Status() StatusItem         { return t.status.Value() }
 func (t Todo) StatusUpdatedAt() time.Time { return t.status.UpdatedAt() }
 func (t Todo) DueDate() *time.Time        { return t.dueDate.Value() }
 func (t Todo) CreatedAt() time.Time       { return t.createdAt }
-func (t Todo) UpdatedAt() *time.Time {
-	return lo.Ternary(lo.IsEmpty(t.updatedAt), nil, lo.ToPtr(t.updatedAt))
-}
+func (t Todo) UpdatedAt() *time.Time      { return t.updatedAt.Value() }
 
 func Reconstruct(
 	pk int,
@@ -51,7 +49,7 @@ func Reconstruct(
 		status:      ReconstructStatus(status, statusUpdatedAt),
 		dueDate:     ReconstructDueDate(dueDate),
 		createdAt:   createdAt,
-		updatedAt:   lo.FromPtr(updatedAt),
+		updatedAt:   nullable.NewByPtr(updatedAt),
 	}
 }
 
@@ -100,7 +98,7 @@ func (t *Todo) Update(command UpdateCommand) error {
 	t.title = title
 	t.description = desc
 	t.dueDate = dueDate
-	t.updatedAt = time.Now()
+	t.updatedAt = nullable.NewByVal(time.Now())
 	return nil
 }
 

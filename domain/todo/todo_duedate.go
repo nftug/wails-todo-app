@@ -1,11 +1,10 @@
 package todo
 
 import (
-	"reflect"
 	"time"
 
 	"github.com/nftug/wails-todo-app/interfaces"
-	"github.com/samber/lo"
+	"github.com/nftug/wails-todo-app/library/nullable"
 )
 
 type DueDate interface {
@@ -15,34 +14,30 @@ type DueDate interface {
 }
 
 type dueDateImpl struct {
-	value time.Time
+	nullable.Nullable[time.Time]
 }
 
 func ReconstructDueDate(value *time.Time) DueDate {
-	return &dueDateImpl{lo.FromPtr(value)}
+	return &dueDateImpl{nullable.NewByPtr(value)}
 }
 
 func NewDueDate(value *time.Time) (DueDate, error) {
-	if value == nil {
-		return &dueDateImpl{}, nil
-	}
+	v := nullable.NewByPtr(value)
 
-	v := lo.FromPtr(value)
-	if v.Unix() < time.Now().Unix() {
+	if v.IsEmpty() {
+		return &dueDateImpl{v}, nil
+	}
+	if v.Value().Unix() < time.Now().Unix() {
 		return nil, interfaces.NewInvalidArgError("dueDate", "過去の日付は指定できません。")
 	}
 
 	return &dueDateImpl{v}, nil
 }
 
-func (d dueDateImpl) Value() *time.Time {
-	return lo.Ternary(lo.IsEmpty(d.value), nil, lo.ToPtr(d.value))
-}
-
 func (d dueDateImpl) String() string {
-	return d.value.String()
+	return d.RawValue().String()
 }
 
 func (d dueDateImpl) Equals(other DueDate) bool {
-	return reflect.DeepEqual(d.Value(), other.Value())
+	return d.EqualsByVal(*other.Value())
 }
