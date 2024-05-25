@@ -19,6 +19,8 @@ type TodoTable struct {
 	UpdatedAt       *time.Time
 }
 
+func (t TodoTable) TableName() string { return "todos" }
+
 func (t TodoTable) ToEntity() *todo.Todo {
 	return todo.Reconstruct(
 		t.PK, t.ID,
@@ -64,5 +66,3 @@ func (t TodoTable) ToItemResponse() *todo.ItemResponse {
 		DueDate: t.DueDate,
 	}
 }
-
-func (t TodoTable) TableName() string { return "todos" }

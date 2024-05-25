@@ -6,12 +6,12 @@ import (
 	"github.com/google/uuid"
 )
 
-type Equaler[T any] interface {
-	Equals(T) bool
+type Equaler[TSelf any] interface {
+	Equals(TSelf) bool
 }
 
-type Entity[T any] interface {
-	Equaler[T]
+type Entity[TSelfPtr any] interface {
+	Equaler[TSelfPtr]
 	PK() int
 	ID() uuid.UUID
 	CreatedAt() time.Time

@@ -2,9 +2,9 @@ package model
 
 import "github.com/nftug/wails-todo-app/interfaces"
 
-type EntityTable[TEntity interfaces.Entity[TEntity]] interface {
-	ToEntity() TEntity
-	Transfer(e TEntity)
+type EntityTable[TEntityPtr interfaces.Entity[TEntityPtr]] interface {
+	ToEntity() TEntityPtr
+	Transfer(e TEntityPtr)
 	GetPK() int
 }
 

@@ -8,6 +8,6 @@ type CreatedResponse struct {
 	ID uuid.UUID `json:"id"`
 }
 
-func NewCreatedResponse[TEntity Entity[TEntity]](e TEntity) *CreatedResponse {
+func NewCreatedResponse[TEntityPtr Entity[TEntityPtr]](e TEntityPtr) *CreatedResponse {
 	return &CreatedResponse{e.ID()}
 }

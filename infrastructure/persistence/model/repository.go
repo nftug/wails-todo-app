@@ -10,26 +10,26 @@ import (
 	"gorm.io/gorm"
 )
 
-type Repository[TEntity interfaces.Entity[TEntity], TTable EntityTable[TEntity]] struct {
+type Repository[TEntityPtr interfaces.Entity[TEntityPtr], TTablePtr EntityTable[TEntityPtr]] struct {
 	db *gorm.DB
 }
 
-func NewRepository[TEntity interfaces.Entity[TEntity], TTable EntityTable[TEntity]](
-	db *gorm.DB) *Repository[TEntity, TTable] {
-	return &Repository[TEntity, TTable]{db}
+func NewRepository[TEntityPtr interfaces.Entity[TEntityPtr], TTablePtr EntityTable[TEntityPtr]](
+	db *gorm.DB) *Repository[TEntityPtr, TTablePtr] {
+	return &Repository[TEntityPtr, TTablePtr]{db}
 }
 
-func (r *Repository[TEntity, TTable]) Find(id uuid.UUID, ctx context.Context) (TEntity, error) {
-	col := *new(TTable)
+func (r *Repository[TEntityPtr, TTablePtr]) Find(id uuid.UUID, ctx context.Context) (TEntityPtr, error) {
+	col := *new(TTablePtr)
 	if err := r.db.WithContext(ctx).Where("id = ?", id).Take(col).Error; err != nil {
 		// レコードが見つからない場合は両方ともnilを返す
-		return *new(TEntity), filterNotFoundErr(err)
+		return *new(TEntityPtr), filterNotFoundErr(err)
 	}
 	return col.ToEntity(), nil
 }
 
-func (r *Repository[TEntity, TTable]) Save(e TEntity, ctx context.Context) error {
-	col := *new(TTable)
+func (r *Repository[TEntityPtr, TTablePtr]) Save(e TEntityPtr, ctx context.Context) error {
+	col := *new(TTablePtr)
 	col.Transfer(e)
 
 	if err := r.db.WithContext(ctx).Save(col).Error; err != nil {
@@ -40,8 +40,8 @@ func (r *Repository[TEntity, TTable]) Save(e TEntity, ctx context.Context) error
 	return nil
 }
 
-func (r *Repository[TEntity, TTable]) Delete(e TEntity, ctx context.Context) error {
-	if err := r.db.WithContext(ctx).Delete(*new(TTable), e.PK()).Error; err != nil {
+func (r *Repository[TEntityPtr, TTablePtr]) Delete(e TEntityPtr, ctx context.Context) error {
+	if err := r.db.WithContext(ctx).Delete(*new(TTablePtr), e.PK()).Error; err != nil {
 		return filterNotFoundErr(err)
 	}
 	return nil
