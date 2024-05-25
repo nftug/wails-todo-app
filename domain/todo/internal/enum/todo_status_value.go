@@ -1,4 +1,4 @@
-package internal
+package enum
 
 import "github.com/samber/lo"
 

@@ -1,35 +1,36 @@
-package internal
+package valueobject
 
 import (
 	"reflect"
 	"time"
 
+	"github.com/nftug/wails-todo-app/domain/todo/internal/enum"
 	"github.com/nftug/wails-todo-app/interfaces"
 	"github.com/samber/lo"
 )
 
 type Status interface {
-	Value() StatusValue
+	Value() enum.StatusValue
 	String() string
 	UpdatedAt() time.Time
 	Equals(other Status) bool
 }
 
 type statusImpl struct {
-	value     StatusValue
+	value     enum.StatusValue
 	updatedAt time.Time
 }
 
-func ReconstructStatus(value StatusValue, updatedAt time.Time) Status {
-	return &statusImpl{StatusValue(value), updatedAt}
+func ReconstructStatus(value enum.StatusValue, updatedAt time.Time) Status {
+	return &statusImpl{enum.StatusValue(value), updatedAt}
 }
 
-func NewInitialStatus(value *StatusValue) (Status, error) {
-	return NewStatus(lo.FromPtrOr(value, StatusTodo))
+func NewInitialStatus(value *enum.StatusValue) (Status, error) {
+	return NewStatus(lo.FromPtrOr(value, enum.StatusTodo))
 }
 
-func NewStatus(value StatusValue) (Status, error) {
-	v := StatusValue(value)
+func NewStatus(value enum.StatusValue) (Status, error) {
+	v := enum.StatusValue(value)
 	if v.Validate() {
 		return nil, interfaces.NewInvalidArgError("status", "不正なステータスです")
 	}
@@ -38,7 +39,7 @@ func NewStatus(value StatusValue) (Status, error) {
 
 func (s statusImpl) String() string { return string(s.value) }
 
-func (s statusImpl) Value() StatusValue { return s.value }
+func (s statusImpl) Value() enum.StatusValue { return s.value }
 
 func (s statusImpl) UpdatedAt() time.Time { return s.updatedAt }
 

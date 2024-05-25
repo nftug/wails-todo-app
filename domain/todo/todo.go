@@ -5,17 +5,17 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/nftug/wails-todo-app/domain/todo/internal"
+	"github.com/nftug/wails-todo-app/domain/todo/internal/valueobject"
 	"github.com/nftug/wails-todo-app/library/nullable"
 )
 
 type Todo struct {
 	pk          int
 	id          uuid.UUID
-	title       internal.Title
-	description internal.Description
-	status      internal.Status
-	dueDate     internal.DueDate
+	title       valueobject.Title
+	description valueobject.Description
+	status      valueobject.Status
+	dueDate     valueobject.DueDate
 	createdAt   time.Time
 	updatedAt   nullable.Nullable[time.Time]
 }
@@ -45,29 +45,29 @@ func Reconstruct(
 	return &Todo{
 		pk:          pk,
 		id:          id,
-		title:       internal.ReconstructTitle(title),
-		description: internal.ReconstructDescription(description),
-		status:      internal.ReconstructStatus(status.toInternal(), statusUpdatedAt),
-		dueDate:     internal.ReconstructDueDate(dueDate),
+		title:       valueobject.ReconstructTitle(title),
+		description: valueobject.ReconstructDescription(description),
+		status:      valueobject.ReconstructStatus(status.toInternal(), statusUpdatedAt),
+		dueDate:     valueobject.ReconstructDueDate(dueDate),
 		createdAt:   createdAt,
 		updatedAt:   nullable.NewByPtr(updatedAt),
 	}
 }
 
 func NewTodo(command CreateCommand) (*Todo, error) {
-	title, err := internal.NewTitle(command.Title)
+	title, err := valueobject.NewTitle(command.Title)
 	if err != nil {
 		return nil, err
 	}
-	desc, err := internal.NewDescription(command.Description)
+	desc, err := valueobject.NewDescription(command.Description)
 	if err != nil {
 		return nil, err
 	}
-	status, err := internal.NewInitialStatus(command.InitialStatus.toInternalPtr())
+	status, err := valueobject.NewInitialStatus(command.InitialStatus.toInternalPtr())
 	if err != nil {
 		return nil, err
 	}
-	dueDate, err := internal.NewDueDate(command.DueDate)
+	dueDate, err := valueobject.NewDueDate(command.DueDate)
 	if err != nil {
 		return nil, err
 	}
@@ -83,15 +83,15 @@ func NewTodo(command CreateCommand) (*Todo, error) {
 }
 
 func (t *Todo) Update(command UpdateCommand) error {
-	title, err := internal.NewTitle(command.Title)
+	title, err := valueobject.NewTitle(command.Title)
 	if err != nil {
 		return err
 	}
-	desc, err := internal.NewDescription(command.Description)
+	desc, err := valueobject.NewDescription(command.Description)
 	if err != nil {
 		return err
 	}
-	dueDate, err := internal.NewDueDate(command.DueDate)
+	dueDate, err := valueobject.NewDueDate(command.DueDate)
 	if err != nil {
 		return err
 	}
@@ -104,7 +104,7 @@ func (t *Todo) Update(command UpdateCommand) error {
 }
 
 func (t *Todo) UpdateStatus(command UpdateStatusCommand) error {
-	status, err := internal.NewStatus(command.Status.toInternal())
+	status, err := valueobject.NewStatus(command.Status.toInternal())
 	if err != nil {
 		return err
 	}
