@@ -24,10 +24,12 @@ func ReconstructStatus(value StatusItem, updatedAt time.Time) Status {
 	return &statusImpl{value, updatedAt}
 }
 
+func NewInitialStatus(value *StatusItem) (Status, error) {
+	return NewStatus(lo.FromPtrOr(value, StatusTodo))
+}
+
 func NewStatus(value StatusItem) (Status, error) {
-	if lo.IsEmpty(value) {
-		value = StatusTodo
-	} else if !lo.Contains(StatusSeq, value) {
+	if !lo.Contains(StatusSeq, value) {
 		return nil, interfaces.NewInvalidArgError("status", "不正なステータスです")
 	}
 	return &statusImpl{value, time.Now()}, nil
@@ -44,7 +46,6 @@ func (s statusImpl) Equals(other Status) bool {
 }
 
 // ステータスのEnum
-
 type StatusItem string
 
 const (

@@ -1,5 +1,11 @@
 export namespace dialog {
 	
+	export enum DialogButton {
+	    Ok = "Ok",
+	    Cancel = "Cancel",
+	    Yes = "Yes",
+	    No = "No",
+	}
 	export enum DialogType {
 	    Info = "info",
 	    Warning = "warning",
@@ -10,12 +16,6 @@ export namespace dialog {
 	    Ok = "Ok",
 	    OkCancel = "OkCancel",
 	    YesNo = "YesNo",
-	}
-	export enum DialogButton {
-	    Ok = "Ok",
-	    Cancel = "Cancel",
-	    Yes = "Yes",
-	    No = "No",
 	}
 	export class DialogOptions {
 	    message: string;
@@ -66,7 +66,7 @@ export namespace todo {
 	export class CreateCommand {
 	    title: string;
 	    description?: string;
-	    status: StatusItem;
+	    initialStatus?: StatusItem;
 	    // Go type: time
 	    dueDate?: any;
 	
@@ -78,7 +78,7 @@ export namespace todo {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.title = source["title"];
 	        this.description = source["description"];
-	        this.status = source["status"];
+	        this.initialStatus = source["initialStatus"];
 	        this.dueDate = this.convertValues(source["dueDate"], null);
 	    }
 	

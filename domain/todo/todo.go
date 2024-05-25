@@ -62,7 +62,7 @@ func NewTodo(command CreateCommand) (*Todo, error) {
 	if err != nil {
 		return nil, err
 	}
-	status, err := NewStatus(command.Status)
+	status, err := NewInitialStatus(command.InitialStatus)
 	if err != nil {
 		return nil, err
 	}
