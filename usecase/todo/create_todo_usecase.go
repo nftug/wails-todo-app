@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/nftug/wails-todo-app/domain/todo"
-	"github.com/nftug/wails-todo-app/usecase/shared/response"
+	"github.com/nftug/wails-todo-app/interfaces"
 )
 
 type CreateTodoUseCase struct {
@@ -15,7 +15,7 @@ func NewCreateTodoUseCase(repo todo.TodoRepository) *CreateTodoUseCase {
 	return &CreateTodoUseCase{repo}
 }
 
-func (u *CreateTodoUseCase) Execute(command todo.CreateCommand, ctx context.Context) (*response.CreatedResponse, error) {
+func (u *CreateTodoUseCase) Execute(command todo.CreateCommand, ctx context.Context) (*interfaces.CreatedResponse, error) {
 	t, err := todo.NewTodo(command)
 	if err != nil {
 		return nil, err
@@ -23,5 +23,5 @@ func (u *CreateTodoUseCase) Execute(command todo.CreateCommand, ctx context.Cont
 	if err := u.repo.Save(t, ctx); err != nil {
 		return nil, err
 	}
-	return response.NewCreatedResponse(t), nil
+	return interfaces.NewCreatedResponse(t), nil
 }

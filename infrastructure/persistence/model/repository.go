@@ -5,16 +5,16 @@ import (
 	"errors"
 
 	"github.com/google/uuid"
-	"github.com/nftug/wails-todo-app/domain/shared/entity"
+	"github.com/nftug/wails-todo-app/interfaces"
 	"github.com/samber/lo"
 	"gorm.io/gorm"
 )
 
-type Repository[TEntity entity.Entity[TEntity], TTable EntityTable[TEntity]] struct {
+type Repository[TEntity interfaces.Entity[TEntity], TTable EntityTable[TEntity]] struct {
 	db *gorm.DB
 }
 
-func NewRepository[TEntity entity.Entity[TEntity], TTable EntityTable[TEntity]](
+func NewRepository[TEntity interfaces.Entity[TEntity], TTable EntityTable[TEntity]](
 	db *gorm.DB) *Repository[TEntity, TTable] {
 	return &Repository[TEntity, TTable]{db}
 }

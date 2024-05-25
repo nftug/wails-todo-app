@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/nftug/wails-todo-app/domain/shared/myerror"
+	"github.com/nftug/wails-todo-app/interfaces"
 	"github.com/samber/lo"
 )
 
@@ -28,18 +28,18 @@ func NewStatus(value StatusItem) (Status, error) {
 	if lo.IsEmpty(value) {
 		value = StatusTodo
 	} else if !lo.Contains(StatusSeq, value) {
-		return nil, myerror.NewInvalidArgError("status", "不正なステータスです")
+		return nil, interfaces.NewInvalidArgError("status", "不正なステータスです")
 	}
 	return &statusImpl{value, time.Now()}, nil
 }
 
 func (s statusImpl) String() string { return string(s.value) }
 
-func (s *statusImpl) Value() StatusItem { return s.value }
+func (s statusImpl) Value() StatusItem { return s.value }
 
-func (s *statusImpl) UpdatedAt() time.Time { return s.updatedAt }
+func (s statusImpl) UpdatedAt() time.Time { return s.updatedAt }
 
-func (s *statusImpl) Equals(other Status) bool {
+func (s statusImpl) Equals(other Status) bool {
 	return reflect.DeepEqual(s.Value(), other.Value())
 }
 

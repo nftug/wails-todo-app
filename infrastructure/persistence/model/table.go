@@ -1,8 +1,8 @@
 package model
 
-import "github.com/nftug/wails-todo-app/domain/shared/entity"
+import "github.com/nftug/wails-todo-app/interfaces"
 
-type EntityTable[TEntity entity.Entity[TEntity]] interface {
+type EntityTable[TEntity interfaces.Entity[TEntity]] interface {
 	ToEntity() TEntity
 	Transfer(e TEntity)
 	GetPK() int

@@ -4,8 +4,8 @@ import (
 	"context"
 
 	"github.com/google/uuid"
-	"github.com/nftug/wails-todo-app/domain/shared/myerror"
 	"github.com/nftug/wails-todo-app/domain/todo"
+	"github.com/nftug/wails-todo-app/interfaces"
 )
 
 type GetTodoUseCase struct {
@@ -21,7 +21,7 @@ func (u *GetTodoUseCase) Execute(id uuid.UUID, ctx context.Context) (*todo.Detai
 	if err != nil {
 		return nil, err
 	} else if t == nil {
-		return nil, myerror.NewNotFoundError("todo")
+		return nil, interfaces.NewNotFoundError("todo")
 	}
 	return t, nil
 }

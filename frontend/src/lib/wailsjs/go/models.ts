@@ -38,7 +38,7 @@ export namespace dialog {
 
 }
 
-export namespace response {
+export namespace interfaces {
 	
 	export class CreatedResponse {
 	    id: number[];

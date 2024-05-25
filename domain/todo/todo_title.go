@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/nftug/wails-todo-app/domain/shared/myerror"
+	"github.com/nftug/wails-todo-app/interfaces"
 )
 
 type Title interface {
@@ -26,19 +26,19 @@ func NewTitle(value string) (Title, error) {
 
 	value = strings.TrimSpace(value)
 	if value == "" {
-		return nil, myerror.NewInvalidArgError("title", "タイトルを設定してください")
+		return nil, interfaces.NewInvalidArgError("title", "タイトルを設定してください")
 	}
 	if len(value) > MaxLength {
-		return nil, myerror.NewInvalidArgError("title", "%d文字以内で入力してください", MaxLength)
+		return nil, interfaces.NewInvalidArgError("title", "%d文字以内で入力してください", MaxLength)
 	}
 
 	return &titleImpl{value}, nil
 }
 
-func (t *titleImpl) Value() string { return t.value }
+func (t titleImpl) Value() string { return t.value }
 
-func (t *titleImpl) String() string { return t.value }
+func (t titleImpl) String() string { return t.value }
 
-func (t *titleImpl) Equals(other Title) bool {
+func (t titleImpl) Equals(other Title) bool {
 	return reflect.DeepEqual(t.Value(), other.Value())
 }

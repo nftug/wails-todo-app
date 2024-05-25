@@ -3,8 +3,8 @@ package todo
 import (
 	"context"
 
-	"github.com/nftug/wails-todo-app/domain/shared/myerror"
 	"github.com/nftug/wails-todo-app/domain/todo"
+	"github.com/nftug/wails-todo-app/interfaces"
 )
 
 type GetTodoListUseCase struct {
@@ -20,7 +20,7 @@ func (u *GetTodoListUseCase) Execute(query todo.Query, ctx context.Context) ([]*
 	if err != nil {
 		return nil, err
 	} else if t == nil {
-		return nil, myerror.NewNotFoundError("todo")
+		return nil, interfaces.NewNotFoundError("todo")
 	}
 	return t, nil
 }

@@ -4,8 +4,8 @@ import (
 	"context"
 
 	"github.com/google/uuid"
-	"github.com/nftug/wails-todo-app/domain/shared/myerror"
 	"github.com/nftug/wails-todo-app/domain/todo"
+	"github.com/nftug/wails-todo-app/interfaces"
 )
 
 type UpdateTodoStatusUseCase struct {
@@ -21,7 +21,7 @@ func (u *UpdateTodoStatusUseCase) Execute(id uuid.UUID, command todo.UpdateStatu
 	if err != nil {
 		return err
 	} else if t == nil {
-		return myerror.NewNotFoundError("todo")
+		return interfaces.NewNotFoundError("todo")
 	}
 
 	if err := t.UpdateStatus(command); err != nil {

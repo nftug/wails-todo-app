@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/nftug/wails-todo-app/domain/shared/myerror"
+	"github.com/nftug/wails-todo-app/interfaces"
 	"github.com/samber/lo"
 )
 
@@ -29,20 +29,20 @@ func NewDueDate(value *time.Time) (DueDate, error) {
 
 	v := lo.FromPtr(value)
 	if v.Unix() < time.Now().Unix() {
-		return nil, myerror.NewInvalidArgError("dueDate", "過去の日付は指定できません。")
+		return nil, interfaces.NewInvalidArgError("dueDate", "過去の日付は指定できません。")
 	}
 
 	return &dueDateImpl{v}, nil
 }
 
-func (d *dueDateImpl) Value() *time.Time {
+func (d dueDateImpl) Value() *time.Time {
 	return lo.Ternary(lo.IsEmpty(d.value), nil, lo.ToPtr(d.value))
 }
 
-func (d *dueDateImpl) String() string {
+func (d dueDateImpl) String() string {
 	return d.value.String()
 }
 
-func (d *dueDateImpl) Equals(other DueDate) bool {
+func (d dueDateImpl) Equals(other DueDate) bool {
 	return reflect.DeepEqual(d.Value(), other.Value())
 }

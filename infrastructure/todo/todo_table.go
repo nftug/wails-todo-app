@@ -19,7 +19,7 @@ type TodoTable struct {
 	UpdatedAt       *time.Time
 }
 
-func (t *TodoTable) ToEntity() *todo.Todo {
+func (t TodoTable) ToEntity() *todo.Todo {
 	return todo.Reconstruct(
 		t.PK, t.ID,
 		t.Title, t.Description,
@@ -41,9 +41,9 @@ func (t *TodoTable) Transfer(e *todo.Todo) {
 	t.UpdatedAt = e.UpdatedAt()
 }
 
-func (t *TodoTable) GetPK() int { return t.PK }
+func (t TodoTable) GetPK() int { return t.PK }
 
-func (t *TodoTable) ToDetailResponse() *todo.DetailResponse {
+func (t TodoTable) ToDetailResponse() *todo.DetailResponse {
 	return &todo.DetailResponse{
 		ID:              t.ID,
 		Title:           t.Title,
@@ -56,7 +56,7 @@ func (t *TodoTable) ToDetailResponse() *todo.DetailResponse {
 	}
 }
 
-func (t *TodoTable) ToItemResponse() *todo.ItemResponse {
+func (t TodoTable) ToItemResponse() *todo.ItemResponse {
 	return &todo.ItemResponse{
 		ID:      t.ID,
 		Title:   t.Title,

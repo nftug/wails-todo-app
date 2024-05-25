@@ -5,7 +5,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/nftug/wails-todo-app/domain/todo"
-	"github.com/nftug/wails-todo-app/usecase/shared/response"
+	"github.com/nftug/wails-todo-app/interfaces"
 	usecase "github.com/nftug/wails-todo-app/usecase/todo"
 )
 
@@ -28,7 +28,7 @@ func NewTodoApp(
 	return &TodoApp{create, update, updateStatus, delete, get, search}
 }
 
-func (a *TodoApp) Create(command todo.CreateCommand) (*response.CreatedResponse, error) {
+func (a *TodoApp) Create(command todo.CreateCommand) (*interfaces.CreatedResponse, error) {
 	return a.create.Execute(command, context.Background())
 }
 

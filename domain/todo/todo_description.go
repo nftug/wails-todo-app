@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/nftug/wails-todo-app/domain/shared/myerror"
+	"github.com/nftug/wails-todo-app/interfaces"
 	"github.com/samber/lo"
 )
 
@@ -31,18 +31,18 @@ func NewDescription(value *string) (Description, error) {
 
 	trimmed := strings.TrimSpace(*value)
 	if len(trimmed) > MaxLength {
-		return nil, myerror.NewInvalidArgError("description", "%d文字以内で入力してください", MaxLength)
+		return nil, interfaces.NewInvalidArgError("description", "%d文字以内で入力してください", MaxLength)
 	}
 
 	return &descriptionImpl{trimmed}, nil
 }
 
-func (t *descriptionImpl) Value() *string {
+func (t descriptionImpl) Value() *string {
 	return lo.Ternary(lo.IsEmpty(t.value), nil, lo.ToPtr(t.value))
 }
 
-func (t *descriptionImpl) String() string { return t.value }
+func (t descriptionImpl) String() string { return t.value }
 
-func (t *descriptionImpl) Equals(other Description) bool {
+func (t descriptionImpl) Equals(other Description) bool {
 	return reflect.DeepEqual(t.Value(), other.Value())
 }
