@@ -4,20 +4,19 @@
 //go:build !wireinject
 // +build !wireinject
 
-package main
+package presentation
 
 import (
 	"github.com/nftug/wails-todo-app/infrastructure/config"
 	"github.com/nftug/wails-todo-app/infrastructure/persistence"
 	"github.com/nftug/wails-todo-app/infrastructure/todo"
-	"github.com/nftug/wails-todo-app/presentation"
 	"github.com/nftug/wails-todo-app/presentation/app"
 	todo2 "github.com/nftug/wails-todo-app/usecase/todo"
 )
 
 // Injectors from wire.go:
 
-func createAppRoot() *presentation.AppRoot {
+func CreateAppRoot() *AppRoot {
 	appApp := app.NewApp()
 	greetApp := app.NewGreetApp()
 	localPathService := config.NewLocalPathService()
@@ -31,6 +30,21 @@ func createAppRoot() *presentation.AppRoot {
 	getTodoUseCase := todo2.NewGetTodoUseCase(todoQueryService)
 	getTodoListUseCase := todo2.NewGetTodoListUseCase(todoQueryService)
 	todoApp := app.NewTodoApp(createTodoUseCase, updateTodoUseCase, updateTodoStatusUseCase, deleteTodoUseCase, getTodoUseCase, getTodoListUseCase)
-	appRoot := presentation.NewAppRoot(appApp, greetApp, todoApp)
+	appRoot := NewAppRoot(appApp, greetApp, todoApp)
 	return appRoot
+}
+
+func CreateAppRootMock() *AppRootMock {
+	db := persistence.NewDBMock()
+	todoRepository := todo.NewTodoRepository(db)
+	createTodoUseCase := todo2.NewCreateTodoUseCase(todoRepository)
+	updateTodoUseCase := todo2.NewUpdateTodoUseCase(todoRepository)
+	updateTodoStatusUseCase := todo2.NewUpdateTodoStatusUseCase(todoRepository)
+	deleteTodoUseCase := todo2.NewDeleteTodoUseCase(todoRepository)
+	todoQueryService := todo.NewTodoQueryService(db)
+	getTodoUseCase := todo2.NewGetTodoUseCase(todoQueryService)
+	getTodoListUseCase := todo2.NewGetTodoListUseCase(todoQueryService)
+	todoApp := app.NewTodoApp(createTodoUseCase, updateTodoUseCase, updateTodoStatusUseCase, deleteTodoUseCase, getTodoUseCase, getTodoListUseCase)
+	appRootMock := NewAppRootMock(db, todoApp)
+	return appRootMock
 }

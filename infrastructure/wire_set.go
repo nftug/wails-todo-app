@@ -13,3 +13,9 @@ var Set = wire.NewSet(
 	todo.NewTodoRepository,
 	todo.NewTodoQueryService,
 )
+
+var MockSet = wire.NewSet(
+	persistence.NewDBMock,
+	todo.NewTodoRepository,
+	todo.NewTodoQueryService,
+)

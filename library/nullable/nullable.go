@@ -34,6 +34,9 @@ func NewByVal[T comparable](val T) Nullable[T] {
 	return &nullableImpl[T]{val}
 }
 
+// 空の値が入った値オブジェクトを生成する。
+func NewEmpty[T comparable]() Nullable[T] { return &nullableImpl[T]{} }
+
 // 値がゼロ値の場合nilを返す。それ以外は値のコピーのポインタを返す。
 func (nv nullableImpl[T]) Value() *T {
 	// 生のポインタを渡すと不変性が崩れるため、lo.ToPtr()で値のコピーのポインタを渡す。

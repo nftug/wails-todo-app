@@ -3,8 +3,10 @@ package valueobject
 import (
 	"time"
 
+	"github.com/Songmu/flextime"
 	"github.com/nftug/wails-todo-app/interfaces"
 	"github.com/nftug/wails-todo-app/library/nullable"
+	"github.com/samber/lo"
 )
 
 type DueDate interface {
@@ -22,12 +24,12 @@ func ReconstructDueDate(value *time.Time) DueDate {
 }
 
 func NewDueDate(value *time.Time) (DueDate, error) {
-	v := nullable.NewByPtr(value)
+	v := nullable.NewByVal(lo.FromPtr(value).UTC())
 
 	if v.IsEmpty() {
 		return &dueDateImpl{v}, nil
 	}
-	if v.Value().Unix() < time.Now().Unix() {
+	if v.Value().Unix() < flextime.Now().UTC().Unix() {
 		return nil, interfaces.NewInvalidArgError("dueDate", "過去の日付は指定できません。")
 	}
 

@@ -26,3 +26,19 @@ func NewDB(lp *config.LocalPathService) *gorm.DB {
 	instance = db
 	return instance
 }
+
+func NewDBMock() *gorm.DB {
+	if instance != nil {
+		return instance
+	}
+
+	db, err := gorm.Open(sqlite.Open(":memory:"), &gorm.Config{})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	db.AutoMigrate(&todo.TodoTable{})
+
+	instance = db
+	return instance
+}

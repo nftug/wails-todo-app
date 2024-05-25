@@ -21,6 +21,10 @@ func (s StatusValue) toInternal() enum.StatusValue {
 
 // 内部用のEnumのポインタへ変換
 func (s *StatusValue) toInternalPtr() *enum.StatusValue {
+	if s == nil {
+		// 型変換の際に値としてゼロ値が入ってしまうため必要
+		return nil
+	}
 	val := enum.StatusValue(lo.FromPtr(s))
 	return &val
 }

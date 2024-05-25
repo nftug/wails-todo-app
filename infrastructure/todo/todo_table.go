@@ -14,9 +14,9 @@ type TodoTable struct {
 	Description     *string
 	Status          todo.StatusValue
 	StatusUpdatedAt time.Time
-	DueDate         *time.Time
-	CreatedAt       time.Time
-	UpdatedAt       *time.Time
+	DueDate         *time.Time `gorm:"type:TIMESTAMP;null;default:null"`
+	CreatedAt       time.Time  `gorm:"type:TIMESTAMP;null;"`
+	UpdatedAt       *time.Time `gorm:"type:TIMESTAMP;null;default:null"`
 }
 
 func (t TodoTable) TableName() string { return "todos" }
@@ -31,16 +31,18 @@ func (t TodoTable) ToEntity() *todo.Todo {
 	)
 }
 
-func (t *TodoTable) Transfer(e *todo.Todo) {
-	t.PK = e.PK()
-	t.ID = e.ID()
-	t.Title = e.Title()
-	t.Description = e.Description()
-	t.Status = e.Status()
-	t.StatusUpdatedAt = e.StatusUpdatedAt()
-	t.DueDate = e.DueDate()
-	t.CreatedAt = e.CreatedAt()
-	t.UpdatedAt = e.UpdatedAt()
+func (t TodoTable) Transfer(e *todo.Todo) TodoTable {
+	return TodoTable{
+		PK:              e.PK(),
+		ID:              e.ID(),
+		Title:           e.Title(),
+		Description:     e.Description(),
+		Status:          e.Status(),
+		StatusUpdatedAt: e.StatusUpdatedAt(),
+		DueDate:         e.DueDate(),
+		CreatedAt:       e.CreatedAt(),
+		//UpdatedAt:       e.UpdatedAt(),
+	}
 }
 
 func (t TodoTable) GetPK() int { return t.PK }

@@ -4,6 +4,7 @@ import (
 	"reflect"
 	"time"
 
+	"github.com/Songmu/flextime"
 	"github.com/google/uuid"
 	"github.com/nftug/wails-todo-app/domain/todo/internal/valueobject"
 	"github.com/nftug/wails-todo-app/library/nullable"
@@ -78,7 +79,8 @@ func NewTodo(command CreateCommand) (*Todo, error) {
 		description: desc,
 		status:      status,
 		dueDate:     dueDate,
-		createdAt:   time.Now(),
+		createdAt:   flextime.Now().UTC(),
+		updatedAt:   nullable.NewEmpty[time.Time](),
 	}, nil
 }
 
@@ -99,7 +101,7 @@ func (t *Todo) Update(command UpdateCommand) error {
 	t.title = title
 	t.description = desc
 	t.dueDate = dueDate
-	t.updatedAt = nullable.NewByVal(time.Now())
+	t.updatedAt = nullable.NewByVal(flextime.Now().UTC())
 	return nil
 }
 

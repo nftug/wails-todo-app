@@ -4,6 +4,7 @@ import (
 	"reflect"
 	"time"
 
+	"github.com/Songmu/flextime"
 	"github.com/nftug/wails-todo-app/domain/todo/internal/enum"
 	"github.com/nftug/wails-todo-app/interfaces"
 	"github.com/samber/lo"
@@ -31,10 +32,10 @@ func NewInitialStatus(value *enum.StatusValue) (Status, error) {
 
 func NewStatus(value enum.StatusValue) (Status, error) {
 	v := enum.StatusValue(value)
-	if v.Validate() {
+	if !v.Validate() {
 		return nil, interfaces.NewInvalidArgError("status", "不正なステータスです")
 	}
-	return &statusImpl{v, time.Now()}, nil
+	return &statusImpl{v, flextime.Now().UTC()}, nil
 }
 
 func (s statusImpl) String() string { return string(s.value) }

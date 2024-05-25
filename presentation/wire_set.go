@@ -11,3 +11,8 @@ var Set = wire.NewSet(
 	app.NewTodoApp,
 	NewAppRoot,
 )
+
+var MockSet = wire.NewSet(
+	app.NewTodoApp,
+	NewAppRootMock,
+)

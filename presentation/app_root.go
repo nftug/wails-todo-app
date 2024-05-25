@@ -9,6 +9,7 @@ import (
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
+	"gorm.io/gorm"
 )
 
 type AppRoot struct {
@@ -45,4 +46,15 @@ func (r *AppRoot) Run(assets *embed.FS) {
 	if err != nil {
 		println("Error:", err.Error())
 	}
+}
+
+// Mock
+
+type AppRootMock struct {
+	DB   *gorm.DB
+	Todo *app.TodoApp
+}
+
+func NewAppRootMock(db *gorm.DB, todo *app.TodoApp) *AppRootMock {
+	return &AppRootMock{db, todo}
 }

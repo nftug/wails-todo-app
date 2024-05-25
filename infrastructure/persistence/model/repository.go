@@ -10,29 +10,29 @@ import (
 	"gorm.io/gorm"
 )
 
-type Repository[TEntityPtr interfaces.Entity[TEntityPtr], TTablePtr EntityTable[TEntityPtr]] struct {
+type Repository[TEntityPtr interfaces.Entity[TEntityPtr], TTable EntityTable[TEntityPtr, TTable]] struct {
 	db *gorm.DB
 }
 
-func NewRepository[TEntityPtr interfaces.Entity[TEntityPtr], TTablePtr EntityTable[TEntityPtr]](
-	db *gorm.DB) *Repository[TEntityPtr, TTablePtr] {
-	return &Repository[TEntityPtr, TTablePtr]{db}
+func NewRepository[TEntityPtr interfaces.Entity[TEntityPtr], TTable EntityTable[TEntityPtr, TTable]](
+	db *gorm.DB) *Repository[TEntityPtr, TTable] {
+	return &Repository[TEntityPtr, TTable]{db}
 }
 
-func (r *Repository[TEntityPtr, TTablePtr]) Find(id uuid.UUID, ctx context.Context) (TEntityPtr, error) {
-	col := *new(TTablePtr)
-	if err := r.db.WithContext(ctx).Where("id = ?", id).Take(col).Error; err != nil {
+func (r *Repository[TEntityPtr, TTable]) Find(id uuid.UUID, ctx context.Context) (TEntityPtr, error) {
+	var col TTable
+	if err := r.db.WithContext(ctx).Where("id = ?", id).Take(&col).Error; err != nil {
 		// レコードが見つからない場合は両方ともnilを返す
 		return *new(TEntityPtr), filterNotFoundErr(err)
 	}
 	return col.ToEntity(), nil
 }
 
-func (r *Repository[TEntityPtr, TTablePtr]) Save(e TEntityPtr, ctx context.Context) error {
-	col := *new(TTablePtr)
-	col.Transfer(e)
+func (r *Repository[TEntityPtr, TTable]) Save(e TEntityPtr, ctx context.Context) error {
+	var col TTable
+	col = col.Transfer(e)
 
-	if err := r.db.WithContext(ctx).Save(col).Error; err != nil {
+	if err := r.db.WithContext(ctx).Save(&col).Error; err != nil {
 		return err
 	}
 	e.SetPK(col.GetPK())
@@ -40,8 +40,9 @@ func (r *Repository[TEntityPtr, TTablePtr]) Save(e TEntityPtr, ctx context.Conte
 	return nil
 }
 
-func (r *Repository[TEntityPtr, TTablePtr]) Delete(e TEntityPtr, ctx context.Context) error {
-	if err := r.db.WithContext(ctx).Delete(*new(TTablePtr), e.PK()).Error; err != nil {
+func (r *Repository[TEntityPtr, TTable]) Delete(e TEntityPtr, ctx context.Context) error {
+	var col TTable
+	if err := r.db.WithContext(ctx).Delete(&col, e.PK()).Error; err != nil {
 		return filterNotFoundErr(err)
 	}
 	return nil
