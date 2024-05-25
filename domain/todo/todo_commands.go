@@ -3,10 +3,10 @@ package todo
 import "time"
 
 type CreateCommand struct {
-	Title         string      `json:"title"`
-	Description   *string     `json:"description"`
-	InitialStatus *StatusItem `json:"initialStatus"`
-	DueDate       *time.Time  `json:"dueDate"`
+	Title         string       `json:"title"`
+	Description   *string      `json:"description"`
+	InitialStatus *StatusValue `json:"initialStatus"`
+	DueDate       *time.Time   `json:"dueDate"`
 }
 
 type UpdateCommand struct {
@@ -16,5 +16,5 @@ type UpdateCommand struct {
 }
 
 type UpdateStatusCommand struct {
-	Status StatusItem `json:"status"`
+	Status StatusValue `json:"status"`
 }

@@ -1,11 +1,5 @@
 export namespace dialog {
 	
-	export enum DialogButton {
-	    Ok = "Ok",
-	    Cancel = "Cancel",
-	    Yes = "Yes",
-	    No = "No",
-	}
 	export enum DialogType {
 	    Info = "info",
 	    Warning = "warning",
@@ -16,6 +10,12 @@ export namespace dialog {
 	    Ok = "Ok",
 	    OkCancel = "OkCancel",
 	    YesNo = "YesNo",
+	}
+	export enum DialogButton {
+	    Ok = "Ok",
+	    Cancel = "Cancel",
+	    Yes = "Yes",
+	    No = "No",
 	}
 	export class DialogOptions {
 	    message: string;
@@ -57,7 +57,7 @@ export namespace interfaces {
 
 export namespace todo {
 	
-	export enum StatusItem {
+	export enum StatusValue {
 	    Backlog = "Backlog",
 	    Todo = "Todo",
 	    Doing = "Doing",
@@ -66,7 +66,7 @@ export namespace todo {
 	export class CreateCommand {
 	    title: string;
 	    description?: string;
-	    initialStatus?: StatusItem;
+	    initialStatus?: StatusValue;
 	    // Go type: time
 	    dueDate?: any;
 	
@@ -104,7 +104,7 @@ export namespace todo {
 	    id: number[];
 	    title: string;
 	    description?: string;
-	    status: StatusItem;
+	    status: StatusValue;
 	    // Go type: time
 	    statusUpdatedAt: any;
 	    // Go type: time
@@ -151,7 +151,7 @@ export namespace todo {
 	export class ItemResponse {
 	    id: number[];
 	    title: string;
-	    status: StatusItem;
+	    status: StatusValue;
 	    // Go type: time
 	    dueDate?: any;
 	
@@ -189,7 +189,7 @@ export namespace todo {
 	    search?: string;
 	    title?: string;
 	    description?: string;
-	    status?: StatusItem;
+	    status?: StatusValue;
 	    // Go type: time
 	    until?: any;
 	
@@ -260,7 +260,7 @@ export namespace todo {
 		}
 	}
 	export class UpdateStatusCommand {
-	    status: StatusItem;
+	    status: StatusValue;
 	
 	    static createFrom(source: any = {}) {
 	        return new UpdateStatusCommand(source);

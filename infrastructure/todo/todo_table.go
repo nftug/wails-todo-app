@@ -12,7 +12,7 @@ type TodoTable struct {
 	ID              uuid.UUID `gorm:"type:uuid;uniqueIndex"`
 	Title           string
 	Description     *string
-	Status          todo.StatusItem
+	Status          todo.StatusValue
 	StatusUpdatedAt time.Time
 	DueDate         *time.Time
 	CreatedAt       time.Time
