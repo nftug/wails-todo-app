@@ -15,6 +15,7 @@ type Status interface {
 	String() string
 	UpdatedAt() time.Time
 	Equals(other Status) bool
+	ChangeStatus(value enum.StatusValue) (Status, error)
 }
 
 type statusImpl struct {
@@ -26,16 +27,22 @@ func ReconstructStatus(value enum.StatusValue, updatedAt time.Time) Status {
 	return &statusImpl{enum.StatusValue(value), updatedAt}
 }
 
-func NewInitialStatus(value *enum.StatusValue) (Status, error) {
-	return NewStatus(lo.FromPtrOr(value, enum.StatusTodo))
+func NewStatus(value *enum.StatusValue) (Status, error) {
+	return newStatus(lo.FromPtrOr(value, enum.StatusTodo))
 }
 
-func NewStatus(value enum.StatusValue) (Status, error) {
-	v := enum.StatusValue(value)
-	if !v.Validate() {
+func (s statusImpl) ChangeStatus(value enum.StatusValue) (Status, error) {
+	if s.value == value {
+		return nil, interfaces.NewInvalidArgError("status", "現在と異なるステータスを設定してください")
+	}
+	return newStatus(value)
+}
+
+func newStatus(value enum.StatusValue) (Status, error) {
+	if !value.Validate() {
 		return nil, interfaces.NewInvalidArgError("status", "不正なステータスです")
 	}
-	return &statusImpl{v, flextime.Now().UTC()}, nil
+	return &statusImpl{value, flextime.Now().UTC()}, nil
 }
 
 func (s statusImpl) String() string { return string(s.value) }

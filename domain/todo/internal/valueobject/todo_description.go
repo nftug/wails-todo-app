@@ -22,7 +22,7 @@ func ReconstructDescription(value *string) Description {
 }
 
 func NewDescription(value *string) (Description, error) {
-	const MaxLength = 1000
+	const MaxLength = 200
 	v := nullable.NewByPtr(value)
 
 	if v.IsEmpty() {

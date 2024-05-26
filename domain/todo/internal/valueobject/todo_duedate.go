@@ -25,21 +25,16 @@ func ReconstructDueDate(value *time.Time) DueDate {
 
 func NewDueDate(value *time.Time) (DueDate, error) {
 	v := nullable.NewByVal(lo.FromPtr(value).UTC())
-
 	if v.IsEmpty() {
 		return &dueDateImpl{v}, nil
 	}
+
 	if v.Value().Unix() < flextime.Now().UTC().Unix() {
 		return nil, interfaces.NewInvalidArgError("dueDate", "過去の日付は指定できません。")
 	}
-
 	return &dueDateImpl{v}, nil
 }
 
-func (d dueDateImpl) String() string {
-	return d.RawValue().String()
-}
+func (d dueDateImpl) String() string { return d.RawValue().String() }
 
-func (d dueDateImpl) Equals(other DueDate) bool {
-	return d.EqualsByVal(*other.Value())
-}
+func (d dueDateImpl) Equals(other DueDate) bool { return d.EqualsByVal(*other.Value()) }

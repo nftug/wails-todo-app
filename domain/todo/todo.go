@@ -64,7 +64,7 @@ func NewTodo(command CreateCommand) (*Todo, error) {
 	if err != nil {
 		return nil, err
 	}
-	status, err := valueobject.NewInitialStatus(command.InitialStatus.toInternalPtr())
+	status, err := valueobject.NewStatus(command.InitialStatus.toInternalPtr())
 	if err != nil {
 		return nil, err
 	}
@@ -106,7 +106,7 @@ func (t *Todo) Update(command UpdateCommand) error {
 }
 
 func (t *Todo) UpdateStatus(command UpdateStatusCommand) error {
-	status, err := valueobject.NewStatus(command.Status.toInternal())
+	status, err := t.status.ChangeStatus(command.Status.toInternal())
 	if err != nil {
 		return err
 	}
