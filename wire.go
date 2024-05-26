@@ -1,28 +1,20 @@
 //go:build wireinject
 // +build wireinject
 
-package presentation
+package main
 
 import (
 	"github.com/google/wire"
 	"github.com/nftug/wails-todo-app/infrastructure"
+	"github.com/nftug/wails-todo-app/presentation"
 	"github.com/nftug/wails-todo-app/usecase"
 )
 
-func CreateAppRoot() *AppRoot {
+func InitAppRoot() *presentation.AppRoot {
 	wire.Build(
 		infrastructure.Set,
 		usecase.Set,
-		Set,
+		presentation.Set,
 	)
-	return &AppRoot{}
-}
-
-func CreateAppRootMock() *AppRootMock {
-	wire.Build(
-		infrastructure.MockSet,
-		usecase.Set,
-		MockSet,
-	)
-	return &AppRootMock{}
+	return &presentation.AppRoot{}
 }

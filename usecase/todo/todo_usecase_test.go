@@ -1,13 +1,14 @@
 package todo_test
 
 import (
+	"context"
 	"testing"
 	"time"
 
 	"github.com/Songmu/flextime"
 	"github.com/nftug/wails-todo-app/domain/todo"
 	infra "github.com/nftug/wails-todo-app/infrastructure/todo"
-	"github.com/nftug/wails-todo-app/presentation"
+	"github.com/nftug/wails-todo-app/usecase"
 	"github.com/samber/lo"
 	"github.com/stretchr/testify/assert"
 )
@@ -41,10 +42,10 @@ func TestCreateTodo(t *testing.T) {
 	}
 
 	// Arrange
-	a := presentation.CreateAppRootMock()
+	a := usecase.InitUseCaseAdapterMock()
 
 	// Act
-	resp, err := a.Todo.Create(cmd)
+	resp, err := a.CreateTodo.Execute(cmd, context.Background())
 	assert.NoError(t, err)
 
 	// Assert
