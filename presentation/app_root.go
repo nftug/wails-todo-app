@@ -5,7 +5,6 @@ import (
 
 	"github.com/nftug/wails-todo-app/domain/todo"
 	"github.com/nftug/wails-todo-app/presentation/app"
-	"github.com/nftug/wails-todo-app/presentation/types/dialog"
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
@@ -13,13 +12,11 @@ import (
 )
 
 type AppRoot struct {
-	app   *app.App
-	greet *app.GreetApp
-	todo  *app.TodoApp
+	todo *app.TodoApp
 }
 
-func NewAppRoot(app *app.App, greet *app.GreetApp, todo *app.TodoApp) *AppRoot {
-	return &AppRoot{app, greet, todo}
+func NewAppRoot(todo *app.TodoApp) *AppRoot {
+	return &AppRoot{todo}
 }
 
 func (r *AppRoot) Run(assets *embed.FS) {
@@ -31,16 +28,14 @@ func (r *AppRoot) Run(assets *embed.FS) {
 			Assets: assets,
 		},
 		BackgroundColour: &options.RGBA{R: 27, G: 38, B: 54, A: 1},
-		OnStartup:        r.app.Startup,
+		OnStartup:        nil,
 		OnDomReady:       r.todo.OnDomReady,
-		Bind: []interface{}{
-			r.app, r.greet, r.todo,
-		},
+		Bind:             []interface{}{r.todo},
 		EnumBind: []interface{}{
 			todo.StatusSeq,
-			dialog.AllDialogTypes,
-			dialog.AllDialogActionTypes,
-			dialog.AllDialogButtons,
+			// dialog.AllDialogTypes,
+			// dialog.AllDialogActionTypes,
+			// dialog.AllDialogButtons,
 		},
 	})
 

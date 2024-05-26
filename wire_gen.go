@@ -19,8 +19,6 @@ import (
 // Injectors from wire.go:
 
 func InitAppRoot() *presentation.AppRoot {
-	appApp := app.NewApp()
-	greetApp := app.NewGreetApp()
 	localPathService := config.NewLocalPathService()
 	db := persistence.NewDB(localPathService)
 	todoRepository := todo.NewTodoRepository(db)
@@ -33,6 +31,6 @@ func InitAppRoot() *presentation.AppRoot {
 	getTodoListUseCase := todo2.NewGetTodoListUseCase(todoQueryService)
 	useCaseAdapter := usecase.NewUseCaseAdapter(createTodoUseCase, updateTodoUseCase, updateTodoStatusUseCase, deleteTodoUseCase, getTodoUseCase, getTodoListUseCase)
 	todoApp := app.NewTodoApp(useCaseAdapter)
-	appRoot := presentation.NewAppRoot(appApp, greetApp, todoApp)
+	appRoot := presentation.NewAppRoot(todoApp)
 	return appRoot
 }

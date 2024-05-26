@@ -6,8 +6,6 @@ import (
 )
 
 var Set = wire.NewSet(
-	app.NewApp,
-	app.NewGreetApp,
 	app.NewTodoApp,
 	NewAppRoot,
 )
