@@ -15,13 +15,9 @@ type DueDate interface {
 	Equals(other DueDate) bool
 }
 
-type dueDateImpl struct {
-	nullable.Nullable[time.Time]
-}
+type dueDateImpl struct{ nullable.Nullable[time.Time] }
 
-func ReconstructDueDate(value *time.Time) DueDate {
-	return &dueDateImpl{nullable.NewByPtr(value)}
-}
+func ReconstructDueDate(value *time.Time) DueDate { return &dueDateImpl{nullable.NewByPtr(value)} }
 
 func NewDueDate(value *time.Time) (DueDate, error) {
 	v := nullable.NewByVal(lo.FromPtr(value).UTC())

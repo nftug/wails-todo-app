@@ -13,9 +13,7 @@ type Description interface {
 	Equals(other Description) bool
 }
 
-type descriptionImpl struct {
-	nullable.Nullable[string]
-}
+type descriptionImpl struct{ nullable.Nullable[string] }
 
 func ReconstructDescription(value *string) Description {
 	return &descriptionImpl{nullable.NewByPtr(value)}
@@ -39,6 +37,4 @@ func NewDescription(value *string) (Description, error) {
 
 func (t descriptionImpl) String() string { return t.RawValue() }
 
-func (t descriptionImpl) Equals(other Description) bool {
-	return t.EqualsByVal(*other.Value())
-}
+func (t descriptionImpl) Equals(other Description) bool { return t.EqualsByVal(*other.Value()) }

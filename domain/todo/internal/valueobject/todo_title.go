@@ -13,13 +13,9 @@ type Title interface {
 	Equals(other Title) bool
 }
 
-type titleImpl struct {
-	value string
-}
+type titleImpl struct{ value string }
 
-func ReconstructTitle(value string) Title {
-	return &titleImpl{value}
-}
+func ReconstructTitle(value string) Title { return &titleImpl{value} }
 
 func NewTitle(value string) (Title, error) {
 	const MaxLength = 150
@@ -39,6 +35,4 @@ func (t titleImpl) Value() string { return t.value }
 
 func (t titleImpl) String() string { return t.value }
 
-func (t titleImpl) Equals(other Title) bool {
-	return reflect.DeepEqual(t.Value(), other.Value())
-}
+func (t titleImpl) Equals(other Title) bool { return reflect.DeepEqual(t.Value(), other.Value()) }

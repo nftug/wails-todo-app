@@ -32,7 +32,7 @@ func TestNewTodo(t *testing.T) {
 	var cmdValid = CreateCommand{
 		Title:         "Test!",
 		Description:   lo.ToPtr("Description"),
-		InitialStatus: lo.ToPtr(StatusValue("Todo")),
+		InitialStatus: nil,
 		DueDate:       lo.ToPtr(time.Now().In(Tz)),
 	}
 

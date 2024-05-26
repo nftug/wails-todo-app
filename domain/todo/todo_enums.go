@@ -15,9 +15,7 @@ var StatusSeq = lo.Map(enum.StatusSeq,
 func (s StatusValue) TSName() string { return string(s) }
 
 // 内部用のEnumへ変換
-func (s StatusValue) toInternal() enum.StatusValue {
-	return enum.StatusValue(s)
-}
+func (s StatusValue) toInternal() enum.StatusValue { return enum.StatusValue(s) }
 
 // 内部用のEnumのポインタへ変換
 func (s *StatusValue) toInternalPtr() *enum.StatusValue {

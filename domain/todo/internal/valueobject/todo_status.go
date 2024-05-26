@@ -51,6 +51,4 @@ func (s statusImpl) Value() enum.StatusValue { return s.value }
 
 func (s statusImpl) UpdatedAt() time.Time { return s.updatedAt }
 
-func (s statusImpl) Equals(other Status) bool {
-	return reflect.DeepEqual(s.Value(), other.Value())
-}
+func (s statusImpl) Equals(other Status) bool { return reflect.DeepEqual(s.Value(), other.Value()) }

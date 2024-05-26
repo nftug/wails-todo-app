@@ -117,6 +117,4 @@ func (t *Todo) UpdateStatus(command UpdateStatusCommand) error {
 
 func (t *Todo) SetPK(pk int) { t.pk = pk }
 
-func (t Todo) Equals(other *Todo) bool {
-	return reflect.DeepEqual(t.id, other.id)
-}
+func (t Todo) Equals(other *Todo) bool { return reflect.DeepEqual(t.id, other.id) }
