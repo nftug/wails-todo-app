@@ -41,7 +41,7 @@ func (t TodoTable) Transfer(e *todo.Todo) TodoTable {
 		StatusUpdatedAt: e.StatusUpdatedAt(),
 		DueDate:         e.DueDate(),
 		CreatedAt:       e.CreatedAt(),
-		//UpdatedAt:       e.UpdatedAt(),
+		UpdatedAt:       e.UpdatedAt(),
 	}
 }
 

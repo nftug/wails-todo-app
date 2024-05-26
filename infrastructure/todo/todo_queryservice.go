@@ -18,16 +18,16 @@ func NewTodoQueryService(db *gorm.DB) todo.TodoQueryService {
 	return &TodoQueryService{db}
 }
 
-func (qs *TodoQueryService) Find(id uuid.UUID, ctx context.Context) (*todo.DetailResponse, error) {
+func (qs *TodoQueryService) Find(ctx context.Context, id uuid.UUID) (*todo.DetailResponse, error) {
 	col := TodoTable{}
-	if err := qs.db.WithContext(ctx).Where("id = ?", id).Take(col).Error; err != nil {
+	if err := qs.db.WithContext(ctx).Where("id = ?", id).Take(&col).Error; err != nil {
 		// レコードが見つからない場合は両方ともnilを返す
 		return nil, filterNotFoundErr(err)
 	}
 	return col.ToDetailResponse(), nil
 }
 
-func (qs *TodoQueryService) FindAll(query todo.Query, ctx context.Context) ([]*todo.ItemResponse, error) {
+func (qs *TodoQueryService) FindAll(ctx context.Context, query todo.Query) ([]*todo.ItemResponse, error) {
 	q := qs.db.WithContext(ctx)
 
 	if lo.FromPtr(query.Search) != "" {

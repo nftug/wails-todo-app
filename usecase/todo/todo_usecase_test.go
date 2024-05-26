@@ -45,7 +45,7 @@ func TestCreateTodo(t *testing.T) {
 	a := usecase.InitUseCaseAdapterMock()
 
 	// Act
-	resp, err := a.CreateTodo.Execute(cmd, context.Background())
+	resp, err := a.CreateTodo.Execute(context.Background(), cmd)
 	assert.NoError(t, err)
 
 	// Assert

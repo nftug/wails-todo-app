@@ -32,6 +32,7 @@ func (r *AppRoot) Run(assets *embed.FS) {
 		},
 		BackgroundColour: &options.RGBA{R: 27, G: 38, B: 54, A: 1},
 		OnStartup:        r.app.Startup,
+		OnDomReady:       r.todo.OnDomReady,
 		Bind: []interface{}{
 			r.app, r.greet, r.todo,
 		},

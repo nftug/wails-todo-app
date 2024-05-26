@@ -19,7 +19,7 @@ func NewRepository[TEntityPtr interfaces.Entity[TEntityPtr], TTable EntityTable[
 	return &Repository[TEntityPtr, TTable]{db}
 }
 
-func (r *Repository[TEntityPtr, TTable]) Find(id uuid.UUID, ctx context.Context) (TEntityPtr, error) {
+func (r *Repository[TEntityPtr, TTable]) Find(ctx context.Context, id uuid.UUID) (TEntityPtr, error) {
 	var col TTable
 	if err := r.db.WithContext(ctx).Where("id = ?", id).Take(&col).Error; err != nil {
 		// レコードが見つからない場合は両方ともnilを返す
@@ -28,7 +28,7 @@ func (r *Repository[TEntityPtr, TTable]) Find(id uuid.UUID, ctx context.Context)
 	return col.ToEntity(), nil
 }
 
-func (r *Repository[TEntityPtr, TTable]) Save(e TEntityPtr, ctx context.Context) error {
+func (r *Repository[TEntityPtr, TTable]) Save(ctx context.Context, e TEntityPtr) error {
 	var col TTable
 	col = col.Transfer(e)
 
@@ -40,7 +40,7 @@ func (r *Repository[TEntityPtr, TTable]) Save(e TEntityPtr, ctx context.Context)
 	return nil
 }
 
-func (r *Repository[TEntityPtr, TTable]) Delete(e TEntityPtr, ctx context.Context) error {
+func (r *Repository[TEntityPtr, TTable]) Delete(ctx context.Context, e TEntityPtr) error {
 	var col TTable
 	if err := r.db.WithContext(ctx).Delete(&col, e.PK()).Error; err != nil {
 		return filterNotFoundErr(err)

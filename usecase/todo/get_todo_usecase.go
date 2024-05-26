@@ -16,8 +16,8 @@ func NewGetTodoUseCase(query todo.TodoQueryService) *GetTodoUseCase {
 	return &GetTodoUseCase{query}
 }
 
-func (u *GetTodoUseCase) Execute(id uuid.UUID, ctx context.Context) (*todo.DetailResponse, error) {
-	t, err := u.query.Find(id, ctx)
+func (u *GetTodoUseCase) Execute(ctx context.Context, id uuid.UUID) (*todo.DetailResponse, error) {
+	t, err := u.query.Find(ctx, id)
 	if err != nil {
 		return nil, err
 	} else if t == nil {

@@ -15,8 +15,8 @@ func NewGetTodoListUseCase(query todo.TodoQueryService) *GetTodoListUseCase {
 	return &GetTodoListUseCase{query}
 }
 
-func (u *GetTodoListUseCase) Execute(query todo.Query, ctx context.Context) ([]*todo.ItemResponse, error) {
-	t, err := u.query.FindAll(query, ctx)
+func (u *GetTodoListUseCase) Execute(ctx context.Context, query todo.Query) ([]*todo.ItemResponse, error) {
+	t, err := u.query.FindAll(ctx, query)
 	if err != nil {
 		return nil, err
 	} else if t == nil {

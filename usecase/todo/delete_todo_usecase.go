@@ -16,15 +16,15 @@ func NewDeleteTodoUseCase(repo todo.TodoRepository) *DeleteTodoUseCase {
 	return &DeleteTodoUseCase{repo}
 }
 
-func (u *DeleteTodoUseCase) Execute(id uuid.UUID, ctx context.Context) error {
-	t, err := u.repo.Find(id, ctx)
+func (u *DeleteTodoUseCase) Execute(ctx context.Context, id uuid.UUID) error {
+	t, err := u.repo.Find(ctx, id)
 	if err != nil {
 		return err
 	} else if t == nil {
 		return interfaces.NewNotFoundError("todo")
 	}
 
-	if err := u.repo.Delete(t, ctx); err != nil {
+	if err := u.repo.Delete(ctx, t); err != nil {
 		return err
 	}
 	return nil

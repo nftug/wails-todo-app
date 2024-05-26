@@ -16,8 +16,8 @@ func NewUpdateTodoUseCase(repo todo.TodoRepository) *UpdateTodoUseCase {
 	return &UpdateTodoUseCase{repo}
 }
 
-func (u *UpdateTodoUseCase) Execute(id uuid.UUID, command todo.UpdateCommand, ctx context.Context) error {
-	t, err := u.repo.Find(id, ctx)
+func (u *UpdateTodoUseCase) Execute(ctx context.Context, id uuid.UUID, command todo.UpdateCommand) error {
+	t, err := u.repo.Find(ctx, id)
 	if err != nil {
 		return err
 	} else if t == nil {
@@ -28,7 +28,7 @@ func (u *UpdateTodoUseCase) Execute(id uuid.UUID, command todo.UpdateCommand, ct
 		return err
 	}
 
-	if err := u.repo.Save(t, ctx); err != nil {
+	if err := u.repo.Save(ctx, t); err != nil {
 		return err
 	}
 	return nil

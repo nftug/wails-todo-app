@@ -14,7 +14,7 @@ test: prepare
 
 prepare: wire
 
-wire:
+wire: wire_deps
 	wire gen ./...\
 
 deps: wire_deps

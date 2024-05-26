@@ -7,12 +7,12 @@ import (
 )
 
 type TodoRepository interface {
-	Find(id uuid.UUID, ctx context.Context) (*Todo, error)
-	Save(entity *Todo, ctx context.Context) error
-	Delete(entity *Todo, ctx context.Context) error
+	Find(ctx context.Context, id uuid.UUID) (*Todo, error)
+	Save(ctx context.Context, entity *Todo) error
+	Delete(ctx context.Context, entity *Todo) error
 }
 
 type TodoQueryService interface {
-	Find(id uuid.UUID, ctx context.Context) (*DetailResponse, error)
-	FindAll(q Query, ctx context.Context) ([]*ItemResponse, error)
+	Find(ctx context.Context, id uuid.UUID) (*DetailResponse, error)
+	FindAll(ctx context.Context, q Query) ([]*ItemResponse, error)
 }
