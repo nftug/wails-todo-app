@@ -24,6 +24,10 @@ func (r *AppRoot) Run(assets *embed.FS) {
 		Title:  "Wails Note App",
 		Width:  1024,
 		Height: 768,
+		// For Linux: ウィンドウサイズを最適化
+		// See https://github.com/wailsapp/wails/issues/2431
+		MaxWidth:  3840,
+		MaxHeight: 2160,
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},
