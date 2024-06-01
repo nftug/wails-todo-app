@@ -7,7 +7,7 @@ import (
 	"github.com/nftug/wails-todo-app/domain/todo"
 )
 
-type TodoTable struct {
+type TodoDBSchema struct {
 	PK              int       `gorm:"primaryKey"`
 	ID              uuid.UUID `gorm:"type:uuid;uniqueIndex"`
 	Title           string
@@ -19,9 +19,9 @@ type TodoTable struct {
 	UpdatedAt       *time.Time `gorm:"type:TIMESTAMP;null;default:null"`
 }
 
-func (t TodoTable) TableName() string { return "todos" }
+func (t TodoDBSchema) TableName() string { return "todos" }
 
-func (t TodoTable) ToEntity() *todo.Todo {
+func (t *TodoDBSchema) ToEntity() *todo.Todo {
 	return todo.Reconstruct(
 		t.PK, t.ID,
 		t.Title, t.Description,
@@ -31,8 +31,8 @@ func (t TodoTable) ToEntity() *todo.Todo {
 	)
 }
 
-func (t TodoTable) Transfer(e *todo.Todo) TodoTable {
-	return TodoTable{
+func (t *TodoDBSchema) Transfer(e *todo.Todo) *TodoDBSchema {
+	return &TodoDBSchema{
 		PK:              e.PK(),
 		ID:              e.ID(),
 		Title:           e.Title(),
@@ -45,9 +45,9 @@ func (t TodoTable) Transfer(e *todo.Todo) TodoTable {
 	}
 }
 
-func (t TodoTable) GetPK() int { return t.PK }
+func (t *TodoDBSchema) GetPK() int { return t.PK }
 
-func (t TodoTable) ToDetailResponse() *todo.DetailResponse {
+func (t *TodoDBSchema) ToDetailResponse() *todo.DetailResponse {
 	return &todo.DetailResponse{
 		ID:              t.ID,
 		Title:           t.Title,
@@ -60,7 +60,7 @@ func (t TodoTable) ToDetailResponse() *todo.DetailResponse {
 	}
 }
 
-func (t TodoTable) ToItemResponse() *todo.ItemResponse {
+func (t *TodoDBSchema) ToItemResponse() *todo.ItemResponse {
 	return &todo.ItemResponse{
 		ID:      t.ID,
 		Title:   t.Title,

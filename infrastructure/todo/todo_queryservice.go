@@ -19,7 +19,7 @@ func NewTodoQueryService(db *gorm.DB) todo.TodoQueryService {
 }
 
 func (qs *TodoQueryService) Find(ctx context.Context, id uuid.UUID) (*todo.DetailResponse, error) {
-	col := TodoTable{}
+	col := TodoDBSchema{}
 	if err := qs.db.WithContext(ctx).Where("id = ?", id).Take(&col).Error; err != nil {
 		// レコードが見つからない場合は両方ともnilを返す
 		return nil, filterNotFoundErr(err)
@@ -46,12 +46,12 @@ func (qs *TodoQueryService) FindAll(ctx context.Context, query todo.Query) ([]*t
 		q = q.Where("due_date <= ?", query.Until)
 	}
 
-	var cols []TodoTable
+	var cols []TodoDBSchema
 	if err := q.Order("created_at").Find(&cols).Error; err != nil {
 		return nil, err
 	}
 
-	ret := lo.Map(cols, func(x TodoTable, _ int) *todo.ItemResponse { return x.ToItemResponse() })
+	ret := lo.Map(cols, func(x TodoDBSchema, _ int) *todo.ItemResponse { return x.ToItemResponse() })
 	return ret, nil
 }
 

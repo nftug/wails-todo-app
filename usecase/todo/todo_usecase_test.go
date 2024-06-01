@@ -49,7 +49,7 @@ func TestCreateTodo(t *testing.T) {
 	assert.NoError(t, err)
 
 	// Assert
-	var actual infra.TodoTable
+	var actual infra.TodoDBSchema
 	err = a.DB.Where("id = ?", resp.ID).Take(&actual).Error
 	assert.NoError(t, err)
 

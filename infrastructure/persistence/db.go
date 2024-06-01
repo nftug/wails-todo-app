@@ -21,7 +21,7 @@ func NewDB(lp *config.LocalPathService) *gorm.DB {
 		log.Fatal(err)
 	}
 
-	db.AutoMigrate(&todo.TodoTable{})
+	db.AutoMigrate(&todo.TodoDBSchema{})
 
 	instance = db
 	return instance
@@ -33,7 +33,7 @@ func NewDBMock() *gorm.DB {
 		log.Fatal(err)
 	}
 
-	db.AutoMigrate(&todo.TodoTable{})
+	db.AutoMigrate(&todo.TodoDBSchema{})
 
 	return db
 }

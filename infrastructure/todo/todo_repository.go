@@ -8,9 +8,9 @@ import (
 
 type TodoRepository struct {
 	db *gorm.DB
-	*model.Repository[*todo.Todo, TodoTable]
+	*model.Repository[*todo.Todo, *TodoDBSchema]
 }
 
 func NewTodoRepository(db *gorm.DB) todo.TodoRepository {
-	return &TodoRepository{db, model.NewRepository[*todo.Todo, TodoTable](db)}
+	return &TodoRepository{db, model.NewRepository[*todo.Todo, *TodoDBSchema](db)}
 }
