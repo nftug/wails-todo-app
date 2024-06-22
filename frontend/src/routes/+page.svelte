@@ -1,16 +1,15 @@
 <script lang="ts">
-  import ConfirmDialog from '$lib/common/ConfirmDialog.svelte'
+  import ConfirmDialog, { type DialogProps } from '$lib/common/ConfirmDialog.svelte'
   import CenteredContainer from '$lib/layout/CenteredContainer.svelte'
   import { Button, Heading } from 'flowbite-svelte'
 
   let dialog = $state<ConfirmDialog>()
+  let dialogProps = $state<DialogProps>({})
 
   async function onClickButton() {
     if (!dialog) return
-    const ans = await dialog.openDialog({
-      message: 'Are you sure you want to continue?',
-      iconSnippet
-    })
+    dialogProps = { message: 'Are you sure you want to continue?' }
+    const ans = await dialog.openDialog()
     alert(`Your answer: ${ans}`)
   }
 </script>
@@ -23,6 +22,6 @@
   </div>
 </CenteredContainer>
 
-<ConfirmDialog bind:this={dialog} />
-
-{#snippet iconSnippet()}{/snippet}
+<ConfirmDialog bind:this={dialog} {...dialogProps}>
+  {#snippet icon()}{/snippet}
+</ConfirmDialog>
