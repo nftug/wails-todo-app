@@ -1,4 +1,4 @@
-export const SITE_TITLE = 'Wails Todo App'
+import { browser } from '$app/environment'
 
 let pageTitleState = $state('')
 export const pageTitle = {
@@ -17,5 +17,34 @@ export const drawerHidden = {
   },
   set value(v) {
     drawerHiddenState = v
+  }
+}
+
+let isDarkModeState = $state<boolean>()
+export const useDarkModeStore = () => {
+  const setIsDarkMode = () => {
+    if (!browser) return
+
+    isDarkModeState =
+      localStorage.getItem('color-theme') === 'dark' ||
+      document.documentElement.classList.contains('dark')
+  }
+
+  const toggleDarkMode = () => {
+    isDarkModeState = document.documentElement.classList.toggle('dark')
+    localStorage.setItem('color-theme', isDarkModeState ? 'dark' : 'light')
+  }
+
+  return {
+    isDarkMode: {
+      get value() {
+        return isDarkModeState
+      },
+      set value(v) {
+        isDarkModeState = v
+      }
+    },
+    setIsDarkMode,
+    toggleDarkMode
   }
 }

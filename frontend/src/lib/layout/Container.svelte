@@ -7,7 +7,7 @@
   }
   const { children, className }: Props = $props()
 
-  const containerClass = $derived('m-10 my-14' + (className ? ` ${className}` : ''))
+  const containerClass = $derived('p-10 md:py-8' + (className ? ` ${className}` : ''))
 </script>
 
 <div class={containerClass}>

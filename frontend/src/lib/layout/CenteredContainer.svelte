@@ -13,7 +13,7 @@
   const headerHeight = getContext<HeightReadable>(HeaderHeightContext)
   const footerHeight = getContext<HeightReadable>(FooterHeightContext)
 
-  const contentHeight = $derived(innerHeight - headerHeight.value - footerHeight.value)
+  const contentHeight = $derived(innerHeight - headerHeight?.value - footerHeight?.value)
 </script>
 
 <svelte:window bind:innerHeight />

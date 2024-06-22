@@ -1,17 +1,9 @@
 <script lang="ts">
   import { page } from '$app/stores'
-  import {
-    Button,
-    DarkMode,
-    Input,
-    NavBrand,
-    NavHamburger,
-    NavLi,
-    NavUl,
-    Navbar
-  } from 'flowbite-svelte'
+  import { SITE_TITLE } from '$lib'
+  import { Button, NavBrand, NavHamburger, NavLi, NavUl, Navbar, Search } from 'flowbite-svelte'
   import { SearchOutline } from 'flowbite-svelte-icons'
-  import { SITE_TITLE, drawerHidden } from './stores.svelte'
+  import { drawerHidden } from './stores.svelte'
 
   type Props = { height: number }
   let { height = $bindable(0) }: Props = $props()
@@ -33,10 +25,6 @@
     </NavBrand>
 
     <div class="flex md:order-3">
-      <span class="me-1">
-        <DarkMode />
-      </span>
-
       <Button
         onclick={() => alert('search')}
         color="none"
@@ -51,11 +39,9 @@
       >
         <SearchOutline class="w-5 h-5" />
       </Button>
+
       <div class="hidden relative md:block">
-        <div class="flex absolute inset-y-0 start-0 items-center ps-3 pointer-events-none">
-          <SearchOutline class="w-4 h-4" />
-        </div>
-        <Input id="search-navbar" class="ps-10" placeholder="Search..." />
+        <Search class="w-72" size="md" />
       </div>
     </div>
 

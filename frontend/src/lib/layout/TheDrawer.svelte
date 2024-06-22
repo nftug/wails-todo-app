@@ -57,7 +57,7 @@
 
         <DropdownDivider />
 
-        <SidebarItem label="Setting">
+        <SidebarItem label="Setting" href="/settings">
           <svelte:fragment slot="icon">
             <CogSolid class={navIconClass} />
           </svelte:fragment>

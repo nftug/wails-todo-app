@@ -1,17 +1,18 @@
 <script lang="ts">
-  import Container from '$lib/layout/Container.svelte'
-  import { SITE_TITLE, pageTitle } from '$lib/layout/stores.svelte'
+  import { SITE_TITLE } from '$lib'
+  import CenteredContainer from '$lib/layout/CenteredContainer.svelte'
+  import { pageTitle } from '$lib/layout/stores.svelte'
   import { BrowserOpenURL } from '$lib/wailsjs/runtime/runtime'
   import { A, Heading, P } from 'flowbite-svelte'
 
   pageTitle.value = 'About'
 </script>
 
-<Container>
+<CenteredContainer>
   <Heading tag="h1">Welcome to {SITE_TITLE}</Heading>
-  <P class="mt-5 ml-1">
+  <P class="mt-8 ml-1">
     Visit
     <A onclick={() => BrowserOpenURL('https://kit.svelte.dev')}>kit.svelte.dev</A>
     to read the documentation of SvelteKit
   </P>
-</Container>
+</CenteredContainer>
