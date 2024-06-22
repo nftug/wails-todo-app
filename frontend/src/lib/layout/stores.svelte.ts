@@ -15,29 +15,23 @@ export const drawerHidden = {
 }
 
 let isDarkModeState = $state<boolean>()
-export const useDarkModeStore = () => {
-  const setIsDarkMode = () => {
+export const useDarkModeStore = () => ({
+  // prettier-ignore
+  isDarkMode: {
+    get value() { return isDarkModeState },
+    set value(v) { isDarkModeState = v }
+  },
+  initIsDarkMode: () => {
     if (!browser) return
     isDarkModeState =
       localStorage.getItem('color-theme') === 'dark' ||
       document.documentElement.classList.contains('dark')
-  }
-
-  const toggleDarkMode = () => {
+  },
+  toggleDarkMode: () => {
     isDarkModeState = document.documentElement.classList.toggle('dark')
     localStorage.setItem('color-theme', isDarkModeState ? 'dark' : 'light')
   }
-
-  return {
-    // prettier-ignore
-    isDarkMode: {
-      get value() { return isDarkModeState },
-      set value(v) { isDarkModeState = v }
-    },
-    setIsDarkMode,
-    toggleDarkMode
-  }
-}
+})
 
 let restHeightState = $state({ header: 0, footer: 0 })
 // prettier-ignore

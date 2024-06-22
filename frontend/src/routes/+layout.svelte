@@ -15,8 +15,8 @@
   const title = $derived(pageTitle.value ? `${pageTitle.value} - ${SITE_TITLE}` : SITE_TITLE)
   beforeNavigate(() => (pageTitle.value = ''))
 
-  const { setIsDarkMode } = useDarkModeStore()
-  $effect(() => setIsDarkMode())
+  const { initIsDarkMode } = useDarkModeStore()
+  $effect(() => initIsDarkMode())
 </script>
 
 <svelte:head>

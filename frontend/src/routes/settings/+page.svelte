@@ -15,9 +15,7 @@
     <div class="mt-12 flex-column">
       <div class="mb-10">
         <Heading tag="h3" class="mb-8">Appearance</Heading>
-        <Toggle size="large" bind:checked={isDarkMode.value} on:change={toggleDarkMode}>
-          DarkMode
-        </Toggle>
+        <Toggle size="large" checked={isDarkMode.value} on:change={toggleDarkMode}>DarkMode</Toggle>
       </div>
     </div>
   </div>
