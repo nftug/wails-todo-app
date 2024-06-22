@@ -11,16 +11,20 @@
     Navbar
   } from 'flowbite-svelte'
   import { SearchOutline } from 'flowbite-svelte-icons'
-  import { SITE_TITLE, drawerHidden } from './stores'
+  import { SITE_TITLE, drawerHidden } from './stores.svelte'
 
-  export let height: number
+  type Props = { height: number }
+  let { height = $bindable(0) }: Props = $props()
 
-  $: activeUrl = $page.url.pathname
+  const activeUrl = $derived($page.url.pathname)
 </script>
 
 <header class="sticky top-0 z-40 flex-none w-full" id="header" bind:offsetHeight={height}>
-  <Navbar fluid>
-    <NavHamburger class="m-0 ms-2 me-4 md:block" onClick={() => ($drawerHidden = !drawerHidden)} />
+  <Navbar fluid class="dark:bg-gray-900">
+    <NavHamburger
+      class="m-0 ms-2 me-4 md:block"
+      onClick={() => (drawerHidden.value = !drawerHidden.value)}
+    />
 
     <NavBrand href="/">
       <span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
@@ -34,6 +38,7 @@
       </span>
 
       <Button
+        onclick={() => alert('search')}
         color="none"
         data-collapse-toggle="mobile-menu-3"
         aria-controls="mobile-menu-3"
