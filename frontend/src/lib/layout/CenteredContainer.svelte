@@ -2,15 +2,18 @@
   import {
     FooterHeightContext,
     HeaderHeightContext,
-    type HeightStore
+    type HeightReadable
   } from '$routes/+layout.svelte'
-  import { getContext } from 'svelte'
+  import { getContext, type Snippet } from 'svelte'
 
-  let innerHeight: number
-  const headerHeight = getContext<HeightStore>(HeaderHeightContext)
-  const footerHeight = getContext<HeightStore>(FooterHeightContext)
+  type Props = { children: Snippet }
+  let { children }: Props = $props()
 
-  $: contentHeight = innerHeight - $headerHeight - $footerHeight
+  let innerHeight = $state(0)
+  const headerHeight = getContext<HeightReadable>(HeaderHeightContext)
+  const footerHeight = getContext<HeightReadable>(FooterHeightContext)
+
+  const contentHeight = $derived(innerHeight - headerHeight.value - footerHeight.value)
 </script>
 
 <svelte:window bind:innerHeight />
@@ -19,5 +22,5 @@
   class="w-screen flex justify-center items-center text-center flex-col overflow-y-auto hidden-scroll-bar"
   style={contentHeight ? `height: ${contentHeight}px` : null}
 >
-  <slot />
+  {@render children()}
 </div>

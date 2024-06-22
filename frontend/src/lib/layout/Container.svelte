@@ -1,9 +1,15 @@
 <script lang="ts">
-  export let className = ''
+  import type { Snippet } from 'svelte'
 
-  $: containerClass = 'm-10 my-14' + (className ? ` ${className}` : '')
+  type Props = {
+    children: Snippet
+    className?: string
+  }
+  const { children, className }: Props = $props()
+
+  const containerClass = $derived('m-10 my-14' + (className ? ` ${className}` : ''))
 </script>
 
 <div class={containerClass}>
-  <slot />
+  {@render children()}
 </div>

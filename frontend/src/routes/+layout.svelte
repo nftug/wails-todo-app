@@ -1,39 +1,47 @@
 <script context="module" lang="ts">
   export const HeaderHeightContext = Symbol('header-height-getter')
   export const FooterHeightContext = Symbol('footer-height-getter')
-  export type HeightStore = Readable<number>
+  export type HeightReadable = { value: number }
 </script>
 
 <script lang="ts">
-  import { pageTitle, SITE_TITLE } from '$lib/layout/stores'
+  import { pageTitle, SITE_TITLE } from '$lib/layout/stores.svelte'
   import TheBottomNav from '$lib/layout/TheBottomNav.svelte'
   import TheDrawer from '$lib/layout/TheDrawer.svelte'
   import TheHeader from '$lib/layout/TheHeader.svelte'
-  import { setContext } from 'svelte'
-  import { derived, writable, type Readable } from 'svelte/store'
+  import { setContext, type Snippet } from 'svelte'
   import '../app.css'
 
-  $: title = $pageTitle ? `${$pageTitle} - ${SITE_TITLE}` : SITE_TITLE
+  type Props = { children: Snippet }
+  const { children }: Props = $props()
 
-  const headerHeight = writable(0)
-  const footerHeight = writable(0)
-  const headerHeightDerived = derived(headerHeight, (x) => x)
-  const footerHeightDerived = derived(footerHeight, (x) => x)
+  const title = $derived(pageTitle.value ? `${pageTitle.value} - ${SITE_TITLE}` : SITE_TITLE)
 
-  setContext<HeightStore>(HeaderHeightContext, headerHeightDerived)
-  setContext<HeightStore>(FooterHeightContext, footerHeightDerived)
+  let headerHeight = $state(0)
+  let footerHeight = $state(0)
+
+  setContext<HeightReadable>(HeaderHeightContext, {
+    get value() {
+      return headerHeight
+    }
+  })
+  setContext<HeightReadable>(FooterHeightContext, {
+    get value() {
+      return footerHeight
+    }
+  })
 </script>
 
 <svelte:head>
   <title>{title}</title>
 </svelte:head>
 
-<TheHeader bind:height={$headerHeight} />
+<TheHeader bind:height={headerHeight} />
 
 <TheDrawer />
 
 <main>
-  <slot />
+  {@render children()}
 </main>
 
-<TheBottomNav bind:height={$footerHeight} />
+<TheBottomNav bind:height={footerHeight} />

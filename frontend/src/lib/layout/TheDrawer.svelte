@@ -12,22 +12,22 @@
   } from 'flowbite-svelte'
   import { CogSolid, HomeSolid, InfoCircleOutline } from 'flowbite-svelte-icons'
   import { sineIn } from 'svelte/easing'
-  import { drawerHidden } from './stores'
+  import { drawerHidden } from './stores.svelte'
 
-  let transitionParams = {
+  const transitionParams = {
     x: -320,
     duration: 200,
     easing: sineIn
   }
 
   onNavigate(() => {
-    $drawerHidden = true
+    drawerHidden.value = true
   })
 
-  $: activeUrl = $page.url.pathname
+  const activeUrl = $derived($page.url.pathname)
 </script>
 
-<Drawer transitionType="fly" bind:hidden={$drawerHidden} {transitionParams}>
+<Drawer transitionType="fly" bind:hidden={drawerHidden.value} {transitionParams}>
   <div class="flex items-center">
     <h5
       id="drawer-navigation-label-3"
@@ -35,7 +35,7 @@
     >
       Menu
     </h5>
-    <CloseButton on:click={() => ($drawerHidden = true)} class="mb-4 dark:text-white" />
+    <CloseButton onclick={() => (drawerHidden.value = true)} class="mb-4 dark:text-white" />
   </div>
 
   <Sidebar {activeUrl}>

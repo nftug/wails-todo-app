@@ -2,19 +2,19 @@
   import { page } from '$app/stores'
   import { BottomNav, BottomNavItem } from 'flowbite-svelte'
   import { HomeSolid, InfoCircleSolid } from 'flowbite-svelte-icons'
-  import { onMount } from 'svelte'
 
-  export let height: number
+  type Props = { height: number }
+  let { height = $bindable(0) }: Props = $props()
 
-  $: activeUrl = $page.url.pathname
+  const activeUrl = $derived($page.url.pathname)
 
-  let footer: HTMLElement | null
-  onMount(() => {
+  let footer = $state<HTMLElement | null>()
+  $effect(() => {
     footer = document.getElementById('footer')
   })
 </script>
 
-<svelte:window on:resize={() => (height = footer?.offsetHeight ?? 0)} />
+<svelte:window onresize={() => (height = footer?.offsetHeight ?? 0)} />
 
 <footer>
   <BottomNav id="footer" {activeUrl} classInner="grid-cols-2" classOuter="md:hidden z-40 h-14">
