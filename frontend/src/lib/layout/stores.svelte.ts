@@ -38,3 +38,10 @@ export const useDarkModeStore = () => {
     toggleDarkMode
   }
 }
+
+let restHeightState = $state({ header: 0, footer: 0 })
+// prettier-ignore
+export const restHeight = {
+  get value() { return restHeightState },
+  set value(v) { restHeightState = v }
+}
