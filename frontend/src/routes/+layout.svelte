@@ -1,7 +1,6 @@
 <script context="module" lang="ts">
-  export const HeaderHeightContext = Symbol('header-height-getter')
-  export const FooterHeightContext = Symbol('footer-height-getter')
-  export type HeightReadable = { value: number }
+  export const RestHeightContext = Symbol('header-footer-height')
+  export type RestHeight = { header: number; footer: number }
 </script>
 
 <script lang="ts">
@@ -24,15 +23,10 @@
   let headerHeight = $state(0)
   let footerHeight = $state(0)
 
-  setContext<HeightReadable>(HeaderHeightContext, {
-    get value() {
-      return headerHeight
-    }
-  })
-  setContext<HeightReadable>(FooterHeightContext, {
-    get value() {
-      return footerHeight
-    }
+  // prettier-ignore
+  setContext<RestHeight>(RestHeightContext, {
+    get header() { return headerHeight },
+    get footer() { return footerHeight }
   })
 
   const { setIsDarkMode } = useDarkModeStore()

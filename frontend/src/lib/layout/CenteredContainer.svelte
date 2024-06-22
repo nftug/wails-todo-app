@@ -1,19 +1,14 @@
 <script lang="ts">
-  import {
-    FooterHeightContext,
-    HeaderHeightContext,
-    type HeightReadable
-  } from '$routes/+layout.svelte'
+  import { RestHeightContext, type RestHeight } from '$routes/+layout.svelte'
   import { getContext, type Snippet } from 'svelte'
 
   type Props = { children: Snippet }
   let { children }: Props = $props()
 
   let innerHeight = $state(0)
-  const headerHeight = getContext<HeightReadable>(HeaderHeightContext)
-  const footerHeight = getContext<HeightReadable>(FooterHeightContext)
+  const restHeight = getContext<RestHeight>(RestHeightContext)
 
-  const contentHeight = $derived(innerHeight - headerHeight?.value - footerHeight?.value)
+  const contentHeight = $derived(innerHeight - restHeight?.header - restHeight?.footer)
 </script>
 
 <svelte:window bind:innerHeight />

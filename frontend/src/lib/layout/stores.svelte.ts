@@ -1,30 +1,23 @@
 import { browser } from '$app/environment'
 
 let pageTitleState = $state('')
+// prettier-ignore
 export const pageTitle = {
-  get value() {
-    return pageTitleState
-  },
-  set value(v) {
-    pageTitleState = v
-  }
+  get value() { return pageTitleState },
+  set value(v) { pageTitleState = v }
 }
 
 let drawerHiddenState = $state(true)
+// prettier-ignore
 export const drawerHidden = {
-  get value() {
-    return drawerHiddenState
-  },
-  set value(v) {
-    drawerHiddenState = v
-  }
+  get value() { return drawerHiddenState },
+  set value(v) { drawerHiddenState = v }
 }
 
 let isDarkModeState = $state<boolean>()
 export const useDarkModeStore = () => {
   const setIsDarkMode = () => {
     if (!browser) return
-
     isDarkModeState =
       localStorage.getItem('color-theme') === 'dark' ||
       document.documentElement.classList.contains('dark')
@@ -36,13 +29,10 @@ export const useDarkModeStore = () => {
   }
 
   return {
+    // prettier-ignore
     isDarkMode: {
-      get value() {
-        return isDarkModeState
-      },
-      set value(v) {
-        isDarkModeState = v
-      }
+      get value() { return isDarkModeState },
+      set value(v) { isDarkModeState = v }
     },
     setIsDarkMode,
     toggleDarkMode
