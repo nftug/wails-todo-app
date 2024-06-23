@@ -2,7 +2,7 @@
   import { page } from '$app/stores'
   import { BottomNav, BottomNavItem } from 'flowbite-svelte'
   import { HomeSolid, InfoCircleSolid } from 'flowbite-svelte-icons'
-  import { restHeight } from './stores.svelte'
+  import { footerHeight } from './stores.svelte'
 
   const activeUrl = $derived($page.url.pathname)
 
@@ -11,7 +11,7 @@
     footer = document.getElementById('footer')
   })
 
-  const onresize = () => (restHeight.value.footer = footer?.offsetHeight ?? 0)
+  const onresize = () => (footerHeight.value = footer?.offsetHeight ?? 0)
 </script>
 
 <svelte:window {onresize} />

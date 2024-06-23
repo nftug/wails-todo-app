@@ -1,25 +1,14 @@
 import { browser } from '$app/environment'
+import { writable } from '$lib/util/util.svelte'
 
-let pageTitleState = $state('')
-// prettier-ignore
-export const pageTitle = {
-  get value() { return pageTitleState },
-  set value(v) { pageTitleState = v }
-}
-
-let drawerHiddenState = $state(true)
-// prettier-ignore
-export const drawerHidden = {
-  get value() { return drawerHiddenState },
-  set value(v) { drawerHiddenState = v }
-}
+export const pageTitle = writable('')
+export const drawerHidden = writable(true)
 
 let isDarkModeState = $state<boolean>()
 export const useDarkModeStore = () => ({
   // prettier-ignore
   isDarkMode: {
-    get value() { return isDarkModeState },
-    set value(v) { isDarkModeState = v }
+    get value() { return isDarkModeState }
   },
   initIsDarkMode: () => {
     if (!browser) return
@@ -33,9 +22,5 @@ export const useDarkModeStore = () => ({
   }
 })
 
-let restHeightState = $state({ header: 0, footer: 0 })
-// prettier-ignore
-export const restHeight = {
-  get value() { return restHeightState },
-  set value(v) { restHeightState = v }
-}
+export const headerHeight = writable(0)
+export const footerHeight = writable(0)

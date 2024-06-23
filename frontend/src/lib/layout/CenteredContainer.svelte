@@ -1,12 +1,12 @@
 <script lang="ts">
   import { type Snippet } from 'svelte'
-  import { restHeight } from './stores.svelte'
+  import { footerHeight, headerHeight } from './stores.svelte'
 
   type Props = { children: Snippet }
   let { children }: Props = $props()
 
   let innerHeight = $state(0)
-  const contentHeight = $derived(innerHeight - restHeight.value.header - restHeight.value.footer)
+  const contentHeight = $derived(innerHeight - headerHeight.value - footerHeight.value)
 </script>
 
 <svelte:window bind:innerHeight />

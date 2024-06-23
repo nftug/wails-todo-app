@@ -3,7 +3,7 @@
   import { SITE_TITLE } from '$lib'
   import { Button, NavBrand, NavHamburger, NavLi, NavUl, Navbar, Search } from 'flowbite-svelte'
   import { SearchOutline } from 'flowbite-svelte-icons'
-  import { drawerHidden, restHeight } from './stores.svelte'
+  import { drawerHidden, headerHeight } from './stores.svelte'
 
   const activeUrl = $derived($page.url.pathname)
 </script>
@@ -11,7 +11,7 @@
 <header
   class="sticky top-0 z-40 flex-none w-full"
   id="header"
-  bind:offsetHeight={restHeight.value.header}
+  bind:offsetHeight={headerHeight.value}
 >
   <Navbar fluid class="dark:bg-gray-900">
     <NavHamburger
