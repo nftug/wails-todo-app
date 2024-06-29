@@ -7,6 +7,7 @@ import (
 	"github.com/nftug/wails-todo-app/domain/todo"
 	"github.com/nftug/wails-todo-app/interfaces"
 	usecase "github.com/nftug/wails-todo-app/usecase/todo"
+	"github.com/samber/do"
 )
 
 type TodoApp struct {
@@ -19,14 +20,16 @@ type TodoApp struct {
 	searchTodo       usecase.GetTodoListUseCase
 }
 
-func NewTodoApp(
-	createTodo usecase.CreateTodoUseCase,
-	updateTodo usecase.UpdateTodoUseCase,
-	updateTodoStatus usecase.UpdateTodoStatusUseCase,
-	deleteTodo usecase.DeleteTodoUseCase,
-	getTodo usecase.GetTodoUseCase,
-	searchTodo usecase.GetTodoListUseCase) *TodoApp {
-	return &TodoApp{nil, createTodo, updateTodo, updateTodoStatus, deleteTodo, getTodo, searchTodo}
+func NewTodoApp(i *do.Injector) (*TodoApp, error) {
+	return &TodoApp{
+		nil,
+		do.MustInvoke[usecase.CreateTodoUseCase](i),
+		do.MustInvoke[usecase.UpdateTodoUseCase](i),
+		do.MustInvoke[usecase.UpdateTodoStatusUseCase](i),
+		do.MustInvoke[usecase.DeleteTodoUseCase](i),
+		do.MustInvoke[usecase.GetTodoUseCase](i),
+		do.MustInvoke[usecase.GetTodoListUseCase](i),
+	}, nil
 }
 
 func (a *TodoApp) OnDomReady(ctx context.Context) {

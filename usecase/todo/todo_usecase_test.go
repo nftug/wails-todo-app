@@ -7,10 +7,14 @@ import (
 
 	"github.com/Songmu/flextime"
 	"github.com/nftug/wails-todo-app/domain/todo"
+	"github.com/nftug/wails-todo-app/infrastructure"
 	infra "github.com/nftug/wails-todo-app/infrastructure/todo"
 	"github.com/nftug/wails-todo-app/usecase"
+	todoUseCase "github.com/nftug/wails-todo-app/usecase/todo"
+	"github.com/samber/do"
 	"github.com/samber/lo"
 	"github.com/stretchr/testify/assert"
+	"gorm.io/gorm"
 )
 
 var Now time.Time
@@ -26,12 +30,6 @@ func TestMain(t *testing.M) {
 	// Teardown
 }
 
-func Arrange[T any](base T, f func(c *T)) T {
-	c := base
-	f(&c)
-	return c
-}
-
 // 正常系
 func TestCreateTodo(t *testing.T) {
 	var cmd = todo.CreateCommand{
@@ -42,15 +40,21 @@ func TestCreateTodo(t *testing.T) {
 	}
 
 	// Arrange
-	a := usecase.InitUseCaseAdapterMock()
+	injector := do.New()
+	{
+		infrastructure.InjectForTest(t, injector)
+		usecase.Inject(injector)
+	}
+	usecase := do.MustInvoke[todoUseCase.CreateTodoUseCase](injector)
 
 	// Act
-	resp, err := a.CreateTodo.Execute(context.Background(), cmd)
+	resp, err := usecase.Execute(context.Background(), cmd)
 	assert.NoError(t, err)
 
 	// Assert
 	var actual infra.TodoDBSchema
-	err = a.DB.Where("id = ?", resp.ID).Take(&actual).Error
+	db := do.MustInvoke[*gorm.DB](injector)
+	err = db.Where("id = ?", resp.ID).Take(&actual).Error
 	assert.NoError(t, err)
 
 	dueDateWant := lo.TernaryF(cmd.DueDate == nil,

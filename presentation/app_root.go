@@ -5,21 +5,22 @@ import (
 
 	"github.com/nftug/wails-todo-app/domain/todo"
 	"github.com/nftug/wails-todo-app/presentation/app"
+	"github.com/samber/do"
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
-	"gorm.io/gorm"
 )
 
 type AppRoot struct {
-	todo *app.TodoApp
+	todo   *app.TodoApp
+	assets *embed.FS
 }
 
-func NewAppRoot(todo *app.TodoApp) *AppRoot {
-	return &AppRoot{todo}
+func NewAppRoot(i *do.Injector, assets *embed.FS) *AppRoot {
+	return &AppRoot{do.MustInvoke[*app.TodoApp](i), assets}
 }
 
-func (r *AppRoot) Run(assets *embed.FS) {
+func (r *AppRoot) Run() {
 	err := wails.Run(&options.App{
 		Title:  "Wails Note App",
 		Width:  1024,
@@ -29,7 +30,7 @@ func (r *AppRoot) Run(assets *embed.FS) {
 		MaxWidth:  3840,
 		MaxHeight: 2160,
 		AssetServer: &assetserver.Options{
-			Assets: assets,
+			Assets: r.assets,
 		},
 		BackgroundColour: &options.RGBA{R: 27, G: 38, B: 54, A: 1},
 		OnStartup:        nil,
@@ -46,15 +47,4 @@ func (r *AppRoot) Run(assets *embed.FS) {
 	if err != nil {
 		println("Error:", err.Error())
 	}
-}
-
-// Mock
-
-type AppRootMock struct {
-	DB   *gorm.DB
-	Todo *app.TodoApp
-}
-
-func NewAppRootMock(db *gorm.DB, todo *app.TodoApp) *AppRootMock {
-	return &AppRootMock{db, todo}
 }

@@ -6,6 +6,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/nftug/wails-todo-app/interfaces"
+	"github.com/samber/do"
 	"github.com/samber/lo"
 	"gorm.io/gorm"
 )
@@ -15,8 +16,8 @@ type Repository[TEntityPtr interfaces.Entity[TEntityPtr], TSchema RepositorySche
 }
 
 func NewRepository[TEntityPtr interfaces.Entity[TEntityPtr], TSchema RepositorySchema[TEntityPtr, TSchema]](
-	db *gorm.DB) *Repository[TEntityPtr, TSchema] {
-	return &Repository[TEntityPtr, TSchema]{db}
+	i *do.Injector) *Repository[TEntityPtr, TSchema] {
+	return &Repository[TEntityPtr, TSchema]{do.MustInvoke[*gorm.DB](i)}
 }
 
 func (r *Repository[TEntityPtr, TSchema]) Find(ctx context.Context, id uuid.UUID) (TEntityPtr, error) {

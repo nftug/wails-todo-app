@@ -7,8 +7,8 @@ toolchain go1.22.2
 require (
 	github.com/Songmu/flextime v0.1.0
 	github.com/google/uuid v1.3.0
-	github.com/google/wire v0.6.0
 	github.com/kirsle/configdir v0.0.0-20170128060238-e45d2f54772f
+	github.com/samber/do v1.6.0
 	github.com/samber/lo v1.39.0
 	github.com/stretchr/testify v1.9.0
 	github.com/wailsapp/wails/v2 v2.8.2

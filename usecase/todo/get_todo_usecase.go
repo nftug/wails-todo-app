@@ -6,6 +6,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/nftug/wails-todo-app/domain/todo"
 	"github.com/nftug/wails-todo-app/interfaces"
+	"github.com/samber/do"
 )
 
 type GetTodoUseCase interface {
@@ -16,8 +17,8 @@ type getTodoUseCase struct {
 	query todo.TodoQueryService
 }
 
-func NewGetTodoUseCase(query todo.TodoQueryService) GetTodoUseCase {
-	return &getTodoUseCase{query}
+func NewGetTodoUseCase(i *do.Injector) (GetTodoUseCase, error) {
+	return &getTodoUseCase{do.MustInvoke[todo.TodoQueryService](i)}, nil
 }
 
 func (u *getTodoUseCase) Execute(ctx context.Context, id uuid.UUID) (*todo.DetailResponse, error) {

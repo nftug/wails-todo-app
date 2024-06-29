@@ -1,22 +1,22 @@
 package config
 
 import (
-	"log"
 	"path/filepath"
 
 	"github.com/kirsle/configdir"
+	"github.com/samber/do"
 )
 
 type LocalPathService struct {
 	localPath string
 }
 
-func NewLocalPathService() *LocalPathService {
+func NewLocalPathService(i *do.Injector) (*LocalPathService, error) {
 	configPath := configdir.LocalConfig("wails-todo")
 	if err := configdir.MakePath(configPath); err != nil {
-		log.Fatal("cannot make local config path")
+		return nil, err
 	}
-	return &LocalPathService{localPath: configPath}
+	return &LocalPathService{localPath: configPath}, nil
 }
 
 func (c *LocalPathService) GetJoinedPath(filename string) string {

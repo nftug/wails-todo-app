@@ -5,6 +5,7 @@ import (
 
 	"github.com/nftug/wails-todo-app/domain/todo"
 	"github.com/nftug/wails-todo-app/interfaces"
+	"github.com/samber/do"
 )
 
 type CreateTodoUseCase interface {
@@ -15,8 +16,8 @@ type createTodoUseCase struct {
 	repo todo.TodoRepository
 }
 
-func NewCreateTodoUseCase(repo todo.TodoRepository) CreateTodoUseCase {
-	return &createTodoUseCase{repo}
+func NewCreateTodoUseCase(i *do.Injector) (CreateTodoUseCase, error) {
+	return &createTodoUseCase{do.MustInvoke[todo.TodoRepository](i)}, nil
 }
 
 func (u *createTodoUseCase) Execute(ctx context.Context, command todo.CreateCommand) (*interfaces.CreatedResponse, error) {

@@ -6,19 +6,21 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/nftug/wails-todo-app/domain/todo"
+	"github.com/samber/do"
 	"github.com/samber/lo"
 	"gorm.io/gorm"
 )
 
-type TodoQueryService struct {
+type todoQueryService struct {
 	db *gorm.DB
 }
 
-func NewTodoQueryService(db *gorm.DB) todo.TodoQueryService {
-	return &TodoQueryService{db}
+func NewTodoQueryService(i *do.Injector) (todo.TodoQueryService, error) {
+	db := do.MustInvoke[*gorm.DB](i)
+	return &todoQueryService{db}, nil
 }
 
-func (qs *TodoQueryService) Find(ctx context.Context, id uuid.UUID) (*todo.DetailResponse, error) {
+func (qs *todoQueryService) Find(ctx context.Context, id uuid.UUID) (*todo.DetailResponse, error) {
 	col := TodoDBSchema{}
 	if err := qs.db.WithContext(ctx).Where("id = ?", id).Take(&col).Error; err != nil {
 		// レコードが見つからない場合は両方ともnilを返す
@@ -27,7 +29,7 @@ func (qs *TodoQueryService) Find(ctx context.Context, id uuid.UUID) (*todo.Detai
 	return col.ToDetailResponse(), nil
 }
 
-func (qs *TodoQueryService) FindAll(ctx context.Context, query todo.Query) ([]*todo.ItemResponse, error) {
+func (qs *todoQueryService) FindAll(ctx context.Context, query todo.Query) ([]*todo.ItemResponse, error) {
 	q := qs.db.WithContext(ctx)
 
 	if lo.FromPtr(query.Search) != "" {

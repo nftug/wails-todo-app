@@ -6,6 +6,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/nftug/wails-todo-app/domain/todo"
 	"github.com/nftug/wails-todo-app/interfaces"
+	"github.com/samber/do"
 )
 
 type UpdateTodoUseCase interface {
@@ -16,8 +17,8 @@ type updateTodoUseCase struct {
 	repo todo.TodoRepository
 }
 
-func NewUpdateTodoUseCase(repo todo.TodoRepository) UpdateTodoUseCase {
-	return &updateTodoUseCase{repo}
+func NewUpdateTodoUseCase(i *do.Injector) (UpdateTodoUseCase, error) {
+	return &updateTodoUseCase{do.MustInvoke[todo.TodoRepository](i)}, nil
 }
 
 func (u *updateTodoUseCase) Execute(ctx context.Context, id uuid.UUID, command todo.UpdateCommand) error {
