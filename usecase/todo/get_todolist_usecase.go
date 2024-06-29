@@ -7,15 +7,19 @@ import (
 	"github.com/nftug/wails-todo-app/interfaces"
 )
 
-type GetTodoListUseCase struct {
+type GetTodoListUseCase interface {
+	Execute(ctx context.Context, query todo.Query) ([]*todo.ItemResponse, error)
+}
+
+type getTodoListUseCase struct {
 	query todo.TodoQueryService
 }
 
-func NewGetTodoListUseCase(query todo.TodoQueryService) *GetTodoListUseCase {
-	return &GetTodoListUseCase{query}
+func NewGetTodoListUseCase(query todo.TodoQueryService) GetTodoListUseCase {
+	return &getTodoListUseCase{query}
 }
 
-func (u *GetTodoListUseCase) Execute(ctx context.Context, query todo.Query) ([]*todo.ItemResponse, error) {
+func (u *getTodoListUseCase) Execute(ctx context.Context, query todo.Query) ([]*todo.ItemResponse, error) {
 	t, err := u.query.FindAll(ctx, query)
 	if err != nil {
 		return nil, err

@@ -7,15 +7,19 @@ import (
 	"github.com/nftug/wails-todo-app/interfaces"
 )
 
-type CreateTodoUseCase struct {
+type CreateTodoUseCase interface {
+	Execute(ctx context.Context, command todo.CreateCommand) (*interfaces.CreatedResponse, error)
+}
+
+type createTodoUseCase struct {
 	repo todo.TodoRepository
 }
 
-func NewCreateTodoUseCase(repo todo.TodoRepository) *CreateTodoUseCase {
-	return &CreateTodoUseCase{repo}
+func NewCreateTodoUseCase(repo todo.TodoRepository) CreateTodoUseCase {
+	return &createTodoUseCase{repo}
 }
 
-func (u *CreateTodoUseCase) Execute(ctx context.Context, command todo.CreateCommand) (*interfaces.CreatedResponse, error) {
+func (u *createTodoUseCase) Execute(ctx context.Context, command todo.CreateCommand) (*interfaces.CreatedResponse, error) {
 	t, err := todo.NewTodo(command)
 	if err != nil {
 		return nil, err

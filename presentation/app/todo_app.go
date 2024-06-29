@@ -11,21 +11,21 @@ import (
 
 type TodoApp struct {
 	ctx              context.Context
-	createTodo       *usecase.CreateTodoUseCase
-	updateTodo       *usecase.UpdateTodoUseCase
-	updateTodoStatus *usecase.UpdateTodoStatusUseCase
-	deleteTodo       *usecase.DeleteTodoUseCase
-	getTodo          *usecase.GetTodoUseCase
-	searchTodo       *usecase.GetTodoListUseCase
+	createTodo       usecase.CreateTodoUseCase
+	updateTodo       usecase.UpdateTodoUseCase
+	updateTodoStatus usecase.UpdateTodoStatusUseCase
+	deleteTodo       usecase.DeleteTodoUseCase
+	getTodo          usecase.GetTodoUseCase
+	searchTodo       usecase.GetTodoListUseCase
 }
 
 func NewTodoApp(
-	createTodo *usecase.CreateTodoUseCase,
-	updateTodo *usecase.UpdateTodoUseCase,
-	updateTodoStatus *usecase.UpdateTodoStatusUseCase,
-	deleteTodo *usecase.DeleteTodoUseCase,
-	getTodo *usecase.GetTodoUseCase,
-	searchTodo *usecase.GetTodoListUseCase) *TodoApp {
+	createTodo usecase.CreateTodoUseCase,
+	updateTodo usecase.UpdateTodoUseCase,
+	updateTodoStatus usecase.UpdateTodoStatusUseCase,
+	deleteTodo usecase.DeleteTodoUseCase,
+	getTodo usecase.GetTodoUseCase,
+	searchTodo usecase.GetTodoListUseCase) *TodoApp {
 	return &TodoApp{nil, createTodo, updateTodo, updateTodoStatus, deleteTodo, getTodo, searchTodo}
 }
 

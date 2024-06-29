@@ -8,15 +8,19 @@ import (
 	"github.com/nftug/wails-todo-app/interfaces"
 )
 
-type UpdateTodoStatusUseCase struct {
+type UpdateTodoStatusUseCase interface {
+	Execute(ctx context.Context, id uuid.UUID, command todo.UpdateStatusCommand) error
+}
+
+type updateTodoStatusUseCase struct {
 	repo todo.TodoRepository
 }
 
-func NewUpdateTodoStatusUseCase(repo todo.TodoRepository) *UpdateTodoStatusUseCase {
-	return &UpdateTodoStatusUseCase{repo}
+func NewUpdateTodoStatusUseCase(repo todo.TodoRepository) UpdateTodoStatusUseCase {
+	return &updateTodoStatusUseCase{repo}
 }
 
-func (u *UpdateTodoStatusUseCase) Execute(ctx context.Context, id uuid.UUID, command todo.UpdateStatusCommand) error {
+func (u *updateTodoStatusUseCase) Execute(ctx context.Context, id uuid.UUID, command todo.UpdateStatusCommand) error {
 	t, err := u.repo.Find(ctx, id)
 	if err != nil {
 		return err
