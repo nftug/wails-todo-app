@@ -6,8 +6,6 @@ import (
 )
 
 var Set = wire.NewSet(
-	NewUseCaseAdapter,
-	NewUseCaseAdapterMock,
 	todo.NewCreateTodoUseCase,
 	todo.NewUpdateTodoUseCase,
 	todo.NewUpdateTodoStatusUseCase,

@@ -12,7 +12,6 @@ import (
 	"github.com/nftug/wails-todo-app/infrastructure/todo"
 	"github.com/nftug/wails-todo-app/presentation"
 	"github.com/nftug/wails-todo-app/presentation/app"
-	"github.com/nftug/wails-todo-app/usecase"
 	todo2 "github.com/nftug/wails-todo-app/usecase/todo"
 )
 
@@ -29,8 +28,7 @@ func InitAppRoot() *presentation.AppRoot {
 	todoQueryService := todo.NewTodoQueryService(db)
 	getTodoUseCase := todo2.NewGetTodoUseCase(todoQueryService)
 	getTodoListUseCase := todo2.NewGetTodoListUseCase(todoQueryService)
-	useCaseAdapter := usecase.NewUseCaseAdapter(createTodoUseCase, updateTodoUseCase, updateTodoStatusUseCase, deleteTodoUseCase, getTodoUseCase, getTodoListUseCase)
-	todoApp := app.NewTodoApp(useCaseAdapter)
+	todoApp := app.NewTodoApp(createTodoUseCase, updateTodoUseCase, updateTodoStatusUseCase, deleteTodoUseCase, getTodoUseCase, getTodoListUseCase)
 	appRoot := presentation.NewAppRoot(todoApp)
 	return appRoot
 }
