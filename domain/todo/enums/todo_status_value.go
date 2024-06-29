@@ -1,4 +1,4 @@
-package enum
+package enums
 
 import "github.com/samber/lo"
 
@@ -13,5 +13,7 @@ const (
 )
 
 var StatusSeq = []StatusValue{StatusBacklog, StatusTodo, StatusDoing, StatusDone}
+
+func (s StatusValue) TSName() string { return string(s) }
 
 func (s StatusValue) Validate() bool { return lo.Contains(StatusSeq, s) }

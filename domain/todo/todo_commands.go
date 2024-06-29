@@ -1,12 +1,16 @@
 package todo
 
-import "time"
+import (
+	"time"
+
+	"github.com/nftug/wails-todo-app/domain/todo/enums"
+)
 
 type CreateCommand struct {
-	Title         string       `json:"title"`
-	Description   *string      `json:"description"`
-	InitialStatus *StatusValue `json:"initialStatus"`
-	DueDate       *time.Time   `json:"dueDate"`
+	Title         string             `json:"title"`
+	Description   *string            `json:"description"`
+	InitialStatus *enums.StatusValue `json:"initialStatus"`
+	DueDate       *time.Time         `json:"dueDate"`
 }
 
 type UpdateCommand struct {
@@ -16,5 +20,5 @@ type UpdateCommand struct {
 }
 
 type UpdateStatusCommand struct {
-	Status StatusValue `json:"status"`
+	Status enums.StatusValue `json:"status"`
 }

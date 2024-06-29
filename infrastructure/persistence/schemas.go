@@ -1,4 +1,4 @@
-package model
+package persistence
 
 import "github.com/nftug/wails-todo-app/interfaces"
 

@@ -6,6 +6,7 @@ import (
 
 	"github.com/Songmu/flextime"
 	"github.com/google/uuid"
+	"github.com/nftug/wails-todo-app/domain/todo/enums"
 	"github.com/nftug/wails-todo-app/domain/todo/internal/valueobject"
 	"github.com/nftug/wails-todo-app/library/nullable"
 )
@@ -27,7 +28,7 @@ func (t Todo) PK() int                    { return t.pk }
 func (t Todo) ID() uuid.UUID              { return t.id }
 func (t Todo) Title() string              { return t.title.Value() }
 func (t Todo) Description() *string       { return t.description.Value() }
-func (t Todo) Status() StatusValue        { return StatusValue(t.status.Value()) }
+func (t Todo) Status() enums.StatusValue  { return t.status.Value() }
 func (t Todo) StatusUpdatedAt() time.Time { return t.status.UpdatedAt() }
 func (t Todo) DueDate() *time.Time        { return t.dueDate.Value() }
 func (t Todo) CreatedAt() time.Time       { return t.createdAt }
@@ -38,7 +39,7 @@ func Reconstruct(
 	id uuid.UUID,
 	title string,
 	description *string,
-	status StatusValue,
+	status enums.StatusValue,
 	statusUpdatedAt time.Time,
 	dueDate *time.Time,
 	createdAt time.Time,
@@ -48,7 +49,7 @@ func Reconstruct(
 		id:          id,
 		title:       valueobject.ReconstructTitle(title),
 		description: valueobject.ReconstructDescription(description),
-		status:      valueobject.ReconstructStatus(status.toInternal(), statusUpdatedAt),
+		status:      valueobject.ReconstructStatus(status, statusUpdatedAt),
 		dueDate:     valueobject.ReconstructDueDate(dueDate),
 		createdAt:   createdAt,
 		updatedAt:   nullable.NewByPtr(updatedAt),
@@ -64,7 +65,7 @@ func NewTodo(command CreateCommand) (*Todo, error) {
 	if err != nil {
 		return nil, err
 	}
-	status, err := valueobject.NewStatus(command.InitialStatus.toInternalPtr())
+	status, err := valueobject.NewStatus(command.InitialStatus)
 	if err != nil {
 		return nil, err
 	}
@@ -106,7 +107,7 @@ func (t *Todo) Update(command UpdateCommand) error {
 }
 
 func (t *Todo) UpdateStatus(command UpdateStatusCommand) error {
-	status, err := t.status.ChangeStatus(command.Status.toInternal())
+	status, err := t.status.ChangeStatus(command.Status)
 	if err != nil {
 		return err
 	}

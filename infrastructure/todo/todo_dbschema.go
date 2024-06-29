@@ -5,6 +5,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/nftug/wails-todo-app/domain/todo"
+	"github.com/nftug/wails-todo-app/domain/todo/enums"
 )
 
 type TodoDBSchema struct {
@@ -12,7 +13,7 @@ type TodoDBSchema struct {
 	ID              uuid.UUID `gorm:"type:uuid;uniqueIndex"`
 	Title           string
 	Description     *string
-	Status          todo.StatusValue
+	Status          enums.StatusValue
 	StatusUpdatedAt time.Time
 	DueDate         *time.Time `gorm:"type:TIMESTAMP;null;default:null"`
 	CreatedAt       time.Time  `gorm:"type:TIMESTAMP;null;"`

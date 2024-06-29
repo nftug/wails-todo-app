@@ -3,7 +3,7 @@
 all: test build
 
 build: prepare
-	wails build
+	wails build -ldflags="-s -w" -trimpath
 
 run: prepare
 	wails dev

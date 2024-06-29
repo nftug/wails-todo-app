@@ -1,3 +1,14 @@
+export namespace enums {
+	
+	export enum StatusValue {
+	    Backlog = "Backlog",
+	    Todo = "Todo",
+	    Doing = "Doing",
+	    Done = "Done",
+	}
+
+}
+
 export namespace interfaces {
 	
 	export class CreatedResponse {
@@ -17,16 +28,10 @@ export namespace interfaces {
 
 export namespace todo {
 	
-	export enum StatusValue {
-	    Backlog = "Backlog",
-	    Todo = "Todo",
-	    Doing = "Doing",
-	    Done = "Done",
-	}
 	export class CreateCommand {
 	    title: string;
 	    description?: string;
-	    initialStatus?: StatusValue;
+	    initialStatus?: enums.StatusValue;
 	    // Go type: time
 	    dueDate?: any;
 	
@@ -64,7 +69,7 @@ export namespace todo {
 	    id: number[];
 	    title: string;
 	    description?: string;
-	    status: StatusValue;
+	    status: enums.StatusValue;
 	    // Go type: time
 	    statusUpdatedAt: any;
 	    // Go type: time
@@ -111,7 +116,7 @@ export namespace todo {
 	export class ItemResponse {
 	    id: number[];
 	    title: string;
-	    status: StatusValue;
+	    status: enums.StatusValue;
 	    // Go type: time
 	    dueDate?: any;
 	
@@ -149,7 +154,7 @@ export namespace todo {
 	    search?: string;
 	    title?: string;
 	    description?: string;
-	    status?: StatusValue;
+	    status?: enums.StatusValue;
 	    // Go type: time
 	    until?: any;
 	
@@ -220,7 +225,7 @@ export namespace todo {
 		}
 	}
 	export class UpdateStatusCommand {
-	    status: StatusValue;
+	    status: enums.StatusValue;
 	
 	    static createFrom(source: any = {}) {
 	        return new UpdateStatusCommand(source);

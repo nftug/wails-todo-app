@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/Songmu/flextime"
-	"github.com/nftug/wails-todo-app/domain/todo/internal/enum"
+	"github.com/nftug/wails-todo-app/domain/todo/enums"
 	"github.com/nftug/wails-todo-app/interfaces"
 	"github.com/samber/lo"
 	"github.com/stretchr/testify/assert"
@@ -122,14 +122,14 @@ func TestTodoDescription(t *testing.T) {
 func TestTodoStatus(t *testing.T) {
 	testsValid := []struct {
 		name string
-		in   *enum.StatusValue
-		want enum.StatusValue
+		in   *enums.StatusValue
+		want enums.StatusValue
 	}{
-		{"Backlog", lo.ToPtr(enum.StatusBacklog), enum.StatusBacklog},
-		{"Todo", lo.ToPtr(enum.StatusTodo), enum.StatusTodo},
-		{"Doing", lo.ToPtr(enum.StatusDoing), enum.StatusDoing},
-		{"Done", lo.ToPtr(enum.StatusDone), enum.StatusDone},
-		{"Default (Todo)", nil, enum.StatusTodo},
+		{"Backlog", lo.ToPtr(enums.StatusBacklog), enums.StatusBacklog},
+		{"Todo", lo.ToPtr(enums.StatusTodo), enums.StatusTodo},
+		{"Doing", lo.ToPtr(enums.StatusDoing), enums.StatusDoing},
+		{"Done", lo.ToPtr(enums.StatusDone), enums.StatusDone},
+		{"Default (Todo)", nil, enums.StatusTodo},
 	}
 	for _, tt := range testsValid {
 		t.Run("正常系_新規作成_"+tt.name, func(t *testing.T) {
@@ -140,15 +140,15 @@ func TestTodoStatus(t *testing.T) {
 		})
 	}
 
-	current := statusImpl{enum.StatusTodo, Now.UTC().AddDate(0, 0, -1)}
+	current := statusImpl{enums.StatusTodo, Now.UTC().AddDate(0, 0, -1)}
 	testsChangeValid := []struct {
 		name string
-		in   enum.StatusValue
-		want enum.StatusValue
+		in   enums.StatusValue
+		want enums.StatusValue
 	}{
-		{"Backlog", enum.StatusBacklog, enum.StatusBacklog},
-		{"Doing", enum.StatusDoing, enum.StatusDoing},
-		{"Done", enum.StatusDone, enum.StatusDone},
+		{"Backlog", enums.StatusBacklog, enums.StatusBacklog},
+		{"Doing", enums.StatusDoing, enums.StatusDoing},
+		{"Done", enums.StatusDone, enums.StatusDone},
 	}
 	for _, tt := range testsChangeValid {
 		t.Run("正常系_更新_"+tt.name, func(t *testing.T) {
@@ -162,7 +162,7 @@ func TestTodoStatus(t *testing.T) {
 	errInvalid := interfaces.NewInvalidArgError("status", "不正なステータスです")
 	testsErr := []struct {
 		name    string
-		in      enum.StatusValue
+		in      enums.StatusValue
 		wantErr error
 	}{
 		{"存在しない値", "Hoge", errInvalid},
@@ -175,10 +175,10 @@ func TestTodoStatus(t *testing.T) {
 	}
 
 	errNotChanged := interfaces.NewInvalidArgError("status", "現在と異なるステータスを設定してください")
-	current = statusImpl{enum.StatusTodo, Now.UTC().AddDate(0, 0, -1)}
+	current = statusImpl{enums.StatusTodo, Now.UTC().AddDate(0, 0, -1)}
 	testsChangeErr := []struct {
 		name    string
-		in      enum.StatusValue
+		in      enums.StatusValue
 		wantErr error
 	}{
 		{"存在しない値", "Hoge", errInvalid},

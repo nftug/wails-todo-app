@@ -5,40 +5,40 @@ import (
 	"time"
 
 	"github.com/Songmu/flextime"
-	"github.com/nftug/wails-todo-app/domain/todo/internal/enum"
+	"github.com/nftug/wails-todo-app/domain/todo/enums"
 	"github.com/nftug/wails-todo-app/interfaces"
 	"github.com/samber/lo"
 )
 
 type Status interface {
-	Value() enum.StatusValue
+	Value() enums.StatusValue
 	String() string
 	UpdatedAt() time.Time
 	Equals(other Status) bool
-	ChangeStatus(value enum.StatusValue) (Status, error)
+	ChangeStatus(value enums.StatusValue) (Status, error)
 }
 
 type statusImpl struct {
-	value     enum.StatusValue
+	value     enums.StatusValue
 	updatedAt time.Time
 }
 
-func ReconstructStatus(value enum.StatusValue, updatedAt time.Time) Status {
-	return &statusImpl{enum.StatusValue(value), updatedAt}
+func ReconstructStatus(value enums.StatusValue, updatedAt time.Time) Status {
+	return &statusImpl{value, updatedAt}
 }
 
-func NewStatus(value *enum.StatusValue) (Status, error) {
-	return newStatus(lo.FromPtrOr(value, enum.StatusTodo))
+func NewStatus(value *enums.StatusValue) (Status, error) {
+	return newStatus(lo.FromPtrOr(value, enums.StatusTodo))
 }
 
-func (s statusImpl) ChangeStatus(value enum.StatusValue) (Status, error) {
+func (s statusImpl) ChangeStatus(value enums.StatusValue) (Status, error) {
 	if s.value == value {
 		return nil, interfaces.NewInvalidArgError("status", "現在と異なるステータスを設定してください")
 	}
 	return newStatus(value)
 }
 
-func newStatus(value enum.StatusValue) (Status, error) {
+func newStatus(value enums.StatusValue) (Status, error) {
 	if !value.Validate() {
 		return nil, interfaces.NewInvalidArgError("status", "不正なステータスです")
 	}
@@ -47,7 +47,7 @@ func newStatus(value enum.StatusValue) (Status, error) {
 
 func (s statusImpl) String() string { return string(s.value) }
 
-func (s statusImpl) Value() enum.StatusValue { return s.value }
+func (s statusImpl) Value() enums.StatusValue { return s.value }
 
 func (s statusImpl) UpdatedAt() time.Time { return s.updatedAt }
 

@@ -37,4 +37,5 @@ rules:
       caughtErrorsIgnorePattern: '^_'
       destructuredArrayIgnorePattern: '^_'
   eqeqeq: error
-  '@typescript-eslint/no-namespace': off
+  '@typescript-eslint/no-namespace': off  # For wails
+  '@typescript-eslint/no-explicit-any': off  # For wails

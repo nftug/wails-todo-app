@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/Songmu/flextime"
+	"github.com/nftug/wails-todo-app/domain/todo/enums"
 	"github.com/samber/lo"
 	"github.com/stretchr/testify/assert"
 )
@@ -60,7 +61,7 @@ func TestNewTodo(t *testing.T) {
 		{"説明欄が不正",
 			Arrange(cmdValid, func(c *CreateCommand) { c.Description = lo.ToPtr(lo.RandomString(300, lo.LettersCharset)) }),
 		},
-		{"ステータスが不正", Arrange(cmdValid, func(c *CreateCommand) { c.InitialStatus = lo.ToPtr(StatusValue("Hoge")) })},
+		{"ステータスが不正", Arrange(cmdValid, func(c *CreateCommand) { c.InitialStatus = lo.ToPtr(enums.StatusValue("Hoge")) })},
 		{"期限が不正", Arrange(cmdValid, func(c *CreateCommand) { c.DueDate = lo.ToPtr(Now.AddDate(0, 0, -1)) })},
 	}
 	for _, tt := range testsErr {
