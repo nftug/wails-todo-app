@@ -24,15 +24,15 @@ type Todo struct {
 
 // Getter
 
-func (t Todo) PK() int                    { return t.pk }
-func (t Todo) ID() uuid.UUID              { return t.id }
-func (t Todo) Title() string              { return t.title.Value() }
-func (t Todo) Description() *string       { return t.description.Value() }
-func (t Todo) Status() enums.StatusValue  { return t.status.Value() }
-func (t Todo) StatusUpdatedAt() time.Time { return t.status.UpdatedAt() }
-func (t Todo) DueDate() *time.Time        { return t.dueDate.Value() }
-func (t Todo) CreatedAt() time.Time       { return t.createdAt }
-func (t Todo) UpdatedAt() *time.Time      { return t.updatedAt.Value() }
+func (t *Todo) PK() int                    { return t.pk }
+func (t *Todo) ID() uuid.UUID              { return t.id }
+func (t *Todo) Title() string              { return t.title.Value() }
+func (t *Todo) Description() *string       { return t.description.Value() }
+func (t *Todo) Status() enums.StatusValue  { return t.status.Value() }
+func (t *Todo) StatusUpdatedAt() time.Time { return t.status.UpdatedAt() }
+func (t *Todo) DueDate() *time.Time        { return t.dueDate.Value() }
+func (t *Todo) CreatedAt() time.Time       { return t.createdAt }
+func (t *Todo) UpdatedAt() *time.Time      { return t.updatedAt.Value() }
 
 func Reconstruct(
 	pk int,
@@ -118,4 +118,4 @@ func (t *Todo) UpdateStatus(command UpdateStatusCommand) error {
 
 func (t *Todo) SetPK(pk int) { t.pk = pk }
 
-func (t Todo) Equals(other *Todo) bool { return reflect.DeepEqual(t.id, other.id) }
+func (t *Todo) Equals(other *Todo) bool { return reflect.DeepEqual(t.id, other.id) }
