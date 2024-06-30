@@ -84,6 +84,7 @@ func NewTodo(command CreateCommand) (*Todo, error) {
 		description: desc,
 		status:      status,
 		dueDate:     dueDate,
+		notifiedAt:  nullable.NewEmpty[time.Time](),
 		createdAt:   flextime.Now().UTC(),
 		updatedAt:   nullable.NewEmpty[time.Time](),
 	}, nil
@@ -118,6 +119,14 @@ func (t *Todo) UpdateStatus(command UpdateStatusCommand) error {
 
 	t.status = status
 	return nil
+}
+
+func (t *Todo) SetNotifiedAt(notifiedAt time.Time) {
+	t.notifiedAt = nullable.NewByVal(notifiedAt.UTC())
+}
+
+func (t *Todo) ClearNotifiedAt() {
+	t.notifiedAt = nullable.NewEmpty[time.Time]()
 }
 
 func (t *Todo) SetPK(pk int) { t.pk = pk }

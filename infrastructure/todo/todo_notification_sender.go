@@ -11,24 +11,26 @@ import (
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
-type todoNotificationSender struct {
-	notifiedItems []*todo.ItemResponse
-}
+type todoNotificationSender struct{}
 
 func NewTodoNotificationSender(i *do.Injector) (todo.TodoNotificationSender, error) {
-	return &todoNotificationSender{[]*todo.ItemResponse{}}, nil
+	return &todoNotificationSender{}, nil
 }
 
-func (t *todoNotificationSender) Send(ctx context.Context, item *todo.ItemResponse) error {
-	if lo.ContainsBy(t.notifiedItems,
-		func(x *todo.ItemResponse) bool { return x.ID == item.ID }) {
-		return nil
+func (t *todoNotificationSender) Send(ctx context.Context, item *todo.Todo) error {
+	dto := todo.ItemResponse{
+		ID:          item.ID(),
+		Title:       item.Title(),
+		Description: item.Description(),
+		Status:      item.Status(),
+		NotifiedAt:  item.NotifiedAt(),
+		DueDate:     item.DueDate(),
 	}
 
-	beeep.Alert(item.Title, lo.FromPtrOr(item.Description, "No description"), "")
+	beeep.Alert(dto.Title, lo.FromPtrOr(dto.Description, "No description"), "")
 
 	runtime.Show(ctx)
-	runtime.EventsEmit(ctx, string(enums.NotifyTodo), item)
+	runtime.EventsEmit(ctx, string(enums.NotifyTodo), dto)
 
 	return nil
 }
