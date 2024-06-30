@@ -16,3 +16,7 @@ type TodoQueryService interface {
 	Find(ctx context.Context, id uuid.UUID) (*DetailResponse, error)
 	FindAll(ctx context.Context, q Query) ([]*ItemResponse, error)
 }
+
+type TodoNotificationSender interface {
+	Send(ctx context.Context, item *ItemResponse) error
+}

@@ -18,6 +18,7 @@ type TodoApp struct {
 	deleteTodo       usecase.DeleteTodoUseCase
 	getTodo          usecase.GetTodoUseCase
 	searchTodo       usecase.GetTodoListUseCase
+	notifyTodo       usecase.NotifyTodoUseCase
 }
 
 func NewTodoApp(i *do.Injector) (*TodoApp, error) {
@@ -29,11 +30,14 @@ func NewTodoApp(i *do.Injector) (*TodoApp, error) {
 		do.MustInvoke[usecase.DeleteTodoUseCase](i),
 		do.MustInvoke[usecase.GetTodoUseCase](i),
 		do.MustInvoke[usecase.GetTodoListUseCase](i),
+		do.MustInvoke[usecase.NotifyTodoUseCase](i),
 	}, nil
 }
 
 func (a *TodoApp) OnDomReady(ctx context.Context) {
 	a.ctx = ctx
+
+	a.notifyTodo.Execute(ctx)
 }
 
 func (a *TodoApp) Create(command todo.CreateCommand) (*interfaces.CreatedResponse, error) {

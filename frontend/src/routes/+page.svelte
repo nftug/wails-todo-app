@@ -9,8 +9,7 @@
   async function onClickButton() {
     if (!dialog) return
     dialogProps = { message: 'Are you sure you want to continue?' }
-    const ans = await dialog.openDialog()
-    alert(`Your answer: ${ans}`)
+    await dialog.openDialog()
   }
 </script>
 

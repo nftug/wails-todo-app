@@ -12,4 +12,5 @@ func Inject(i *do.Injector) {
 	do.Provide(i, todo.NewDeleteTodoUseCase)
 	do.Provide(i, todo.NewGetTodoUseCase)
 	do.Provide(i, todo.NewGetTodoListUseCase)
+	do.Provide(i, todo.NewNotifyTodoUseCase)
 }

@@ -45,7 +45,17 @@ func (qs *todoQueryService) FindAll(ctx context.Context, query todo.Query) ([]*t
 		q = q.Where("status = ?", query.Status)
 	}
 	if lo.IsNotEmpty(lo.FromPtr(query.Until)) {
-		q = q.Where("due_date <= ?", query.Until)
+		q = q.Where("due_date <= ?", query.Until.UTC())
+	}
+	if lo.IsNotEmpty(lo.FromPtr(query.After)) {
+		q = q.Where("due_date >= ?", query.After.UTC())
+	}
+	if query.IsNotified != nil {
+		if *query.IsNotified {
+			q = q.Where("notified_at IS NOT NULL")
+		} else {
+			q = q.Where("notified_at IS NULL")
+		}
 	}
 
 	var cols []TodoDBSchema

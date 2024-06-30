@@ -16,6 +16,7 @@ type TodoDBSchema struct {
 	Status          enums.StatusValue
 	StatusUpdatedAt time.Time
 	DueDate         *time.Time `gorm:"type:TIMESTAMP;null;default:null"`
+	NotifiedAt      *time.Time `gorm:"type:TIMESTAMP;null;default:null"`
 	CreatedAt       time.Time  `gorm:"type:TIMESTAMP;null;"`
 	UpdatedAt       *time.Time `gorm:"type:TIMESTAMP;null;default:null"`
 }
@@ -28,6 +29,7 @@ func (t *TodoDBSchema) ToEntity() *todo.Todo {
 		t.Title, t.Description,
 		t.Status, t.StatusUpdatedAt,
 		t.DueDate,
+		t.NotifiedAt,
 		t.CreatedAt, t.UpdatedAt,
 	)
 }
@@ -41,6 +43,7 @@ func (t *TodoDBSchema) Transfer(e *todo.Todo) *TodoDBSchema {
 		Status:          e.Status(),
 		StatusUpdatedAt: e.StatusUpdatedAt(),
 		DueDate:         e.DueDate(),
+		NotifiedAt:      e.NotifiedAt(),
 		CreatedAt:       e.CreatedAt(),
 		UpdatedAt:       e.UpdatedAt(),
 	}
@@ -56,6 +59,7 @@ func (t *TodoDBSchema) ToDetailResponse() *todo.DetailResponse {
 		Status:          t.Status,
 		StatusUpdatedAt: t.StatusUpdatedAt,
 		DueDate:         t.DueDate,
+		NotifiedAt:      t.NotifiedAt,
 		CreatedAt:       t.CreatedAt,
 		UpdatedAt:       t.UpdatedAt,
 	}
@@ -63,9 +67,11 @@ func (t *TodoDBSchema) ToDetailResponse() *todo.DetailResponse {
 
 func (t *TodoDBSchema) ToItemResponse() *todo.ItemResponse {
 	return &todo.ItemResponse{
-		ID:      t.ID,
-		Title:   t.Title,
-		Status:  t.Status,
-		DueDate: t.DueDate,
+		ID:          t.ID,
+		Title:       t.Title,
+		Description: t.Description,
+		Status:      t.Status,
+		DueDate:     t.DueDate,
+		NotifiedAt:  t.NotifiedAt,
 	}
 }

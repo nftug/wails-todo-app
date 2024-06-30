@@ -18,6 +18,7 @@ type Todo struct {
 	description valueobject.Description
 	status      valueobject.Status
 	dueDate     valueobject.DueDate
+	notifiedAt  nullable.Nullable[time.Time]
 	createdAt   time.Time
 	updatedAt   nullable.Nullable[time.Time]
 }
@@ -31,6 +32,7 @@ func (t *Todo) Description() *string       { return t.description.Value() }
 func (t *Todo) Status() enums.StatusValue  { return t.status.Value() }
 func (t *Todo) StatusUpdatedAt() time.Time { return t.status.UpdatedAt() }
 func (t *Todo) DueDate() *time.Time        { return t.dueDate.Value() }
+func (t *Todo) NotifiedAt() *time.Time     { return t.notifiedAt.Value() }
 func (t *Todo) CreatedAt() time.Time       { return t.createdAt }
 func (t *Todo) UpdatedAt() *time.Time      { return t.updatedAt.Value() }
 
@@ -42,6 +44,7 @@ func Reconstruct(
 	status enums.StatusValue,
 	statusUpdatedAt time.Time,
 	dueDate *time.Time,
+	notifiedAt *time.Time,
 	createdAt time.Time,
 	updatedAt *time.Time) *Todo {
 	return &Todo{
@@ -51,6 +54,7 @@ func Reconstruct(
 		description: valueobject.ReconstructDescription(description),
 		status:      valueobject.ReconstructStatus(status, statusUpdatedAt),
 		dueDate:     valueobject.ReconstructDueDate(dueDate),
+		notifiedAt:  nullable.NewByPtr(notifiedAt),
 		createdAt:   createdAt,
 		updatedAt:   nullable.NewByPtr(updatedAt),
 	}

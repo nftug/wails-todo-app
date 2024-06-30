@@ -46,10 +46,12 @@ func main() {
 		Bind:             []interface{}{todoApp},
 		EnumBind: []interface{}{
 			enums.StatusSeq,
+			enums.TodoEvents,
 			// dialog.AllDialogTypes,
 			// dialog.AllDialogActionTypes,
 			// dialog.AllDialogButtons,
 		},
+		HideWindowOnClose: true,
 		Mac: &mac.Options{
 			TitleBar: &mac.TitleBar{
 				FullSizeContent: true,

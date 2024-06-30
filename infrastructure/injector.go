@@ -15,6 +15,7 @@ func Inject(i *do.Injector) {
 		lp := do.MustInvoke[middleware.ConfigPathService](i)
 		return sqlite.Open(lp.GetJoinedPath("todo.db")), nil
 	})
+	do.Provide(i, todo.NewTodoNotificationSender)
 }
 
 func injectCore(i *do.Injector) {

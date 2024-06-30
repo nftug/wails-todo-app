@@ -6,6 +6,9 @@ export namespace enums {
 	    Doing = "Doing",
 	    Done = "Done",
 	}
+	export enum TodoEvent {
+	    NotifyTodo = "NotifyTodo",
+	}
 
 }
 
@@ -75,6 +78,8 @@ export namespace todo {
 	    // Go type: time
 	    dueDate?: any;
 	    // Go type: time
+	    notifiedAt?: any;
+	    // Go type: time
 	    createdAt: any;
 	    // Go type: time
 	    updatedAt?: any;
@@ -91,6 +96,7 @@ export namespace todo {
 	        this.status = source["status"];
 	        this.statusUpdatedAt = this.convertValues(source["statusUpdatedAt"], null);
 	        this.dueDate = this.convertValues(source["dueDate"], null);
+	        this.notifiedAt = this.convertValues(source["notifiedAt"], null);
 	        this.createdAt = this.convertValues(source["createdAt"], null);
 	        this.updatedAt = this.convertValues(source["updatedAt"], null);
 	    }
@@ -116,7 +122,10 @@ export namespace todo {
 	export class ItemResponse {
 	    id: number[];
 	    title: string;
+	    description?: string;
 	    status: enums.StatusValue;
+	    // Go type: time
+	    notifiedAt?: any;
 	    // Go type: time
 	    dueDate?: any;
 	
@@ -128,7 +137,9 @@ export namespace todo {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.id = source["id"];
 	        this.title = source["title"];
+	        this.description = source["description"];
 	        this.status = source["status"];
+	        this.notifiedAt = this.convertValues(source["notifiedAt"], null);
 	        this.dueDate = this.convertValues(source["dueDate"], null);
 	    }
 	
@@ -157,6 +168,9 @@ export namespace todo {
 	    status?: enums.StatusValue;
 	    // Go type: time
 	    until?: any;
+	    // Go type: time
+	    after?: any;
+	    isNotified?: boolean;
 	
 	    static createFrom(source: any = {}) {
 	        return new Query(source);
@@ -169,6 +183,8 @@ export namespace todo {
 	        this.description = source["description"];
 	        this.status = source["status"];
 	        this.until = this.convertValues(source["until"], null);
+	        this.after = this.convertValues(source["after"], null);
+	        this.isNotified = source["isNotified"];
 	    }
 	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {

@@ -12,4 +12,6 @@ type Query struct {
 	Description *string            `json:"description"`
 	Status      *enums.StatusValue `json:"status"`
 	Until       *time.Time         `json:"until"`
+	After       *time.Time         `json:"after"`
+	IsNotified  *bool              `json:"isNotified"`
 }
