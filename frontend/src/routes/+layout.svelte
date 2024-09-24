@@ -5,8 +5,8 @@
   import TheDrawer from '$lib/layout/TheDrawer.svelte'
   import TheHeader from '$lib/layout/TheHeader.svelte'
   import { pageTitle, useDarkModeStore } from '$lib/layout/stores.svelte'
-  import { DarkMode } from 'flowbite-svelte'
   import { type Snippet } from 'svelte'
+  import { Darkmode } from 'svelte-5-ui-lib'
   import '../app.css'
 
   type Props = { children: Snippet }
@@ -33,4 +33,4 @@
 
 <TheBottomNav />
 
-<DarkMode class="hidden" />
+<Darkmode class="hidden" />

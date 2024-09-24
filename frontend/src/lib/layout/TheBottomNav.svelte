@@ -1,7 +1,7 @@
 <script lang="ts">
   import { page } from '$app/stores'
-  import { BottomNav, BottomNavItem } from 'flowbite-svelte'
   import { HomeSolid, InfoCircleSolid } from 'flowbite-svelte-icons'
+  import { BottomNav, BottomNavItem } from 'svelte-5-ui-lib'
   import { footerHeight } from './stores.svelte'
 
   const activeUrl = $derived($page.url.pathname)
@@ -17,7 +17,7 @@
 <svelte:window {onresize} />
 
 <footer>
-  <BottomNav id="footer" {activeUrl} classInner="grid-cols-2" classOuter="md:hidden z-40 h-14">
+  <BottomNav id="footer" {activeUrl} innerClass="grid-cols-2" outerClass="md:hidden z-40 h-14">
     <BottomNavItem btnName="Home" href="/">
       <HomeSolid />
     </BottomNavItem>

@@ -1,28 +1,35 @@
-<script lang="ts" context="module">
+<script lang="ts" module>
   type ButtonText = { yesText?: string; noText?: string }
   type DialogResult = 'yes' | 'no'
   export type DialogProps = { message?: string; icon?: Snippet } & ButtonText
 </script>
 
 <script lang="ts">
-  import { Button, Modal } from 'flowbite-svelte'
   import { ExclamationCircleOutline } from 'flowbite-svelte-icons'
   import { type Snippet } from 'svelte'
+  import { Button, Modal, uiHelpers } from 'svelte-5-ui-lib'
 
   const { message, icon, yesText = 'Yes', noText = 'No' }: DialogProps = $props()
 
-  let open = $state(false)
+  const modal = uiHelpers()
+  let modalStatus = $state(false)
+  const closeModal = modal.close
+  $effect(() => {
+    modalStatus = modal.isOpen
+  })
+
   let returnResult: (result: DialogResult) => void
 
   export async function openDialog() {
-    open = true
+    modal.open()
     const result = await new Promise<DialogResult>((resolve) => (returnResult = resolve))
-    open = false
+    modal.close()
+
     return result
   }
 </script>
 
-<Modal bind:open size="xs" dismissable={false}>
+<Modal {modalStatus} {closeModal} size="xs" dismissable={false}>
   <div class="text-center">
     {#if icon}
       {@render icon()}
@@ -34,10 +41,10 @@
       {message}
     </h3>
 
-    <Button color="red" class="me-2" on:click={() => returnResult('yes')}>
+    <Button color="red" class="me-2" onclick={() => returnResult('yes')}>
       {yesText}
     </Button>
-    <Button color="alternative" on:click={() => returnResult('no')}>
+    <Button color="alternative" onclick={() => returnResult('no')}>
       {noText}
     </Button>
   </div>

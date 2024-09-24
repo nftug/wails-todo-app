@@ -3,7 +3,7 @@
   import CenteredContainer from '$lib/layout/CenteredContainer.svelte'
   import { pageTitle } from '$lib/layout/stores.svelte'
   import { BrowserOpenURL } from '$lib/wailsjs/runtime/runtime'
-  import { A, Heading, P } from 'flowbite-svelte'
+  import { A, Heading, P } from 'svelte-5-ui-lib'
 
   pageTitle.value = 'About'
 </script>
