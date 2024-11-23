@@ -7,7 +7,7 @@ export function Create(arg1:todo.CreateCommand):Promise<interfaces.CreatedRespon
 
 export function Delete(arg1:string):Promise<void>;
 
-export function GetDetails(arg1:string):Promise<todo.DetailResponse>;
+export function GetDetails(arg1:string):Promise<todo.DetailsResponse>;
 
 export function Search(arg1:todo.Query):Promise<Array<todo.ItemResponse>>;
 

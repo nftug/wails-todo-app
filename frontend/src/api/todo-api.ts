@@ -1,21 +1,13 @@
 import { atom, useAtomValue } from 'jotai'
-import type {
-  CreatedResponse,
-  TodoCreateCommand,
-  TodoDetails,
-  TodoItem,
-  TodoQuery,
-  TodoUpdateCommand,
-  TodoUpdateStatusCommand
-} from '../types/todo-dto'
+import { interfaces, todo } from '../types/wailsjs/go/models'
 
 export interface ITodoApi {
-  create(command: TodoCreateCommand): Promise<CreatedResponse>
+  create(command: todo.CreateCommand): Promise<interfaces.CreatedResponse>
   delete(id: string): Promise<void>
-  getDetails(id: string): Promise<TodoDetails>
-  search(query: TodoQuery): Promise<TodoItem[]>
-  update(id: string, command: TodoUpdateCommand): Promise<void>
-  updateStatus(id: string, command: TodoUpdateStatusCommand): Promise<void>
+  getDetails(id: string): Promise<todo.DetailsResponse>
+  search(query: todo.Query): Promise<todo.ItemResponse[]>
+  update(id: string, command: todo.UpdateCommand): Promise<void>
+  updateStatus(id: string, command: todo.UpdateStatusCommand): Promise<void>
 }
 
 export const todoApiAtom = atom<ITodoApi>({

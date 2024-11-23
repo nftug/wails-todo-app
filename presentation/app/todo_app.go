@@ -59,7 +59,7 @@ func (a *TodoApp) Delete(id string) error {
 	return a.deleteTodo.Execute(a.ctx, parsedID)
 }
 
-func (a *TodoApp) GetDetails(id string) (*todo.DetailResponse, error) {
+func (a *TodoApp) GetDetails(id string) (*todo.DetailsResponse, error) {
 	parsedID, _ := uuid.Parse(id)
 	return a.getTodo.Execute(a.ctx, parsedID)
 }

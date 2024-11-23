@@ -3,12 +3,12 @@ import { useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { ApiError } from '../api/errors'
 import useTodoAtoms from '../atoms/todo-atoms'
-import type { TodoCreateCommand, TodoDetails, TodoUpdateCommand } from '../types/todo-dto'
+import { todo } from '../types/wailsjs/go/models'
 
-type TodoFormValue = TodoCreateCommand | TodoUpdateCommand
+type TodoFormValue = todo.CreateCommand | todo.UpdateCommand
 
 interface Props {
-  originData?: TodoDetails
+  originData?: todo.DetailsResponse
 }
 
 const TodoForm: React.FC<Props> = ({ originData }) => {
@@ -44,7 +44,8 @@ const TodoForm: React.FC<Props> = ({ originData }) => {
       selectTodo(null)
     } catch (error) {
       if (error instanceof ApiError) {
-        setError(error.data?.field ?? 'root', { message: error.data?.message })
+        const field = error.data?.field as keyof TodoFormValue
+        setError(field ?? 'root', { message: error.data?.message })
         return
       }
       throw error

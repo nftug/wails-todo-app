@@ -51,8 +51,8 @@ func (t *TodoDBSchema) Transfer(e *todo.Todo) *TodoDBSchema {
 
 func (t *TodoDBSchema) GetPK() int { return t.PK }
 
-func (t *TodoDBSchema) ToDetailResponse() *todo.DetailResponse {
-	return &todo.DetailResponse{
+func (t *TodoDBSchema) ToDetailsResponse() *todo.DetailsResponse {
+	return &todo.DetailsResponse{
 		ID:              t.ID.String(),
 		Title:           t.Title,
 		Description:     t.Description,

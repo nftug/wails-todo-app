@@ -10,7 +10,7 @@ import (
 )
 
 type GetTodoUseCase interface {
-	Execute(ctx context.Context, id uuid.UUID) (*todo.DetailResponse, error)
+	Execute(ctx context.Context, id uuid.UUID) (*todo.DetailsResponse, error)
 }
 
 type getTodoUseCase struct {
@@ -21,7 +21,7 @@ func NewGetTodoUseCase(i *do.Injector) (GetTodoUseCase, error) {
 	return &getTodoUseCase{do.MustInvoke[todo.TodoQueryService](i)}, nil
 }
 
-func (u *getTodoUseCase) Execute(ctx context.Context, id uuid.UUID) (*todo.DetailResponse, error) {
+func (u *getTodoUseCase) Execute(ctx context.Context, id uuid.UUID) (*todo.DetailsResponse, error) {
 	t, err := u.query.Find(ctx, id)
 	if err != nil {
 		return nil, err

@@ -20,13 +20,13 @@ func NewTodoQueryService(i *do.Injector) (todo.TodoQueryService, error) {
 	return &todoQueryService{db}, nil
 }
 
-func (qs *todoQueryService) Find(ctx context.Context, id uuid.UUID) (*todo.DetailResponse, error) {
+func (qs *todoQueryService) Find(ctx context.Context, id uuid.UUID) (*todo.DetailsResponse, error) {
 	col := TodoDBSchema{}
 	if err := qs.db.WithContext(ctx).Where("id = ?", id).Take(&col).Error; err != nil {
 		// レコードが見つからない場合は両方ともnilを返す
 		return nil, filterNotFoundErr(err)
 	}
-	return col.ToDetailResponse(), nil
+	return col.ToDetailsResponse(), nil
 }
 
 func (qs *todoQueryService) FindAll(ctx context.Context, query todo.Query) ([]*todo.ItemResponse, error) {

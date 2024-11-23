@@ -1,13 +1,9 @@
 package interfaces
 
-import (
-	"github.com/google/uuid"
-)
-
 type CreatedResponse struct {
-	ID uuid.UUID `json:"id"`
+	ID string `json:"id"`
 }
 
 func NewCreatedResponse[TEntityPtr Entity[TEntityPtr]](e TEntityPtr) *CreatedResponse {
-	return &CreatedResponse{e.ID()}
+	return &CreatedResponse{e.ID().String()}
 }

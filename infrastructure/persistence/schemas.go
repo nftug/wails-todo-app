@@ -9,6 +9,6 @@ type RepositorySchema[TEntityPtr interfaces.Entity[TEntityPtr], TSelf any] inter
 }
 
 type QueryServiceSchema[TDetail any, TItem any] interface {
-	ToDetailResponse() TDetail
+	ToDetailsResponse() TDetail
 	ToItemResponse() TItem
 }

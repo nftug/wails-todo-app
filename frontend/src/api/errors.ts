@@ -12,8 +12,8 @@ interface ApiErrorJson {
 
 export class ApiError extends Error {
   private constructor(
-    public code: enums.ErrorCode,
-    public data?: ApiErrorData
+    public readonly code: enums.ErrorCode,
+    public readonly data?: ApiErrorData
   ) {
     super(code)
   }

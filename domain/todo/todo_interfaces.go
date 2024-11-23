@@ -15,7 +15,7 @@ type TodoRepository interface {
 }
 
 type TodoQueryService interface {
-	Find(ctx context.Context, id uuid.UUID) (*DetailResponse, error)
+	Find(ctx context.Context, id uuid.UUID) (*DetailsResponse, error)
 	FindAll(ctx context.Context, q Query) ([]*ItemResponse, error)
 }
 

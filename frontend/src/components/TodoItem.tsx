@@ -1,11 +1,11 @@
 import { Card, CardContent, Chip, Typography } from '@mui/material'
 import { useMemo } from 'react'
 import useTodoAtoms from '../atoms/todo-atoms'
-import type { TodoItem } from '../types/todo-dto'
+import { todo } from '../types/wailsjs/go/models'
 import TodoForm from './TodoForm'
 
 interface TodoItemProps {
-  item: TodoItem
+  item: todo.ItemResponse
 }
 
 const TodoItem: React.FC<TodoItemProps> = ({ item }) => {

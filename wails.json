@@ -12,5 +12,10 @@
   "author": {
     "name": "V-nyang",
     "email": "example@gmail.com"
+  },
+  "bindings": {
+    "ts_generation": {
+      "outputType": "interfaces"
+    }
   }
 }
