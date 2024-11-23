@@ -1,8 +1,8 @@
 import { browser } from '$app/environment'
 import { writable } from '$lib/util/util.svelte'
+import { uiHelpers } from 'svelte-5-ui-lib'
 
 export const pageTitle = writable('')
-export const drawerHidden = writable(true)
 
 let isDarkModeState = $state<boolean>()
 export const useDarkModeStore = () => ({
@@ -21,6 +21,24 @@ export const useDarkModeStore = () => ({
     localStorage.setItem('color-theme', isDarkModeState ? 'dark' : 'light')
   }
 })
+
+let drawerStatus = $state<boolean>(false)
+const drawer = uiHelpers()
+
+export const useDrawerStore = () => {
+  $effect(() => {
+    drawerStatus = drawer.isOpen
+  })
+
+  return {
+    // prettier-ignore
+    drawerStatus: {
+      get value() { return drawerStatus }
+    },
+    closeDrawer: drawer.close,
+    toggleDrawer: drawer.toggle
+  }
+}
 
 export const headerHeight = writable(0)
 export const footerHeight = writable(0)

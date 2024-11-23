@@ -1,7 +1,7 @@
 <script lang="ts">
   import Container from '$lib/layout/Container.svelte'
   import { pageTitle, useDarkModeStore } from '$lib/layout/stores.svelte'
-  import { Heading, Toggle } from 'flowbite-svelte'
+  import { Heading, Toggle } from 'svelte-5-ui-lib'
 
   const { isDarkMode, toggleDarkMode } = useDarkModeStore()
 
@@ -15,7 +15,7 @@
     <div class="mt-12 flex-column">
       <div class="mb-10">
         <Heading tag="h3" class="mb-8">Appearance</Heading>
-        <Toggle size="large" checked={isDarkMode.value} on:change={toggleDarkMode}>DarkMode</Toggle>
+        <Toggle checked={isDarkMode.value} onchange={toggleDarkMode}>DarkMode</Toggle>
       </div>
     </div>
   </div>

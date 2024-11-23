@@ -1,11 +1,10 @@
 <script lang="ts">
-  import { page } from '$app/stores'
   import { SITE_TITLE } from '$lib'
-  import { Button, NavBrand, NavHamburger, NavLi, NavUl, Navbar, Search } from 'flowbite-svelte'
   import { SearchOutline } from 'flowbite-svelte-icons'
-  import { drawerHidden, headerHeight } from './stores.svelte'
+  import { Button, NavBrand, NavLi, NavUl, Navbar, Search, SidebarButton } from 'svelte-5-ui-lib'
+  import { headerHeight, useDrawerStore } from './stores.svelte'
 
-  const activeUrl = $derived($page.url.pathname)
+  const { toggleDrawer } = useDrawerStore()
 </script>
 
 <header
@@ -14,16 +13,9 @@
   bind:offsetHeight={headerHeight.value}
 >
   <Navbar fluid class="dark:bg-gray-900">
-    <NavHamburger
-      class="m-0 ms-2 me-4 md:block"
-      onClick={() => (drawerHidden.value = !drawerHidden.value)}
-    />
+    <SidebarButton class="m-0 ms-2 me-4 md:block" onclick={toggleDrawer} />
 
-    <NavBrand href="/">
-      <span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-        {SITE_TITLE}
-      </span>
-    </NavBrand>
+    <NavBrand siteName={SITE_TITLE} href="/"></NavBrand>
 
     <div class="flex md:order-3">
       <Button
@@ -46,7 +38,7 @@
       </div>
     </div>
 
-    <NavUl {activeUrl} class="mx-auto">
+    <NavUl>
       <NavLi href="/">Home</NavLi>
       <NavLi href="/about">About</NavLi>
     </NavUl>

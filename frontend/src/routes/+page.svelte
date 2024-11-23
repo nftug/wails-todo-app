@@ -1,7 +1,7 @@
 <script lang="ts">
   import ConfirmDialog, { type DialogProps } from '$lib/common/ConfirmDialog.svelte'
   import CenteredContainer from '$lib/layout/CenteredContainer.svelte'
-  import { Button, Heading } from 'flowbite-svelte'
+  import { Button, Heading } from 'svelte-5-ui-lib'
 
   let dialog = $state<ConfirmDialog>()
   let dialogProps = $state<DialogProps>({})
