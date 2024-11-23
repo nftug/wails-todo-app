@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/nftug/wails-todo-app/domain/todo"
-	"github.com/nftug/wails-todo-app/domain/todo/enums"
 	"github.com/nftug/wails-todo-app/infrastructure/persistence"
+	"github.com/nftug/wails-todo-app/interfaces/enums"
 	"github.com/samber/do"
 	"github.com/samber/lo"
 	"gorm.io/gorm"

@@ -5,7 +5,7 @@ import (
 
 	"github.com/gen2brain/beeep"
 	"github.com/nftug/wails-todo-app/domain/todo"
-	"github.com/nftug/wails-todo-app/domain/todo/enums"
+	"github.com/nftug/wails-todo-app/interfaces/enums"
 	"github.com/samber/do"
 	"github.com/samber/lo"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
@@ -19,7 +19,7 @@ func NewTodoNotificationSender(i *do.Injector) (todo.TodoNotificationSender, err
 
 func (t *todoNotificationSender) Send(ctx context.Context, item *todo.Todo) error {
 	dto := todo.ItemResponse{
-		ID:          item.ID(),
+		ID:          item.ID().String(),
 		Title:       item.Title(),
 		Description: item.Description(),
 		Status:      item.Status(),

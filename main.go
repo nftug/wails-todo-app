@@ -3,9 +3,10 @@ package main
 import (
 	"embed"
 	"log"
+	"math"
 
-	"github.com/nftug/wails-todo-app/domain/todo/enums"
 	"github.com/nftug/wails-todo-app/infrastructure"
+	"github.com/nftug/wails-todo-app/interfaces/enums"
 	"github.com/nftug/wails-todo-app/presentation"
 	"github.com/nftug/wails-todo-app/presentation/app"
 	"github.com/nftug/wails-todo-app/usecase"
@@ -35,8 +36,8 @@ func main() {
 		Height: 768,
 		// For Linux: ウィンドウサイズを最適化
 		// See https://github.com/wailsapp/wails/issues/2431
-		MaxWidth:  3840,
-		MaxHeight: 2160,
+		MaxWidth:  math.MaxInt16,
+		MaxHeight: math.MaxInt16,
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},
@@ -47,6 +48,7 @@ func main() {
 		EnumBind: []interface{}{
 			enums.StatusSeq,
 			enums.TodoEvents,
+			enums.ErrorCodes,
 			// dialog.AllDialogTypes,
 			// dialog.AllDialogActionTypes,
 			// dialog.AllDialogButtons,

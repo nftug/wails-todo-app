@@ -6,8 +6,8 @@ import (
 	"time"
 
 	"github.com/nftug/wails-todo-app/domain/todo"
-	"github.com/nftug/wails-todo-app/domain/todo/enums"
 	todoInfra "github.com/nftug/wails-todo-app/infrastructure/todo"
+	"github.com/nftug/wails-todo-app/interfaces/enums"
 	"github.com/nftug/wails-todo-app/library/testutil"
 	todoUseCase "github.com/nftug/wails-todo-app/usecase/todo"
 	"github.com/samber/do"

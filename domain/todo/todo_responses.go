@@ -3,12 +3,11 @@ package todo
 import (
 	"time"
 
-	"github.com/google/uuid"
-	"github.com/nftug/wails-todo-app/domain/todo/enums"
+	"github.com/nftug/wails-todo-app/interfaces/enums"
 )
 
 type ItemResponse struct {
-	ID          uuid.UUID         `json:"id"`
+	ID          string            `json:"id"`
 	Title       string            `json:"title"`
 	Description *string           `json:"description"`
 	Status      enums.StatusValue `json:"status"`
@@ -17,7 +16,7 @@ type ItemResponse struct {
 }
 
 type DetailResponse struct {
-	ID              uuid.UUID         `json:"id"`
+	ID              string            `json:"id"`
 	Title           string            `json:"title"`
 	Description     *string           `json:"description"`
 	Status          enums.StatusValue `json:"status"`

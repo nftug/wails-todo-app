@@ -2,7 +2,6 @@ package enums
 
 import "github.com/samber/lo"
 
-// ステータスのEnum (内部用)
 type StatusValue string
 
 const (

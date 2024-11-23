@@ -26,7 +26,7 @@ func (u *getTodoUseCase) Execute(ctx context.Context, id uuid.UUID) (*todo.Detai
 	if err != nil {
 		return nil, err
 	} else if t == nil {
-		return nil, interfaces.NewNotFoundError("todo")
+		return nil, interfaces.NewNotFoundError()
 	}
 	return t, nil
 }

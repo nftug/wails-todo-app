@@ -3,7 +3,7 @@ package todo
 import (
 	"time"
 
-	"github.com/nftug/wails-todo-app/domain/todo/enums"
+	"github.com/nftug/wails-todo-app/interfaces/enums"
 )
 
 type Query struct {

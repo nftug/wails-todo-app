@@ -10,8 +10,8 @@ export function Delete(arg1) {
   return window['go']['app']['TodoApp']['Delete'](arg1);
 }
 
-export function GetDetail(arg1) {
-  return window['go']['app']['TodoApp']['GetDetail'](arg1);
+export function GetDetails(arg1) {
+  return window['go']['app']['TodoApp']['GetDetails'](arg1);
 }
 
 export function Search(arg1) {

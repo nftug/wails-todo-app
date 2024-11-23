@@ -25,7 +25,7 @@ func (u *getTodoListUseCase) Execute(ctx context.Context, query todo.Query) ([]*
 	if err != nil {
 		return nil, err
 	} else if t == nil {
-		return nil, interfaces.NewNotFoundError("todo")
+		return nil, interfaces.NewNotFoundError()
 	}
 	return t, nil
 }

@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/Songmu/flextime"
-	"github.com/nftug/wails-todo-app/domain/todo/enums"
 	"github.com/nftug/wails-todo-app/interfaces"
+	"github.com/nftug/wails-todo-app/interfaces/enums"
 	"github.com/samber/lo"
 )
 

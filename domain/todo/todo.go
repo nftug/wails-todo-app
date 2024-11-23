@@ -6,8 +6,8 @@ import (
 
 	"github.com/Songmu/flextime"
 	"github.com/google/uuid"
-	"github.com/nftug/wails-todo-app/domain/todo/enums"
 	"github.com/nftug/wails-todo-app/domain/todo/internal/valueobject"
+	"github.com/nftug/wails-todo-app/interfaces/enums"
 	"github.com/nftug/wails-todo-app/library/nullable"
 )
 

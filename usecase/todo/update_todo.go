@@ -26,7 +26,7 @@ func (u *updateTodoUseCase) Execute(ctx context.Context, id uuid.UUID, command t
 	if err != nil {
 		return err
 	} else if t == nil {
-		return interfaces.NewNotFoundError("todo")
+		return interfaces.NewNotFoundError()
 	}
 
 	if err := t.Update(command); err != nil {

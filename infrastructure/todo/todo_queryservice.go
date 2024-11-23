@@ -59,7 +59,7 @@ func (qs *todoQueryService) FindAll(ctx context.Context, query todo.Query) ([]*t
 	}
 
 	var cols []TodoDBSchema
-	if err := q.Order("created_at").Find(&cols).Error; err != nil {
+	if err := q.Order("created_at DESC").Find(&cols).Error; err != nil {
 		return nil, err
 	}
 

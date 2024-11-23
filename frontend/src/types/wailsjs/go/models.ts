@@ -1,13 +1,17 @@
 export namespace enums {
 	
-	export enum TodoEvent {
-	    NotifyTodo = "NotifyTodo",
-	}
 	export enum StatusValue {
 	    Backlog = "Backlog",
 	    Todo = "Todo",
 	    Doing = "Doing",
 	    Done = "Done",
+	}
+	export enum TodoEvent {
+	    NotifyTodo = "NotifyTodo",
+	}
+	export enum ErrorCode {
+	    InvalidArg = "InvalidArg",
+	    NotFound = "NotFound",
 	}
 
 }
@@ -69,7 +73,7 @@ export namespace todo {
 		}
 	}
 	export class DetailResponse {
-	    id: number[];
+	    id: string;
 	    title: string;
 	    description?: string;
 	    status: enums.StatusValue;
@@ -120,7 +124,7 @@ export namespace todo {
 		}
 	}
 	export class ItemResponse {
-	    id: number[];
+	    id: string;
 	    title: string;
 	    description?: string;
 	    status: enums.StatusValue;

@@ -26,7 +26,7 @@ func (u *deleteTodoUseCase) Execute(ctx context.Context, id uuid.UUID) error {
 	if err != nil {
 		return err
 	} else if t == nil {
-		return interfaces.NewNotFoundError("todo")
+		return interfaces.NewNotFoundError()
 	}
 
 	if err := u.repo.Delete(ctx, t); err != nil {

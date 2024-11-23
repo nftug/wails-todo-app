@@ -5,7 +5,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/nftug/wails-todo-app/domain/todo"
-	"github.com/nftug/wails-todo-app/domain/todo/enums"
+	"github.com/nftug/wails-todo-app/interfaces/enums"
 )
 
 type TodoDBSchema struct {
@@ -53,7 +53,7 @@ func (t *TodoDBSchema) GetPK() int { return t.PK }
 
 func (t *TodoDBSchema) ToDetailResponse() *todo.DetailResponse {
 	return &todo.DetailResponse{
-		ID:              t.ID,
+		ID:              t.ID.String(),
 		Title:           t.Title,
 		Description:     t.Description,
 		Status:          t.Status,
@@ -67,7 +67,7 @@ func (t *TodoDBSchema) ToDetailResponse() *todo.DetailResponse {
 
 func (t *TodoDBSchema) ToItemResponse() *todo.ItemResponse {
 	return &todo.ItemResponse{
-		ID:          t.ID,
+		ID:          t.ID.String(),
 		Title:       t.Title,
 		Description: t.Description,
 		Status:      t.Status,
