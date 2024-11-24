@@ -31,9 +31,7 @@ const DateTimePickerField = <TFieldValues extends FieldValues>({
             value={value ? dayjs(value) : null}
             inputRef={ref}
             views={views}
-            slotProps={{
-              textField: textFieldProps
-            }}
+            slotProps={{ textField: textFieldProps }}
           />
         )}
       />

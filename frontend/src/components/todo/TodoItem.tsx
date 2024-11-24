@@ -14,18 +14,19 @@ import { useConfirm } from 'material-ui-confirm'
 import useTodoAtoms from '../../atoms/todo-atoms'
 import { todo } from '../../types/wailsjs/go/models'
 import { overflowEllipsisStyle } from '../layout/styles'
+import { useTodoEditModal } from './TodoEditModalContext'
 
 interface TodoItemProps {
   item: todo.ItemResponse
-  onClickEdit: (itemId: string) => void
 }
 
-const TodoItem: React.FC<TodoItemProps> = ({ item, onClickEdit }) => {
+const TodoItem: React.FC<TodoItemProps> = ({ item }) => {
   const { deleteTodo } = useTodoAtoms()
   const confirm = useConfirm()
+  const { openModal } = useTodoEditModal()
 
   const handleEditItem = () => {
-    onClickEdit(item.id)
+    openModal(item.id)
   }
 
   const handleDeleteItem = async () => {

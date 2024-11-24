@@ -32,7 +32,7 @@ const TodoFormProvider: React.FC<Props> = ({
   useEffect(() => {
     reset({
       title: originData?.title ?? '',
-      description: originData?.description,
+      description: originData?.description ?? '',
       dueDate: originData?.dueDate
     })
   }, [originData])

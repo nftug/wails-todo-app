@@ -1,17 +1,17 @@
 export namespace enums {
 	
-	export enum StatusValue {
-	    Backlog = "Backlog",
-	    Todo = "Todo",
-	    Doing = "Doing",
-	    Done = "Done",
-	}
 	export enum TodoEvent {
 	    NotifyTodo = "NotifyTodo",
 	}
 	export enum ErrorCode {
 	    InvalidArg = "InvalidArg",
 	    NotFound = "NotFound",
+	}
+	export enum StatusValue {
+	    Backlog = "Backlog",
+	    Todo = "Todo",
+	    Doing = "Doing",
+	    Done = "Done",
 	}
 
 }

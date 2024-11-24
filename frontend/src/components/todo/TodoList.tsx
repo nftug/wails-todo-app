@@ -1,7 +1,6 @@
 import { Box, List, ListItem, SxProps, Theme, Typography } from '@mui/material'
 import { useEffect } from 'react'
 import useTodoAtoms from '../../atoms/todo-atoms'
-import { useTodoEditModal } from './TodoEditModalContext'
 import TodoItem from './TodoItem'
 
 interface Props {
@@ -10,7 +9,6 @@ interface Props {
 
 const TodoList: React.FC<Props> = ({ sx }) => {
   const { todoList, updateList, query } = useTodoAtoms()
-  const { openModal } = useTodoEditModal()
 
   useEffect(() => {
     updateList()
@@ -27,7 +25,7 @@ const TodoList: React.FC<Props> = ({ sx }) => {
       ) : (
         todoList.map((item) => (
           <ListItem key={item.id}>
-            <TodoItem item={item} onClickEdit={(id) => openModal(id)} />
+            <TodoItem item={item} />
           </ListItem>
         ))
       )}

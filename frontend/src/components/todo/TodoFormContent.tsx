@@ -32,8 +32,8 @@ const TodoFormContent: React.FC<Props> = ({ context }) => {
         {...register('description')}
         label="説明"
         fullWidth
-        multiline
         margin="normal"
+        multiline
         rows={4}
         error={!!errors.description}
         helperText={errors.description?.message}
