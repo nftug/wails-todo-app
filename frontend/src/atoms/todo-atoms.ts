@@ -9,20 +9,10 @@ const selectedTodoAtom = atom<todo.DetailsResponse | null>(null)
 const useTodoAtoms = () => {
   const [query, setQuery] = useAtom(queryAtom)
   const [todoList, setTodoList] = useAtom(todoListAtom)
-  const [selectedTodo, setSelectedTodo] = useAtom(selectedTodoAtom)
   const api = useTodoApi()
 
   const updateList = async () => {
     setTodoList(await api.search(query))
-  }
-
-  const selectTodo = async (id: string | null) => {
-    if (id) {
-      const todo = await api.getDetails(id)
-      setSelectedTodo(todo)
-    } else {
-      setSelectedTodo(null)
-    }
   }
 
   const createTodo = async (command: todo.CreateCommand) => {
@@ -48,13 +38,11 @@ const useTodoAtoms = () => {
 
   return {
     updateList,
-    selectTodo,
     createTodo,
     updateTodo,
     deleteTodo,
     updateStatus,
     todoList,
-    selectedTodo,
     query,
     setQuery
   }

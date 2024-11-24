@@ -1,5 +1,5 @@
-import { Box, Button, SxProps, TextField, Theme } from '@mui/material'
-import { useMemo } from 'react'
+import { Box, Button, TextField } from '@mui/material'
+import { useEffect, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { ApiError } from '../../api/errors'
 import useTodoAtoms from '../../atoms/todo-atoms'
@@ -9,12 +9,13 @@ import DateTimePickerField from '../common/DateTimePickerField'
 type TodoFormValue = todo.CreateCommand | todo.UpdateCommand
 
 interface Props {
-  originData?: todo.DetailsResponse
-  sx?: SxProps<Theme>
+  originData?: todo.DetailsResponse | null
+  onSetDirty?: (value: boolean) => void
+  onSubmitFinished?: () => void
 }
 
-const TodoForm: React.FC<Props> = ({ originData, sx }) => {
-  const { createTodo, updateTodo, selectTodo } = useTodoAtoms()
+const TodoForm: React.FC<Props> = ({ originData, onSetDirty, onSubmitFinished }) => {
+  const { createTodo, updateTodo } = useTodoAtoms()
 
   const defaultValues = useMemo<TodoFormValue>(
     () => ({
@@ -28,11 +29,17 @@ const TodoForm: React.FC<Props> = ({ originData, sx }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
     setError,
     reset,
-    control
+    control,
+    watch
   } = useForm({ defaultValues })
+
+  // defaultValueが変更されるたびにデフォルト値を更新
+  useEffect(() => reset(defaultValues), [defaultValues])
+
+  useEffect(() => onSetDirty && onSetDirty(isDirty), [isDirty])
 
   const onSubmit = async (form: TodoFormValue) => {
     try {
@@ -41,10 +48,7 @@ const TodoForm: React.FC<Props> = ({ originData, sx }) => {
       } else {
         await createTodo(form)
       }
-
-      // フォーム内容とTodoの選択をリセット
-      reset()
-      selectTodo(null)
+      onSubmitFinished && onSubmitFinished()
     } catch (error) {
       if (error instanceof ApiError) {
         const field = error.data?.field as keyof TodoFormValue
@@ -61,47 +65,47 @@ const TodoForm: React.FC<Props> = ({ originData, sx }) => {
   }
 
   return (
-    <Box sx={sx}>
-      <form onSubmit={handleSubmit(onSubmit)} onReset={onReset}>
-        <TextField
-          {...register('title')}
-          label="Title"
-          fullWidth
-          margin="normal"
-          error={!!errors.title}
-          helperText={errors.title?.message}
-        />
-        <TextField
-          {...register('description')}
-          label="Description"
-          fullWidth
-          multiline
-          margin="normal"
-          rows={3}
-          error={!!errors.description}
-          helperText={errors.description?.message}
-        />
-        <DateTimePickerField
-          name="dueDate"
-          control={control}
-          label="Due Date"
-          views={['year', 'day', 'hours', 'minutes']}
-          fullWidth
-          margin="normal"
-          error={!!errors.dueDate}
-          helperText={errors.dueDate?.message as string}
-        />
+    <form onSubmit={handleSubmit(onSubmit)} onReset={onReset}>
+      <TextField
+        {...register('title')}
+        label="Title"
+        fullWidth
+        margin="normal"
+        error={!!errors.title}
+        helperText={errors.title?.message}
+        slotProps={{ inputLabel: { shrink: !!watch('title') } }}
+      />
+      <TextField
+        {...register('description')}
+        label="Description"
+        fullWidth
+        multiline
+        margin="normal"
+        rows={3}
+        error={!!errors.description}
+        helperText={errors.description?.message}
+        slotProps={{ inputLabel: { shrink: !!watch('description') } }}
+      />
+      <DateTimePickerField
+        name="dueDate"
+        control={control}
+        label="Due Date"
+        views={['year', 'day', 'hours', 'minutes']}
+        fullWidth
+        margin="normal"
+        error={!!errors.dueDate}
+        helperText={errors.dueDate?.message as string}
+      />
 
-        <Box sx={{ mt: 1 }}>
-          <Button type="submit" variant="contained" color="primary" sx={{ mr: 1 }}>
-            Save
-          </Button>
-          <Button type="reset" variant="contained" color="secondary">
-            Reset
-          </Button>
-        </Box>
-      </form>
-    </Box>
+      <Box sx={{ mt: 1 }}>
+        <Button type="submit" variant="contained" color="primary" sx={{ mr: 1 }}>
+          Save
+        </Button>
+        <Button type="reset" variant="contained" color="secondary">
+          Reset
+        </Button>
+      </Box>
+    </form>
   )
 }
 
