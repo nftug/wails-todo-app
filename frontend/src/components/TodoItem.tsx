@@ -1,5 +1,5 @@
 import { Card, CardContent, Chip, Typography } from '@mui/material'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import useTodoAtoms from '../atoms/todo-atoms'
 import { todo } from '../types/wailsjs/go/models'
 import TodoForm from './TodoForm'
@@ -11,18 +11,30 @@ interface TodoItemProps {
 const TodoItem: React.FC<TodoItemProps> = ({ item }) => {
   const { selectTodo, selectedTodo } = useTodoAtoms()
   const isSelected = useMemo(() => selectedTodo?.id === item.id, [selectedTodo, item])
+  const cardRef = useRef<HTMLDivElement>(null)
 
-  const onClickItem = useMemo(() => {
-    if (isSelected) return undefined
-    return async () => {
-      await selectTodo(item.id)
+  // カードの外側クリックを検出する
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (cardRef.current && !cardRef.current.contains(event.target as Node)) {
+        selectTodo(null)
+      }
     }
-  }, [isSelected, item])
+    document.addEventListener('click', handleClickOutside)
+    return () => {
+      document.removeEventListener('click', handleClickOutside)
+    }
+  }, [])
+
+  const onClickItem = async () => {
+    if (!isSelected) await selectTodo(item.id)
+  }
 
   return (
     <Card
+      ref={cardRef}
       onClick={onClickItem}
-      style={{ marginBottom: '10px', cursor: isSelected ? undefined : 'pointer' }}
+      sx={{ marginBottom: '10px', cursor: isSelected ? undefined : 'pointer', width: 1 }}
     >
       <CardContent>
         {isSelected && selectedTodo ? (

@@ -1,4 +1,6 @@
-import { Divider, Stack, Typography } from '@mui/material'
+import { AppBar, Box, Divider, Stack, Toolbar, Typography } from '@mui/material'
+import { LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { Provider } from 'inversify-react'
 import TodoForm from './components/TodoForm'
 import TodoList from './components/TodoList'
@@ -6,14 +8,27 @@ import { container } from './inversify.config'
 
 const App: React.FC = () => {
   return (
-    <Provider container={container}>
-      <Stack>
-        <Typography variant="h3">Todo App</Typography>
-        <TodoForm />
-        <Divider />
-        <TodoList />
-      </Stack>
-    </Provider>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <Provider container={container}>
+        <AppBar>
+          <Toolbar>
+            <Typography variant="h5">Todo App</Typography>
+          </Toolbar>
+        </AppBar>
+
+        <Box component="main">
+          <Toolbar />
+          <Stack sx={{ height: 'calc(100vh - 64px - 16px)' }}>
+            <Box sx={{ mx: 2 }}>
+              <TodoForm />
+              <Divider sx={{ py: 1 }} />
+            </Box>
+
+            <TodoList sx={{ flexGrow: 1, overflow: 'scroll' }} />
+          </Stack>
+        </Box>
+      </Provider>
+    </LocalizationProvider>
   )
 }
 

@@ -1,9 +1,13 @@
-import { List, ListItem } from '@mui/material'
+import { List, ListItem, SxProps, Theme } from '@mui/material'
 import { useEffect } from 'react'
 import useTodoAtoms from '../atoms/todo-atoms'
 import TodoItem from './TodoItem'
 
-const TodoList: React.FC = () => {
+interface Props {
+  sx?: SxProps<Theme>
+}
+
+const TodoList: React.FC<Props> = ({ sx }) => {
   const { todoList, updateList } = useTodoAtoms()
 
   useEffect(() => {
@@ -11,7 +15,7 @@ const TodoList: React.FC = () => {
   }, [])
 
   return (
-    <List>
+    <List sx={sx}>
       {todoList.map((item) => (
         <ListItem key={item.id}>
           <TodoItem item={item} />

@@ -1,6 +1,8 @@
-import { Button, TextField } from '@mui/material'
+import { Box, Button, TextField } from '@mui/material'
+import { DateTimePicker } from '@mui/x-date-pickers'
+import dayjs from 'dayjs'
 import { useMemo } from 'react'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { ApiError } from '../api/errors'
 import useTodoAtoms from '../atoms/todo-atoms'
 import { todo } from '../types/wailsjs/go/models'
@@ -28,7 +30,8 @@ const TodoForm: React.FC<Props> = ({ originData }) => {
     handleSubmit,
     formState: { errors },
     setError,
-    reset
+    reset,
+    control
   } = useForm({ defaultValues })
 
   const onSubmit = async (form: TodoFormValue) => {
@@ -52,41 +55,64 @@ const TodoForm: React.FC<Props> = ({ originData }) => {
     }
   }
 
+  const onReset = (e: React.FormEvent) => {
+    e.preventDefault()
+    reset()
+  }
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <TextField
-        {...register('title')}
-        label="Title"
-        fullWidth
-        margin="normal"
-        error={!!errors.title}
-        helperText={errors.title?.message}
-      />
-      <TextField
-        {...register('description')}
-        label="Description"
-        fullWidth
-        multiline
-        margin="normal"
-        error={!!errors.description}
-        helperText={errors.description?.message}
-      />
-      {/*
-      <TextField
-        {...register('dueDate')}
-        label="Due Date"
-        type="date"
-        InputLabelProps={{ shrink: true }}
-        fullWidth
-        margin="normal"
-        error={!!errors.dueDate}
-        helperText={errors.dueDate?.message as string}
-      />
-      */}
-      <Button type="submit" variant="contained" color="primary">
-        Save
-      </Button>
-    </form>
+    <Box sx={{ my: 2 }}>
+      <form onSubmit={handleSubmit(onSubmit)} onReset={onReset}>
+        <TextField
+          {...register('title')}
+          label="Title"
+          fullWidth
+          margin="normal"
+          error={!!errors.title}
+          helperText={errors.title?.message}
+        />
+        <TextField
+          {...register('description')}
+          label="Description"
+          fullWidth
+          multiline
+          margin="normal"
+          rows={3}
+          error={!!errors.description}
+          helperText={errors.description?.message}
+        />
+        <Controller
+          name="dueDate"
+          control={control}
+          render={({ field: { onChange, value, ref } }) => (
+            <DateTimePicker
+              label="Due Date"
+              onChange={onChange}
+              value={value ? dayjs(value) : null}
+              inputRef={ref}
+              views={['year', 'day', 'hours', 'minutes']}
+              slotProps={{
+                textField: {
+                  fullWidth: true,
+                  margin: 'normal',
+                  error: !!errors.dueDate,
+                  helperText: errors.dueDate?.message as string
+                }
+              }}
+            />
+          )}
+        />
+
+        <Box sx={{ mt: 1 }}>
+          <Button type="submit" variant="contained" color="primary" sx={{ mr: 1 }}>
+            Save
+          </Button>
+          <Button type="reset" variant="contained" color="secondary">
+            Reset
+          </Button>
+        </Box>
+      </form>
+    </Box>
   )
 }
 
