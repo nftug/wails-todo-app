@@ -1,18 +1,19 @@
 import { Divider, Stack, Typography } from '@mui/material'
+import { Provider } from 'inversify-react'
 import TodoForm from './components/TodoForm'
 import TodoList from './components/TodoList'
-import ServiceProvider from './contexts/ServiceProvider'
+import { container } from './inversify.config'
 
 const App: React.FC = () => {
   return (
-    <ServiceProvider>
+    <Provider container={container}>
       <Stack>
         <Typography variant="h3">Todo App</Typography>
         <TodoForm />
         <Divider />
         <TodoList />
       </Stack>
-    </ServiceProvider>
+    </Provider>
   )
 }
 
