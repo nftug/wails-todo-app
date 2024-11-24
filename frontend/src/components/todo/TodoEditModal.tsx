@@ -13,7 +13,8 @@ import { useConfirm } from 'material-ui-confirm'
 import { useEffect, useState } from 'react'
 import { useTodoApi } from '../../api/todo-api'
 import { todo } from '../../types/wailsjs/go/models'
-import TodoFormContent from './TodoFormContent'
+import DateTimePickerField from '../common/DateTimePickerField'
+import FormTextField from '../common/FormTextField'
 import TodoFormProvider from './TodoFormProvider'
 
 interface Props {
@@ -59,7 +60,7 @@ const TodoEditModal: React.FC<Props> = ({ open, itemId, onClose }) => {
   return (
     <Dialog open={open} onClose={handleClose}>
       <TodoFormProvider originData={originData} onSubmitFinished={onClose} onSetDirty={setIsDirty}>
-        {(context) => (
+        {(form) => (
           <>
             <DialogTitle sx={{ m: 0, p: 2 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -75,7 +76,24 @@ const TodoEditModal: React.FC<Props> = ({ open, itemId, onClose }) => {
             </DialogTitle>
 
             <DialogContent dividers>
-              <TodoFormContent context={context} />
+              <FormTextField name="title" form={form} label="タイトル" fullWidth margin="normal" />
+              <FormTextField
+                name="description"
+                form={form}
+                label="説明"
+                fullWidth
+                margin="normal"
+                multiline
+                rows={4}
+              />
+              <DateTimePickerField
+                name="dueDate"
+                form={form}
+                label="期限"
+                views={['year', 'day', 'hours', 'minutes']}
+                fullWidth
+                margin="normal"
+              />
             </DialogContent>
 
             <DialogActions>

@@ -10,7 +10,7 @@ interface Props {
   originData?: todo.DetailsResponse | null
   onSubmitFinished?: () => void
   onSetDirty?: (value: boolean) => void
-  children: (context: UseFormReturn<TodoFormValue>) => React.ReactNode
+  children: (form: UseFormReturn<TodoFormValue>) => React.ReactNode
 }
 
 const TodoFormProvider: React.FC<Props> = ({
@@ -20,13 +20,13 @@ const TodoFormProvider: React.FC<Props> = ({
   children
 }) => {
   const { createTodo, updateTodo } = useTodoAtoms()
-  const formContext = useForm<TodoFormValue>()
+  const form = useForm<TodoFormValue>()
   const {
     handleSubmit,
     setError,
     reset,
     formState: { isDirty }
-  } = formContext
+  } = form
 
   // defaultValuesが変更されたときのリセット処理 (デフォルト値の更新)
   useEffect(() => {
@@ -66,7 +66,7 @@ const TodoFormProvider: React.FC<Props> = ({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} onReset={onReset}>
-      {children(formContext)}
+      {children(form)}
     </form>
   )
 }

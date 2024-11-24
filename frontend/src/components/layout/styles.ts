@@ -7,3 +7,7 @@ export const overflowEllipsisStyle: SxProps<Theme> = {
   whiteSpace: 'nowrap',
   maxWidth: 1
 } as const
+
+export const fullViewHeightStyle: SxProps<Theme> = {
+  height: 'calc(100vh - 64px - 16px)'
+} as const
