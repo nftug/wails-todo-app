@@ -26,7 +26,7 @@ func (t *todoRepository) FindAllForNotification(ctx context.Context, dueDate tim
 	q := t.db.WithContext(ctx)
 
 	q = q.Where("notified_at IS NULL")
-	q = q.Where("due_date >= ?", dueDate.UTC())
+	q = q.Where("due_date <= ?", dueDate.UTC())
 	q = q.Where("status = ?", enums.StatusTodo)
 
 	var cols []TodoDBSchema

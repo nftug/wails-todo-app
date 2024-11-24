@@ -9,6 +9,7 @@ import (
 	"github.com/nftug/wails-todo-app/domain/todo/internal/valueobject"
 	"github.com/nftug/wails-todo-app/interfaces/enums"
 	"github.com/nftug/wails-todo-app/library/nullable"
+	"github.com/samber/lo"
 )
 
 type Todo struct {
@@ -99,14 +100,18 @@ func (t *Todo) Update(command UpdateCommand) error {
 	if err != nil {
 		return err
 	}
-	dueDate, err := valueobject.NewDueDate(command.DueDate)
-	if err != nil {
-		return err
+
+	if lo.FromPtr(t.dueDate.Value()) != lo.FromPtr(command.DueDate) {
+		dueDate, err := valueobject.NewDueDate(command.DueDate)
+		if err != nil {
+			return err
+		}
+		t.dueDate = dueDate
+		t.notifiedAt = nullable.NewEmpty[time.Time]()
 	}
 
 	t.title = title
 	t.description = desc
-	t.dueDate = dueDate
 	t.updatedAt = nullable.NewByVal(flextime.Now().UTC())
 	return nil
 }

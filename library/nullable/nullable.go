@@ -1,8 +1,6 @@
 package nullable
 
 import (
-	"reflect"
-
 	"github.com/samber/lo"
 )
 
@@ -10,8 +8,8 @@ import (
 type Nullable[T comparable] interface {
 	Value() *T
 	RawValue() T
-	Equals(other Nullable[T]) bool
-	EqualsByVal(other T) bool
+	// Equals(other Nullable[T]) bool
+	EqualsByVal(other *T) bool
 	IsEmpty() bool
 }
 
@@ -46,14 +44,18 @@ func (nv nullableImpl[T]) Value() *T {
 // 生の値を返す。オリジナルがnilの場合はゼロ値を返す。
 func (nv nullableImpl[T]) RawValue() T { return nv.value }
 
+/*
 // 値の内容を等価で判定する。
 func (nv nullableImpl[T]) Equals(other Nullable[T]) bool {
-	return reflect.DeepEqual(nv.Value(), other.Value())
+	value := lo.FromPtr(nv.Value())
+	otherValue := lo.FromPtr(other.Value())
+	return reflect.DeepEqual(value, otherValue)
 }
+*/
 
 // 値の内容を等価で判定する。
-func (nv nullableImpl[T]) EqualsByVal(other T) bool {
-	return nv.value == other
+func (nv nullableImpl[T]) EqualsByVal(other *T) bool {
+	return nv.value == lo.FromPtr(other)
 }
 
 // 値がデフォルト値かどうかを判定する。

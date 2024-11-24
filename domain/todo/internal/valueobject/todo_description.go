@@ -37,4 +37,4 @@ func NewDescription(value *string) (Description, error) {
 
 func (t descriptionImpl) String() string { return t.RawValue() }
 
-func (t descriptionImpl) Equals(other Description) bool { return t.EqualsByVal(*other.Value()) }
+func (t descriptionImpl) Equals(other Description) bool { return t.EqualsByVal(other.Value()) }

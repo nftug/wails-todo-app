@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from 'react'
+import sleep from 'sleep-promise'
 import TodoEditModal from './TodoEditModal'
 
 interface TodoEditModalContextType {
@@ -14,13 +15,14 @@ export const TodoEditModalProvider = ({ children }: { children?: React.ReactNode
   const [itemId, setItemId] = useState<string | null>(null)
 
   const openModal = (id?: string) => {
-    setItemId(id ?? null)
+    setItemId(id ?? null) // IDを更新して、データ読み込み開始
     setOpen(true)
   }
 
-  const closeModal = () => {
+  const closeModal = async () => {
     setOpen(false)
-    // setItemId(null)
+    await sleep(100) // ダイアログが完全に閉じるまで待機
+    setItemId(null)
   }
 
   return (

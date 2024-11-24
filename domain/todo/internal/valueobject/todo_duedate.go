@@ -33,4 +33,6 @@ func NewDueDate(value *time.Time) (DueDate, error) {
 
 func (d dueDateImpl) String() string { return d.RawValue().String() }
 
-func (d dueDateImpl) Equals(other DueDate) bool { return d.EqualsByVal(*other.Value()) }
+func (d dueDateImpl) Equals(other DueDate) bool {
+	return d.EqualsByVal(other.Value())
+}
