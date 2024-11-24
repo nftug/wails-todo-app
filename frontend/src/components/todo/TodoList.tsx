@@ -1,6 +1,6 @@
 import { Box, List, ListItem, SxProps, Theme, Typography } from '@mui/material'
 import { useEffect } from 'react'
-import useTodoAtoms from '../atoms/todo-atoms'
+import useTodoAtoms from '../../atoms/todo-atoms'
 import TodoItem from './TodoItem'
 
 interface Props {

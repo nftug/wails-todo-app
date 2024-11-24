@@ -1,7 +1,7 @@
 import { AppBar, Box, Divider, Stack, Toolbar, Typography } from '@mui/material'
 import { Provider } from 'inversify-react'
-import TodoForm from './components/TodoForm'
-import TodoList from './components/TodoList'
+import TodoForm from './components/todo/TodoForm'
+import TodoList from './components/todo/TodoList'
 import { container } from './inversify.config'
 
 const App: React.FC = () => {

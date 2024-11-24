@@ -12,8 +12,8 @@ import {
   Typography
 } from '@mui/material'
 import { useMemo, useRef } from 'react'
-import useTodoAtoms from '../atoms/todo-atoms'
-import { todo } from '../types/wailsjs/go/models'
+import useTodoAtoms from '../../atoms/todo-atoms'
+import { todo } from '../../types/wailsjs/go/models'
 import TodoForm from './TodoForm'
 
 interface TodoItemProps {
