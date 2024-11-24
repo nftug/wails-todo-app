@@ -36,6 +36,11 @@ const useTodoAtoms = () => {
     await updateList()
   }
 
+  const deleteTodo = async (id: string) => {
+    await api.delete(id)
+    await updateList()
+  }
+
   const updateStatus = async (id: string, status: enums.StatusValue) => {
     await api.updateStatus(id, { status })
     await updateList()
@@ -46,6 +51,7 @@ const useTodoAtoms = () => {
     selectTodo,
     createTodo,
     updateTodo,
+    deleteTodo,
     updateStatus,
     todoList,
     selectedTodo,
