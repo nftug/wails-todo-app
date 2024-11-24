@@ -28,7 +28,12 @@ export const handleApiError = async <T>(callback: () => Promise<T>) => {
     return await callback()
   } catch (e) {
     if (typeof e === 'string') {
-      throw ApiError.create(JSON.parse(e) as ApiErrorJson)
+      const parsed = JSON.parse(e)
+      if ('code' in parsed && 'data' in parsed) {
+        throw ApiError.create(parsed)
+      } else {
+        throw new Error(e)
+      }
     } else {
       throw e
     }

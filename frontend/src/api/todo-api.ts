@@ -1,4 +1,4 @@
-import { atom, useAtomValue } from 'jotai'
+import { useInjection } from 'inversify-react'
 import { interfaces, todo } from '../types/wailsjs/go/models'
 
 export interface ITodoApi {
@@ -10,25 +10,6 @@ export interface ITodoApi {
   updateStatus(id: string, command: todo.UpdateStatusCommand): Promise<void>
 }
 
-export const todoApiAtom = atom<ITodoApi>({
-  create: () => {
-    throw new Error('Service is not set.')
-  },
-  delete: () => {
-    throw new Error('Service is not set.')
-  },
-  getDetails: () => {
-    throw new Error('Service is not set.')
-  },
-  search: () => {
-    throw new Error('Service is not set.')
-  },
-  update: () => {
-    throw new Error('Service is not set.')
-  },
-  updateStatus: () => {
-    throw new Error('Service is not set.')
-  }
-})
+export const TodoApiType = Symbol.for('TodoApi')
 
-export const useTodoApi = () => useAtomValue(todoApiAtom)
+export const useTodoApi = () => useInjection<ITodoApi>(TodoApiType)

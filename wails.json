@@ -1,6 +1,6 @@
 {
   "$schema": "https://wails.io/schemas/config.v2.json",
-  "name": "Wails Todo App",
+  "name": "Todo App",
   "assetdir": "frontend/dist",
   "wailsjsdir": "frontend/src/types",
   "reloaddirs": "frontend/src",
