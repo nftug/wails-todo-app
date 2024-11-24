@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from 'react'
 import TodoEditModal from './TodoEditModal'
 
 interface TodoEditModalContextType {
-  openModal: (itemId: string) => void
+  openModal: (itemId?: string) => void
 }
 
 const TodoEditModalContext = createContext<TodoEditModalContextType>(undefined!)
@@ -13,14 +13,14 @@ export const TodoEditModalProvider = ({ children }: { children?: React.ReactNode
   const [open, setOpen] = useState(false)
   const [itemId, setItemId] = useState<string | null>(null)
 
-  const openModal = (id: string | null) => {
-    setItemId(id)
+  const openModal = (id?: string) => {
+    setItemId(id ?? null)
     setOpen(true)
   }
 
   const closeModal = () => {
     setOpen(false)
-    setItemId(null)
+    // setItemId(null)
   }
 
   return (

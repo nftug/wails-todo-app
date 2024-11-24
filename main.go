@@ -31,7 +31,7 @@ func main() {
 	todoApp := do.MustInvoke[*app.TodoApp](injector)
 
 	if err := wails.Run(&options.App{
-		Title:  "Wails Note App",
+		Title:  "Todo App",
 		Width:  1024,
 		Height: 768,
 		// For Linux: ウィンドウサイズを最適化

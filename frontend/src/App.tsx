@@ -1,34 +1,30 @@
-import { AppBar, Box, Divider, Stack, Toolbar, Typography } from '@mui/material'
+import { Box, Toolbar } from '@mui/material'
 import { Provider } from 'inversify-react'
 import { ConfirmProvider } from 'material-ui-confirm'
-import { TodoEditModalProvider } from './components/todo/TodoEditModalContext'
-import TodoForm from './components/todo/TodoForm'
-import TodoList from './components/todo/TodoList'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import TheDrawer from './components/layout/TheDrawer'
+import TheHeader from './components/layout/TheHeader'
 import { container } from './inversify.config'
+import AboutPage from './pages/AboutPage'
+import IndexPage from './pages/IndexPage'
 
 const App: React.FC = () => {
   return (
     <Provider container={container}>
       <ConfirmProvider defaultOptions={{ confirmationText: 'OK', cancellationText: 'キャンセル' }}>
-        <TodoEditModalProvider>
-          <AppBar>
-            <Toolbar>
-              <Typography variant="h5">Todo App</Typography>
-            </Toolbar>
-          </AppBar>
+        <BrowserRouter>
+          <TheHeader />
+          <TheDrawer />
 
           <Box component="main">
             <Toolbar />
-            <Stack sx={{ height: 'calc(100vh - 64px - 16px)' }}>
-              <Box sx={{ mx: 2 }}>
-                <TodoForm />
-                <Divider sx={{ py: 1 }} />
-              </Box>
 
-              <TodoList sx={{ flexGrow: 1, overflow: 'scroll' }} />
-            </Stack>
+            <Routes>
+              <Route index element={<IndexPage />} />
+              <Route path="/about" element={<AboutPage />} />
+            </Routes>
           </Box>
-        </TodoEditModalProvider>
+        </BrowserRouter>
       </ConfirmProvider>
     </Provider>
   )

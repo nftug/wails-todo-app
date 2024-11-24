@@ -1,10 +1,20 @@
+import { Save } from '@mui/icons-material'
 import CloseIcon from '@mui/icons-material/Close'
-import { Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material'
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton
+} from '@mui/material'
 import { useConfirm } from 'material-ui-confirm'
 import { useEffect, useState } from 'react'
 import { useTodoApi } from '../../api/todo-api'
 import { todo } from '../../types/wailsjs/go/models'
-import TodoForm from './TodoForm'
+import TodoFormContent from './TodoFormContent'
+import TodoFormProvider from './TodoFormProvider'
 
 interface Props {
   open: boolean
@@ -30,46 +40,53 @@ const TodoEditModal: React.FC<Props> = ({ open, itemId, onClose }) => {
     loadData()
   }, [itemId])
 
-  const handleClose = async ({ reason }: { reason: 'backdropClick' | 'escapeKeyDown' }) => {
+  const handleClose = async (_: {}, reason: 'backdropClick' | 'escapeKeyDown') => {
     if (reason === 'backdropClick') return
 
     if (isDirty) {
       try {
         await confirm({ title: '確認', description: '変更を保存しないで閉じますか？' })
-        onClose()
       } catch {
         return
       }
-    } else {
-      onClose()
     }
+
+    onClose()
   }
+
+  const closeDialog = () => handleClose({}, 'escapeKeyDown')
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-        {itemId ? 'Todoの編集' : 'Todoの新規作成'}
-      </DialogTitle>
-      <IconButton
-        aria-label="close"
-        onClick={() => handleClose({ reason: 'escapeKeyDown' })}
-        sx={(theme) => ({
-          position: 'absolute',
-          right: 8,
-          top: 8,
-          color: theme.palette.grey[500]
-        })}
-      >
-        <CloseIcon />
-      </IconButton>
+      <TodoFormProvider originData={originData} onSubmitFinished={onClose} onSetDirty={setIsDirty}>
+        {(context) => (
+          <>
+            <DialogTitle sx={{ m: 0, p: 2 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                {itemId ? 'Todoの編集' : 'Todoの新規作成'}
+                <IconButton
+                  aria-label="close"
+                  onClick={closeDialog}
+                  sx={(theme) => ({ color: theme.palette.grey[500] })}
+                  children={<CloseIcon />}
+                  title="閉じる"
+                />
+              </Box>
+            </DialogTitle>
 
-      <DialogContent>
-        <TodoForm
-          originData={originData}
-          onSetDirty={(v) => setIsDirty(v)}
-          onSubmitFinished={onClose}
-        />
-      </DialogContent>
+            <DialogContent dividers>
+              <TodoFormContent context={context} />
+            </DialogContent>
+
+            <DialogActions>
+              <Button onClick={closeDialog}>キャンセル</Button>
+              <Button type="submit" variant="contained" color="primary" startIcon={<Save />}>
+                保存
+              </Button>
+            </DialogActions>
+          </>
+        )}
+      </TodoFormProvider>
     </Dialog>
   )
 }

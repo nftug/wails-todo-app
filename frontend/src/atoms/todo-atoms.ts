@@ -4,7 +4,6 @@ import { enums, todo } from '../types/wailsjs/go/models'
 
 const todoListAtom = atom<todo.ItemResponse[]>([])
 const queryAtom = atom<todo.Query>({})
-const selectedTodoAtom = atom<todo.DetailsResponse | null>(null)
 
 const useTodoAtoms = () => {
   const [query, setQuery] = useAtom(queryAtom)
