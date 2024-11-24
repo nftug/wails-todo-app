@@ -31,10 +31,10 @@ const TodoItem: React.FC<TodoItemProps> = ({ item, onClickEdit }) => {
   const handleDeleteItem = async () => {
     try {
       await confirm({
-        title: '確認',
+        title: 'Todoの削除',
         content: (
           <DialogContentText sx={overflowEllipsisStyle}>
-            次のアイテムを削除しますか？
+            次のTodoを削除しますか？
             <br />
             {item.title}
           </DialogContentText>
