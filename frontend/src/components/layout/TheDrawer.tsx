@@ -1,4 +1,4 @@
-import { Home, Info } from '@mui/icons-material'
+import { Home, Info, Settings } from '@mui/icons-material'
 import {
   Box,
   Drawer,
@@ -22,16 +22,9 @@ const TheDrawer: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useAtom(drawerOpenAtom)
 
   const menuItems: DrawerItem[] = [
-    {
-      name: 'ホーム',
-      href: '/',
-      icon: <Home />
-    },
-    {
-      name: 'このアプリについて',
-      href: '/about',
-      icon: <Info />
-    }
+    { name: 'ホーム', href: '/', icon: <Home /> },
+    { name: '設定', href: '/settings', icon: <Settings /> },
+    { name: 'このアプリについて', href: '/about', icon: <Info /> }
   ]
 
   return (
