@@ -1,19 +1,19 @@
-import { Box, Button, TextField } from '@mui/material'
-import { DateTimePicker } from '@mui/x-date-pickers'
-import dayjs from 'dayjs'
+import { Box, Button, SxProps, TextField, Theme } from '@mui/material'
 import { useMemo } from 'react'
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { ApiError } from '../api/errors'
 import useTodoAtoms from '../atoms/todo-atoms'
 import { todo } from '../types/wailsjs/go/models'
+import DateTimePickerField from './common/DateTimePickerField'
 
 type TodoFormValue = todo.CreateCommand | todo.UpdateCommand
 
 interface Props {
   originData?: todo.DetailsResponse
+  sx?: SxProps<Theme>
 }
 
-const TodoForm: React.FC<Props> = ({ originData }) => {
+const TodoForm: React.FC<Props> = ({ originData, sx }) => {
   const { createTodo, updateTodo, selectTodo } = useTodoAtoms()
 
   const defaultValues = useMemo<TodoFormValue>(
@@ -61,7 +61,7 @@ const TodoForm: React.FC<Props> = ({ originData }) => {
   }
 
   return (
-    <Box sx={{ my: 2 }}>
+    <Box sx={sx}>
       <form onSubmit={handleSubmit(onSubmit)} onReset={onReset}>
         <TextField
           {...register('title')}
@@ -81,26 +81,15 @@ const TodoForm: React.FC<Props> = ({ originData }) => {
           error={!!errors.description}
           helperText={errors.description?.message}
         />
-        <Controller
+        <DateTimePickerField
           name="dueDate"
           control={control}
-          render={({ field: { onChange, value, ref } }) => (
-            <DateTimePicker
-              label="Due Date"
-              onChange={onChange}
-              value={value ? dayjs(value) : null}
-              inputRef={ref}
-              views={['year', 'day', 'hours', 'minutes']}
-              slotProps={{
-                textField: {
-                  fullWidth: true,
-                  margin: 'normal',
-                  error: !!errors.dueDate,
-                  helperText: errors.dueDate?.message as string
-                }
-              }}
-            />
-          )}
+          label="Due Date"
+          views={['year', 'day', 'hours', 'minutes']}
+          fullWidth
+          margin="normal"
+          error={!!errors.dueDate}
+          helperText={errors.dueDate?.message as string}
         />
 
         <Box sx={{ mt: 1 }}>
