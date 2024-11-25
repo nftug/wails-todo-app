@@ -43,7 +43,7 @@ func TestCreateTodo(t *testing.T) {
 		func() *time.Time { return nil }, func() *time.Time { return lo.ToPtr(cmd.DueDate.UTC()) })
 
 	assert.Equal(t, 1, actual.PK)
-	assert.Equal(t, resp.ID, actual.ID)
+	assert.Equal(t, resp.ID, actual.ID.String())
 	assert.Equal(t, cmd.Title, actual.Title)
 	assert.Equal(t, cmd.Description, actual.Description)
 	assert.Equal(t, lo.FromPtrOr(cmd.InitialStatus, "Todo"), actual.Status)

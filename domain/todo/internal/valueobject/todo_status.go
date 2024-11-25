@@ -24,7 +24,7 @@ type statusImpl struct {
 }
 
 func ReconstructStatus(value enums.StatusValue, updatedAt time.Time) Status {
-	return &statusImpl{value, updatedAt}
+	return statusImpl{value, updatedAt}
 }
 
 func NewStatus(value *enums.StatusValue) (Status, error) {
@@ -42,7 +42,7 @@ func newStatus(value enums.StatusValue) (Status, error) {
 	if !value.Validate() {
 		return nil, interfaces.NewInvalidArgError("status", "不正なステータスです")
 	}
-	return &statusImpl{value, flextime.Now().UTC()}, nil
+	return statusImpl{value, flextime.Now().UTC()}, nil
 }
 
 func (s statusImpl) String() string { return string(s.value) }
@@ -51,4 +51,6 @@ func (s statusImpl) Value() enums.StatusValue { return s.value }
 
 func (s statusImpl) UpdatedAt() time.Time { return s.updatedAt }
 
-func (s statusImpl) Equals(other Status) bool { return reflect.DeepEqual(s.Value(), other.Value()) }
+func (s statusImpl) Equals(other Status) bool {
+	return reflect.DeepEqual(s.Value(), other.Value())
+}

@@ -15,7 +15,9 @@ type Title interface {
 
 type titleImpl struct{ value string }
 
-func ReconstructTitle(value string) Title { return &titleImpl{value} }
+func ReconstructTitle(value string) Title {
+	return titleImpl{value}
+}
 
 func NewTitle(value string) (Title, error) {
 	const MaxLength = 150
@@ -28,7 +30,7 @@ func NewTitle(value string) (Title, error) {
 		return nil, interfaces.NewInvalidArgError("title", "%d文字以内で入力してください", MaxLength)
 	}
 
-	return &titleImpl{value}, nil
+	return titleImpl{value}, nil
 }
 
 func (t titleImpl) Value() string { return t.value }
