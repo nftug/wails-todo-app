@@ -1,9 +1,10 @@
 import { Add } from '@mui/icons-material'
 import { Fab } from '@mui/material'
-import { useTodoEditModal } from './TodoEditModalContext'
+import { useContext } from 'react'
+import { TodoEditModalContext } from './TodoEditModalContext'
 
 const TodoAddFab: React.FC = () => {
-  const { openModal } = useTodoEditModal()
+  const { openModal } = useContext(TodoEditModalContext)
 
   return (
     <Fab

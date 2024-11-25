@@ -1,13 +1,13 @@
 import MenuIcon from '@mui/icons-material/Menu'
 import { AppBar, IconButton, Toolbar, Typography } from '@mui/material'
-import { useAtom } from 'jotai'
-import { drawerOpenAtom } from '../../atoms/layout-atoms'
+import { useContext } from 'react'
+import { DrawerDispatchContext } from './HeaderContext'
 
 const TheHeader: React.FC = () => {
-  const [, setDrawerOpen] = useAtom(drawerOpenAtom)
+  const setDrawerOpened = useContext(DrawerDispatchContext)
 
   const toggleDrawer = () => {
-    setDrawerOpen((x) => !x)
+    setDrawerOpened((x) => !x)
   }
 
   return (

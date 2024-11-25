@@ -8,9 +8,9 @@ import {
   ListItemIcon,
   ListItemText
 } from '@mui/material'
-import { useAtom } from 'jotai'
+import { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { drawerOpenAtom } from '../../atoms/layout-atoms'
+import { DrawerContext, DrawerDispatchContext } from './HeaderContext'
 
 type DrawerItem = {
   name: string
@@ -19,7 +19,10 @@ type DrawerItem = {
 }
 
 const TheDrawer: React.FC = () => {
-  const [drawerOpen, setDrawerOpen] = useAtom(drawerOpenAtom)
+  const [drawerOpened, setDrawerOpened] = [
+    useContext(DrawerContext),
+    useContext(DrawerDispatchContext)
+  ]
 
   const menuItems: DrawerItem[] = [
     { name: 'ホーム', href: '/', icon: <Home /> },
@@ -28,8 +31,8 @@ const TheDrawer: React.FC = () => {
   ]
 
   return (
-    <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
-      <Box sx={{ width: 250 }} role="presentation" onClick={() => setDrawerOpen(false)}>
+    <Drawer open={drawerOpened} onClose={() => setDrawerOpened(false)}>
+      <Box sx={{ width: 250 }} role="presentation" onClick={() => setDrawerOpened(false)}>
         <List>
           {menuItems.map((item) => (
             <ListItem key={item.name} disablePadding>

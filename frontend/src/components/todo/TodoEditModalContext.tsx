@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useState } from 'react'
 import sleep from 'sleep-promise'
 import TodoEditModal from './TodoEditModal'
 
@@ -6,9 +6,7 @@ interface TodoEditModalContextType {
   openModal: (itemId?: string) => void
 }
 
-const TodoEditModalContext = createContext<TodoEditModalContextType>(undefined!)
-
-export const useTodoEditModal = () => useContext(TodoEditModalContext)
+export const TodoEditModalContext = createContext<TodoEditModalContextType>(undefined!)
 
 export const TodoEditModalProvider = ({ children }: { children?: React.ReactNode }) => {
   const [open, setOpen] = useState(false)
