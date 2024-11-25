@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
 import { ApiError } from '../../api/errors'
-import useTodoAtoms from '../../atoms/todo-atoms'
+import { useTodoCommandAtoms } from '../../atoms/todo-atoms'
 import { todo } from '../../types/wailsjs/go/models'
 
 type TodoFormValue = todo.CreateCommand | todo.UpdateCommand
@@ -19,7 +19,7 @@ const TodoFormProvider: React.FC<Props> = ({
   onSetDirty,
   children
 }) => {
-  const { createTodo, updateTodo } = useTodoAtoms()
+  const { createTodo, updateTodo } = useTodoCommandAtoms()
   const form = useForm<TodoFormValue>()
   const {
     handleSubmit,
@@ -36,6 +36,8 @@ const TodoFormProvider: React.FC<Props> = ({
       dueDate: originData?.dueDate
     })
   }, [originData])
+
+  console.log('rerendered')
 
   // isDirtyが更新されたときにPropsに通知
   useEffect(() => onSetDirty && onSetDirty(isDirty), [isDirty])

@@ -12,7 +12,7 @@ import {
 } from '@mui/material'
 import { useConfirm } from 'material-ui-confirm'
 import { useContext } from 'react'
-import useTodoAtoms from '../../atoms/todo-atoms'
+import { useTodoCommandAtoms } from '../../atoms/todo-atoms'
 import { todo } from '../../types/wailsjs/go/models'
 import { overflowEllipsisStyle } from '../layout/styles'
 import { TodoEditModalContext } from './TodoEditModalContext'
@@ -22,7 +22,7 @@ interface TodoItemProps {
 }
 
 const TodoItem: React.FC<TodoItemProps> = ({ item }) => {
-  const { deleteTodo } = useTodoAtoms()
+  const { deleteTodo } = useTodoCommandAtoms()
   const confirm = useConfirm()
   const { openModal } = useContext(TodoEditModalContext)
 

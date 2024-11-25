@@ -1,6 +1,6 @@
 import { Box, List, ListItem, SxProps, Theme, Typography } from '@mui/material'
 import { useEffect } from 'react'
-import useTodoAtoms from '../../atoms/todo-atoms'
+import { useTodoQueryAtoms } from '../../atoms/todo-atoms'
 import TodoItem from './TodoItem'
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
 }
 
 const TodoList: React.FC<Props> = ({ sx }) => {
-  const { todoList, updateList, query } = useTodoAtoms()
+  const { todoList, updateList, query } = useTodoQueryAtoms()
 
   useEffect(() => {
     updateList()

@@ -3,7 +3,7 @@ package enums
 type ErrorCode string
 
 const (
-	ValidationError = ErrorCode("InvalidArg")
+	ValidationError = ErrorCode("ValidationError")
 	NotFoundError   = ErrorCode("NotFound")
 )
 
