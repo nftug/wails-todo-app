@@ -4,7 +4,7 @@
   "assetdir": "frontend/dist",
   "wailsjsdir": "frontend/src/types",
   "reloaddirs": "frontend/src",
-  "outputfilename": "Todo App",
+  "outputfilename": "TodoApp",
   "frontend:install": "npm install",
   "frontend:build": "npm run build",
   "frontend:dev:watcher": "npm run dev",
