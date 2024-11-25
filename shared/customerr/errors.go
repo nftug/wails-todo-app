@@ -1,11 +1,11 @@
-package interfaces
+package customerr
 
 import (
 	"encoding/json"
 	"fmt"
 
 	"github.com/go-task/task/v3/errors"
-	"github.com/nftug/wails-todo-app/interfaces/enums"
+	"github.com/nftug/wails-todo-app/shared/enums"
 )
 
 type ErrorResponse struct {
@@ -32,10 +32,10 @@ func (e *ErrorResponse) Code() enums.ErrorCode { return e.content.Code }
 
 func (e *ErrorResponse) Content() *errorContent { return e.content }
 
-func NewInvalidArgError(field string, format string, a ...any) error {
+func NewValidationError(field string, format string, a ...any) error {
 	return &ErrorResponse{
 		content: &errorContent{
-			Code: enums.InvalidArgError,
+			Code: enums.ValidationError,
 			Data: &errorData{field, fmt.Sprintf(format, a...)},
 		},
 		inner: fmt.Errorf(format, a...),

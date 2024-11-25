@@ -6,9 +6,9 @@ import (
 	"math"
 
 	"github.com/nftug/wails-todo-app/infrastructure"
-	"github.com/nftug/wails-todo-app/interfaces/enums"
 	"github.com/nftug/wails-todo-app/presentation"
 	"github.com/nftug/wails-todo-app/presentation/app"
+	"github.com/nftug/wails-todo-app/shared/enums"
 	"github.com/nftug/wails-todo-app/usecase"
 	"github.com/samber/do"
 	"github.com/wailsapp/wails/v2"

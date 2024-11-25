@@ -7,13 +7,13 @@ import {
   Update,
   UpdateStatus
 } from '../types/wailsjs/go/app/TodoApp'
-import { interfaces, todo } from '../types/wailsjs/go/models'
+import { dtos, todo } from '../types/wailsjs/go/models'
 import { handleApiError } from './errors'
 import { ITodoApi } from './todo-api'
 
 @injectable()
 export default class WailsTodoApiService implements ITodoApi {
-  async create(command: todo.CreateCommand): Promise<interfaces.CreatedResponse> {
+  async create(command: todo.CreateCommand): Promise<dtos.CreatedResponse> {
     return await handleApiError(async () => await Create(command))
   }
   async update(id: string, command: todo.UpdateCommand): Promise<void> {

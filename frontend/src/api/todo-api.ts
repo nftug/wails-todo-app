@@ -1,8 +1,8 @@
 import { useInjection } from 'inversify-react'
-import { interfaces, todo } from '../types/wailsjs/go/models'
+import { dtos, todo } from '../types/wailsjs/go/models'
 
 export interface ITodoApi {
-  create(command: todo.CreateCommand): Promise<interfaces.CreatedResponse>
+  create(command: todo.CreateCommand): Promise<dtos.CreatedResponse>
   delete(id: string): Promise<void>
   getDetails(id: string): Promise<todo.DetailsResponse>
   search(query: todo.Query): Promise<todo.ItemResponse[]>

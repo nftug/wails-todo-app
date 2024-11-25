@@ -3,10 +3,10 @@ package enums
 type ErrorCode string
 
 const (
-	InvalidArgError = ErrorCode("InvalidArg")
+	ValidationError = ErrorCode("InvalidArg")
 	NotFoundError   = ErrorCode("NotFound")
 )
 
-var ErrorCodes = []ErrorCode{InvalidArgError, NotFoundError}
+var ErrorCodes = []ErrorCode{ValidationError, NotFoundError}
 
 func (e ErrorCode) TSName() string { return string(e) }

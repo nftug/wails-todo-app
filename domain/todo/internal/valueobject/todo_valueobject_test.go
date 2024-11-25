@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/Songmu/flextime"
-	"github.com/nftug/wails-todo-app/interfaces"
-	"github.com/nftug/wails-todo-app/interfaces/enums"
+	"github.com/nftug/wails-todo-app/shared/customerr"
+	"github.com/nftug/wails-todo-app/shared/enums"
 	"github.com/samber/lo"
 	"github.com/stretchr/testify/assert"
 )
@@ -46,8 +46,8 @@ func TestTodoTitle(t *testing.T) {
 		})
 	}
 
-	errEmpty := interfaces.NewInvalidArgError("title", "タイトルを設定してください")
-	errTooLong := interfaces.NewInvalidArgError("title", "%d文字以内で入力してください", maxLength)
+	errEmpty := customerr.NewValidationError("title", "タイトルを設定してください")
+	errTooLong := customerr.NewValidationError("title", "%d文字以内で入力してください", maxLength)
 	testsErr := []struct {
 		name    string
 		in      string
@@ -103,7 +103,7 @@ func TestTodoDescription(t *testing.T) {
 		})
 	}
 
-	errTooLong := interfaces.NewInvalidArgError("description", "%d文字以内で入力してください", maxLength)
+	errTooLong := customerr.NewValidationError("description", "%d文字以内で入力してください", maxLength)
 	testsErr := []struct {
 		name    string
 		in      string
@@ -159,7 +159,7 @@ func TestTodoStatus(t *testing.T) {
 		})
 	}
 
-	errInvalid := interfaces.NewInvalidArgError("status", "不正なステータスです")
+	errInvalid := customerr.NewValidationError("status", "不正なステータスです")
 	testsErr := []struct {
 		name    string
 		in      enums.StatusValue
@@ -174,7 +174,7 @@ func TestTodoStatus(t *testing.T) {
 		})
 	}
 
-	errNotChanged := interfaces.NewInvalidArgError("status", "現在と異なるステータスを設定してください")
+	errNotChanged := customerr.NewValidationError("status", "現在と異なるステータスを設定してください")
 	current = statusImpl{enums.StatusTodo, Now.UTC().AddDate(0, 0, -1)}
 	testsChangeErr := []struct {
 		name    string
@@ -214,7 +214,7 @@ func TestNewTodoDueDate(t *testing.T) {
 		assert.Nil(t, actual.Value())
 	})
 
-	errPastDate := interfaces.NewInvalidArgError("dueDate", "過去の日付は指定できません。")
+	errPastDate := customerr.NewValidationError("dueDate", "過去の日付は指定できません。")
 	testsErr := []struct {
 		name    string
 		in      *time.Time

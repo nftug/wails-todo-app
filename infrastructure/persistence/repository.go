@@ -5,7 +5,7 @@ import (
 	"errors"
 
 	"github.com/google/uuid"
-	"github.com/nftug/wails-todo-app/interfaces"
+	"github.com/nftug/wails-todo-app/shared/interfaces"
 	"github.com/samber/do"
 	"github.com/samber/lo"
 	"gorm.io/gorm"

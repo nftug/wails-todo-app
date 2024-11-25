@@ -5,7 +5,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/nftug/wails-todo-app/domain/todo"
-	"github.com/nftug/wails-todo-app/interfaces/enums"
+	"github.com/nftug/wails-todo-app/shared/enums"
 )
 
 type TodoDBSchema struct {

@@ -5,7 +5,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/nftug/wails-todo-app/domain/todo"
-	"github.com/nftug/wails-todo-app/interfaces"
+	"github.com/nftug/wails-todo-app/shared/dtos"
 	usecase "github.com/nftug/wails-todo-app/usecase/todo"
 	"github.com/samber/do"
 )
@@ -40,7 +40,7 @@ func (a *TodoApp) OnDomReady(ctx context.Context) {
 	a.notifyTodo.Execute(ctx)
 }
 
-func (a *TodoApp) Create(command todo.CreateCommand) (*interfaces.CreatedResponse, error) {
+func (a *TodoApp) Create(command todo.CreateCommand) (*dtos.CreatedResponse, error) {
 	return a.createTodo.Execute(a.ctx, command)
 }
 

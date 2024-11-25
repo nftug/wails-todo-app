@@ -1,10 +1,9 @@
 package valueobject
 
 import (
-	"reflect"
 	"strings"
 
-	"github.com/nftug/wails-todo-app/interfaces"
+	"github.com/nftug/wails-todo-app/shared/customerr"
 )
 
 type Title interface {
@@ -24,10 +23,10 @@ func NewTitle(value string) (Title, error) {
 
 	value = strings.TrimSpace(value)
 	if value == "" {
-		return nil, interfaces.NewInvalidArgError("title", "タイトルを設定してください")
+		return nil, customerr.NewValidationError("title", "タイトルを設定してください")
 	}
 	if len(value) > MaxLength {
-		return nil, interfaces.NewInvalidArgError("title", "%d文字以内で入力してください", MaxLength)
+		return nil, customerr.NewValidationError("title", "%d文字以内で入力してください", MaxLength)
 	}
 
 	return titleImpl{value}, nil
@@ -37,4 +36,6 @@ func (t titleImpl) Value() string { return t.value }
 
 func (t titleImpl) String() string { return t.value }
 
-func (t titleImpl) Equals(other Title) bool { return reflect.DeepEqual(t.Value(), other.Value()) }
+func (t titleImpl) Equals(other Title) bool {
+	return t.value == other.Value()
+}

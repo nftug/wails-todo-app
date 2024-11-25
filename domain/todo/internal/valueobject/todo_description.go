@@ -4,8 +4,8 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"github.com/nftug/wails-todo-app/interfaces"
 	"github.com/nftug/wails-todo-app/library/nullable"
+	"github.com/nftug/wails-todo-app/shared/customerr"
 	"github.com/samber/lo"
 )
 
@@ -26,7 +26,7 @@ func NewDescription(value *string) (Description, error) {
 
 	trimmed := strings.TrimSpace(lo.FromPtr(value))
 	if utf8.RuneCountInString(trimmed) > MaxLength {
-		return nil, interfaces.NewInvalidArgError("description", "%d文字以内で入力してください", MaxLength)
+		return nil, customerr.NewValidationError("description", "%d文字以内で入力してください", MaxLength)
 	}
 
 	return descriptionImpl{nullable.NewByVal(trimmed)}, nil

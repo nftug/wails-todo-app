@@ -5,7 +5,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/nftug/wails-todo-app/domain/todo"
-	"github.com/nftug/wails-todo-app/interfaces"
+	"github.com/nftug/wails-todo-app/shared/customerr"
 	"github.com/samber/do"
 )
 
@@ -26,7 +26,7 @@ func (u *getTodoUseCase) Execute(ctx context.Context, id uuid.UUID) (*todo.Detai
 	if err != nil {
 		return nil, err
 	} else if t == nil {
-		return nil, interfaces.NewNotFoundError()
+		return nil, customerr.NewNotFoundError()
 	}
 	return t, nil
 }

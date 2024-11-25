@@ -7,8 +7,8 @@ import (
 
 	"github.com/nftug/wails-todo-app/domain/todo"
 	todoInfra "github.com/nftug/wails-todo-app/infrastructure/todo"
-	"github.com/nftug/wails-todo-app/interfaces/enums"
 	"github.com/nftug/wails-todo-app/library/testutil"
+	"github.com/nftug/wails-todo-app/shared/enums"
 	todoUseCase "github.com/nftug/wails-todo-app/usecase/todo"
 	"github.com/samber/do"
 	"github.com/samber/lo"

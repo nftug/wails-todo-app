@@ -3,7 +3,7 @@ package todo
 import (
 	"time"
 
-	"github.com/nftug/wails-todo-app/interfaces/enums"
+	"github.com/nftug/wails-todo-app/shared/enums"
 )
 
 type CreateCommand struct {

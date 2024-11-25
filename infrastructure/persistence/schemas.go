@@ -1,6 +1,6 @@
 package persistence
 
-import "github.com/nftug/wails-todo-app/interfaces"
+import "github.com/nftug/wails-todo-app/shared/interfaces"
 
 type RepositorySchema[TEntityPtr interfaces.Entity[TEntityPtr], TSelf any] interface {
 	ToEntity() TEntityPtr

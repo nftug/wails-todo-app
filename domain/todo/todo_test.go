@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/Songmu/flextime"
-	"github.com/nftug/wails-todo-app/interfaces/enums"
+	"github.com/nftug/wails-todo-app/shared/enums"
 	"github.com/samber/lo"
 	"github.com/stretchr/testify/assert"
 )

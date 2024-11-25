@@ -5,7 +5,7 @@ import (
 
 	"github.com/gen2brain/beeep"
 	"github.com/nftug/wails-todo-app/domain/todo"
-	"github.com/nftug/wails-todo-app/interfaces/enums"
+	"github.com/nftug/wails-todo-app/shared/enums"
 	"github.com/samber/do"
 	"github.com/samber/lo"
 	"github.com/wailsapp/wails/v2/pkg/runtime"

@@ -4,8 +4,8 @@ import (
 	"time"
 
 	"github.com/Songmu/flextime"
-	"github.com/nftug/wails-todo-app/interfaces"
 	"github.com/nftug/wails-todo-app/library/nullable"
+	"github.com/nftug/wails-todo-app/shared/customerr"
 	"github.com/samber/lo"
 )
 
@@ -28,7 +28,7 @@ func NewDueDate(value *time.Time) (DueDate, error) {
 
 	v := nullable.NewByVal(lo.FromPtr(value).UTC())
 	if v.Value().Unix() < flextime.Now().UTC().Unix() {
-		return nil, interfaces.NewInvalidArgError("dueDate", "過去の日付は指定できません。")
+		return nil, customerr.NewValidationError("dueDate", "過去の日付は指定できません。")
 	}
 	return dueDateImpl{v}, nil
 }

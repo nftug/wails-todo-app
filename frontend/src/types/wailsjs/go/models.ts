@@ -1,8 +1,13 @@
+export namespace dtos {
+	
+	export interface CreatedResponse {
+	    id: string;
+	}
+
+}
+
 export namespace enums {
 	
-	export enum TodoEvent {
-	    NotifyTodo = "NotifyTodo",
-	}
 	export enum ErrorCode {
 	    InvalidArg = "InvalidArg",
 	    NotFound = "NotFound",
@@ -13,13 +18,8 @@ export namespace enums {
 	    Doing = "Doing",
 	    Done = "Done",
 	}
-
-}
-
-export namespace interfaces {
-	
-	export interface CreatedResponse {
-	    id: string;
+	export enum TodoEvent {
+	    NotifyTodo = "NotifyTodo",
 	}
 
 }
