@@ -1,6 +1,6 @@
+import TodoEditModal from '@/components/todo/TodoEditModal'
 import { createContext, useState } from 'react'
 import sleep from 'sleep-promise'
-import TodoEditModal from './TodoEditModal'
 
 interface TodoEditModalContextType {
   openModal: (itemId?: string) => void

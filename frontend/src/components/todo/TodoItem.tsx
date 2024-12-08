@@ -1,3 +1,7 @@
+import { useTodoCommandAtoms } from '@/atoms/todo-atoms'
+import { TodoEditModalContext } from '@/context/todo/TodoEditModalContext'
+import { overflowEllipsisStyle } from '@/lib/layout/styles'
+import { todo } from '@/types/wailsjs/go/models'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import {
@@ -12,10 +16,6 @@ import {
 } from '@mui/material'
 import { useConfirm } from 'material-ui-confirm'
 import { useContext } from 'react'
-import { useTodoCommandAtoms } from '../../atoms/todo-atoms'
-import { todo } from '../../types/wailsjs/go/models'
-import { overflowEllipsisStyle } from '../layout/styles'
-import { TodoEditModalContext } from './TodoEditModalContext'
 
 interface TodoItemProps {
   item: todo.ItemResponse

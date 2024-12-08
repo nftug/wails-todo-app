@@ -1,5 +1,5 @@
+import { dtos, todo } from '@/types/wailsjs/go/models'
 import { useInjection } from 'inversify-react'
-import { dtos, todo } from '../types/wailsjs/go/models'
 
 export interface ITodoApi {
   create(command: todo.CreateCommand): Promise<dtos.CreatedResponse>

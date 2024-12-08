@@ -1,5 +1,5 @@
+import { fullViewHeightStyle } from '@/lib/layout/styles'
 import { Box, Typography } from '@mui/material'
-import { fullViewHeightStyle } from '../components/layout/styles'
 
 const AboutPage: React.FC = () => {
   return (

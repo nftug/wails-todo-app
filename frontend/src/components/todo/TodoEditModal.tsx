@@ -1,5 +1,9 @@
-import { Save } from '@mui/icons-material'
-import CloseIcon from '@mui/icons-material/Close'
+import DateTimePickerField from '@/components/common/DateTimePickerField'
+import FormTextField from '@/components/common/FormTextField'
+import TodoFormProvider from '@/components/todo/TodoFormProvider'
+import { useTodoApi } from '@/lib/api/todo-api'
+import { todo } from '@/types/wailsjs/go/models'
+import { Close, Save } from '@mui/icons-material'
 import {
   Box,
   Button,
@@ -11,11 +15,6 @@ import {
 } from '@mui/material'
 import { useConfirm } from 'material-ui-confirm'
 import { useEffect, useState } from 'react'
-import { useTodoApi } from '../../api/todo-api'
-import { todo } from '../../types/wailsjs/go/models'
-import DateTimePickerField from '../common/DateTimePickerField'
-import FormTextField from '../common/FormTextField'
-import TodoFormProvider from './TodoFormProvider'
 
 interface Props {
   open: boolean
@@ -69,7 +68,7 @@ const TodoEditModal: React.FC<Props> = ({ open, itemId, onClose }) => {
                   aria-label="close"
                   onClick={closeDialog}
                   sx={(theme) => ({ color: theme.palette.grey[500] })}
-                  children={<CloseIcon />}
+                  children={<Close />}
                   title="閉じる"
                 />
               </Box>

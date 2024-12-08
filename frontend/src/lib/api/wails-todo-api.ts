@@ -1,4 +1,5 @@
-import { injectable } from 'inversify'
+import { handleApiError } from '@/lib/api/errors'
+import { ITodoApi } from '@/lib/api/todo-api'
 import {
   CreateTodo,
   DeleteTodo,
@@ -6,10 +7,9 @@ import {
   GetTodoList,
   UpdateTodo,
   UpdateTodoStatus
-} from '../types/wailsjs/go/app/TodoApp'
-import { dtos, todo } from '../types/wailsjs/go/models'
-import { handleApiError } from './errors'
-import { ITodoApi } from './todo-api'
+} from '@/types/wailsjs/go/app/TodoApp'
+import { dtos, todo } from '@/types/wailsjs/go/models'
+import { injectable } from 'inversify'
 
 @injectable()
 export default class WailsTodoApiService implements ITodoApi {

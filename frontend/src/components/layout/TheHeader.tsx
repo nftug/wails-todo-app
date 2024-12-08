@@ -1,7 +1,7 @@
+import { DrawerDispatchContext } from '@/context/layout/HeaderContext'
 import MenuIcon from '@mui/icons-material/Menu'
 import { AppBar, IconButton, Toolbar, Typography } from '@mui/material'
 import { useContext } from 'react'
-import { DrawerDispatchContext } from './HeaderContext'
 
 const TheHeader: React.FC = () => {
   const setDrawerOpened = useContext(DrawerDispatchContext)

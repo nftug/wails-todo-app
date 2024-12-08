@@ -1,6 +1,6 @@
+import { useTodoApi } from '@/lib/api/todo-api'
+import { enums, todo } from '@/types/wailsjs/go/models'
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { useTodoApi } from '../api/todo-api'
-import { enums, todo } from '../types/wailsjs/go/models'
 
 const todoListAtom = atom<todo.ItemResponse[]>([])
 const queryAtom = atom<todo.Query>({})

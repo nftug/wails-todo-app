@@ -1,8 +1,8 @@
+import { useTodoCommandAtoms } from '@/atoms/todo-atoms'
+import { ApiError } from '@/lib/api/errors'
+import { todo } from '@/types/wailsjs/go/models'
 import { useEffect } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
-import { ApiError } from '../../api/errors'
-import { useTodoCommandAtoms } from '../../atoms/todo-atoms'
-import { todo } from '../../types/wailsjs/go/models'
 
 type TodoFormValue = todo.CreateCommand | todo.UpdateCommand
 
