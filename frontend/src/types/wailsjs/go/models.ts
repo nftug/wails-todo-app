@@ -8,18 +8,18 @@ export namespace dtos {
 
 export namespace enums {
 	
-	export enum StatusValue {
-	    Backlog = "Backlog",
-	    Todo = "Todo",
-	    Doing = "Doing",
-	    Done = "Done",
-	}
 	export enum TodoEvent {
 	    NotifyTodo = "NotifyTodo",
 	}
 	export enum ErrorCode {
 	    ValidationError = "ValidationError",
 	    NotFound = "NotFound",
+	}
+	export enum StatusValue {
+	    Backlog = "Backlog",
+	    Todo = "Todo",
+	    Doing = "Doing",
+	    Done = "Done",
 	}
 
 }

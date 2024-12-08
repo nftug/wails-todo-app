@@ -40,30 +40,30 @@ func (a *TodoApp) OnDomReady(ctx context.Context) {
 	a.notifyTodo.Execute(ctx)
 }
 
-func (a *TodoApp) Create(command todo.CreateCommand) (*dtos.CreatedResponse, error) {
+func (a *TodoApp) CreateTodo(command todo.CreateCommand) (*dtos.CreatedResponse, error) {
 	return a.createTodo.Execute(a.ctx, command)
 }
 
-func (a *TodoApp) Update(id string, command todo.UpdateCommand) error {
+func (a *TodoApp) UpdateTodo(id string, command todo.UpdateCommand) error {
 	parsedID, _ := uuid.Parse(id)
 	return a.updateTodo.Execute(a.ctx, parsedID, command)
 }
 
-func (a *TodoApp) UpdateStatus(id string, command todo.UpdateStatusCommand) error {
+func (a *TodoApp) UpdateTodoStatus(id string, command todo.UpdateStatusCommand) error {
 	parsedID, _ := uuid.Parse(id)
 	return a.updateTodoStatus.Execute(a.ctx, parsedID, command)
 }
 
-func (a *TodoApp) Delete(id string) error {
+func (a *TodoApp) DeleteTodo(id string) error {
 	parsedID, _ := uuid.Parse(id)
 	return a.deleteTodo.Execute(a.ctx, parsedID)
 }
 
-func (a *TodoApp) GetDetails(id string) (*todo.DetailsResponse, error) {
+func (a *TodoApp) GetTodoDetails(id string) (*todo.DetailsResponse, error) {
 	parsedID, _ := uuid.Parse(id)
 	return a.getTodo.Execute(a.ctx, parsedID)
 }
 
-func (a *TodoApp) Search(query todo.Query) ([]*todo.ItemResponse, error) {
+func (a *TodoApp) GetTodoList(query todo.Query) ([]*todo.ItemResponse, error) {
 	return a.searchTodo.Execute(a.ctx, query)
 }

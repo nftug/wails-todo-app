@@ -3,14 +3,14 @@
 import {todo} from '../models';
 import {dtos} from '../models';
 
-export function Create(arg1:todo.CreateCommand):Promise<dtos.CreatedResponse>;
+export function CreateTodo(arg1:todo.CreateCommand):Promise<dtos.CreatedResponse>;
 
-export function Delete(arg1:string):Promise<void>;
+export function DeleteTodo(arg1:string):Promise<void>;
 
-export function GetDetails(arg1:string):Promise<todo.DetailsResponse>;
+export function GetTodoDetails(arg1:string):Promise<todo.DetailsResponse>;
 
-export function Search(arg1:todo.Query):Promise<Array<todo.ItemResponse>>;
+export function GetTodoList(arg1:todo.Query):Promise<Array<todo.ItemResponse>>;
 
-export function Update(arg1:string,arg2:todo.UpdateCommand):Promise<void>;
+export function UpdateTodo(arg1:string,arg2:todo.UpdateCommand):Promise<void>;
 
-export function UpdateStatus(arg1:string,arg2:todo.UpdateStatusCommand):Promise<void>;
+export function UpdateTodoStatus(arg1:string,arg2:todo.UpdateStatusCommand):Promise<void>;
