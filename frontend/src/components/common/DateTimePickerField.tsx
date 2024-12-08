@@ -2,6 +2,7 @@ import { TextFieldProps } from '@mui/material'
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs'
+import 'dayjs/locale/ja'
 import { Controller, FieldPath, FieldValues, UseFormReturn } from 'react-hook-form'
 
 interface Props<TFieldValues extends FieldValues>
@@ -11,6 +12,8 @@ interface Props<TFieldValues extends FieldValues>
   label: string
   views?: ('year' | 'month' | 'day' | 'hours' | 'minutes' | 'seconds')[]
 }
+
+dayjs.locale('ja')
 
 const DateTimePickerField = <TFieldValues extends FieldValues>({
   name,
@@ -38,6 +41,8 @@ const DateTimePickerField = <TFieldValues extends FieldValues>({
                 ...textFieldProps
               }
             }}
+            format="YYYY/MM/DD HH:mm"
+            ampm={false}
           />
         )}
       />
