@@ -2,12 +2,10 @@ package todo
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
 	"strings"
 
 	"github.com/nftug/wails-todo-app/domain/todo"
-	"github.com/nftug/wails-todo-app/library/util"
+	"github.com/nftug/wails-todo-app/infrastructure/common/db"
 	"github.com/samber/do"
 	"github.com/samber/lo"
 	"go.etcd.io/bbolt"
@@ -23,42 +21,17 @@ func NewTodoQueryService(i *do.Injector) (todo.TodoQueryService, error) {
 }
 
 func (qs *todoQueryService) Find(ctx context.Context, id int) (*todo.DetailsResponse, error) {
-	col := TodoDBSchema{}
-	var item []byte
-
-	if err := qs.db.View(func(tx *bbolt.Tx) error {
-		b := tx.Bucket([]byte(TodoBucket))
-		item = b.Get(util.Itob(id))
-		return nil
-	}); err != nil {
+	col, err := db.Get[TodoDBSchema](qs.db, TodoBucket, id)
+	if err != nil {
 		return nil, err
-	} else if item == nil {
+	} else if col == nil {
 		return nil, nil
 	}
-
-	if err := json.Unmarshal(item, &col); err != nil {
-		return nil, fmt.Errorf("failed to unmarshal item: %w", err)
-	}
-
 	return col.ToDetailsResponse(), nil
 }
 
 func (qs *todoQueryService) FindAll(ctx context.Context, query todo.Query) ([]*todo.ItemResponse, error) {
-	var items []TodoDBSchema
-
-	err := qs.db.View(func(tx *bbolt.Tx) error {
-		bucket := tx.Bucket([]byte(TodoBucket))
-
-		c := bucket.Cursor()
-		for k, v := c.Last(); k != nil; k, v = c.Prev() {
-			var item TodoDBSchema
-			if err := json.Unmarshal(v, &item); err != nil {
-				return fmt.Errorf("failed to unmarshal item: %w", err)
-			}
-			items = append(items, item)
-		}
-		return nil
-	})
+	items, err := db.GetAll[TodoDBSchema](qs.db, TodoBucket, &db.GetAllOptions{OrderByDesc: true})
 	if err != nil {
 		return nil, err
 	}

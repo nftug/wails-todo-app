@@ -4,9 +4,11 @@ import (
 	"context"
 	"encoding/json"
 
+	"github.com/nftug/wails-todo-app/infrastructure/common/db"
 	"github.com/nftug/wails-todo-app/library/util"
 	"github.com/nftug/wails-todo-app/shared/interfaces"
 	"github.com/samber/do"
+	"github.com/samber/lo"
 	"go.etcd.io/bbolt"
 )
 
@@ -30,24 +32,13 @@ func NewRepository[
 }
 
 func (r *Repository[TEntityPtr, TSchema]) Find(ctx context.Context, id int) (TEntityPtr, error) {
-	var col TSchema
-	var item []byte
-
-	if err := r.db.View(func(tx *bbolt.Tx) error {
-		b := tx.Bucket([]byte(r.bucketName))
-		item = b.Get(util.Itob(id))
-		return nil
-	}); err != nil {
+	col, err := db.Get[TSchema](r.db, r.bucketName, id)
+	if err != nil {
 		return *new(TEntityPtr), err
-	} else if item == nil {
+	} else if col == nil {
 		return *new(TEntityPtr), nil
 	}
-
-	if err := json.Unmarshal(item, &col); err != nil {
-		return *new(TEntityPtr), err
-	}
-
-	return col.ToEntity(), nil
+	return lo.FromPtr(col).ToEntity(), nil
 }
 
 func (r *Repository[TEntityPtr, TSchema]) Save(ctx context.Context, e TEntityPtr) error {
