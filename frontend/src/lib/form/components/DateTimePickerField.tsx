@@ -30,7 +30,7 @@ const DateTimePickerField = <TFieldValues extends FieldValues>({
         render={({ field: { onChange, value, ref } }) => (
           <DateTimePicker
             label={label}
-            onChange={onChange}
+            onChange={(newValue) => onChange(newValue?.toISOString() ?? null)}
             value={value ? dayjs(value) : null}
             inputRef={ref}
             views={views}
@@ -43,6 +43,7 @@ const DateTimePickerField = <TFieldValues extends FieldValues>({
             }}
             format="YYYY/MM/DD HH:mm"
             ampm={false}
+            minDateTime={dayjs()}
           />
         )}
       />
