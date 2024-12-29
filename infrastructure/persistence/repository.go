@@ -8,7 +8,6 @@ import (
 	"github.com/nftug/wails-todo-app/library/util"
 	"github.com/nftug/wails-todo-app/shared/interfaces"
 	"github.com/samber/do"
-	"github.com/samber/lo"
 	"go.etcd.io/bbolt"
 )
 
@@ -38,7 +37,7 @@ func (r *Repository[TEntityPtr, TSchema]) Find(ctx context.Context, id int) (TEn
 	} else if col == nil {
 		return *new(TEntityPtr), nil
 	}
-	return lo.FromPtr(col).ToEntity(), nil
+	return (*col).ToEntity(), nil
 }
 
 func (r *Repository[TEntityPtr, TSchema]) Save(ctx context.Context, e TEntityPtr) error {

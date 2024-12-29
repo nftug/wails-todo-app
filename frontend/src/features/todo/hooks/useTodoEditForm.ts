@@ -3,7 +3,7 @@ import { ApiError, handleApiError } from '@/lib/api/errors'
 import { CreateTodo, GetTodoDetails, UpdateTodo } from '@/types/wailsjs/go/app/TodoApp'
 import { todo } from '@/types/wailsjs/go/models'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useMutation, useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useConfirm } from 'material-ui-confirm'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
@@ -19,18 +19,18 @@ export const useTodoEditForm = ({ itemId, onSuccess, dialogOpened }: UseTodoEdit
   const confirm = useConfirm()
 
   // Query
-  const query = useQuery({
+  const query = useQuery<todo.DetailsResponse | undefined, ApiError>({
     queryKey: ['todo', 'details', itemId],
     queryFn: async () => {
       if (!itemId) return
       return await handleApiError(async () => await GetTodoDetails(itemId))
     },
     enabled: !!itemId
-  }) as UseQueryResult<todo.DetailsResponse, ApiError>
+  })
 
   useEffect(() => {
     if (!query.error) return
-    confirm({ title: 'エラー', description: query.error.message, hideCancelButton: true })
+    confirm({ title: '取得エラー', description: query.error.message, hideCancelButton: true })
   }, [query.error])
 
   // Form
@@ -64,7 +64,11 @@ export const useTodoEditForm = ({ itemId, onSuccess, dialogOpened }: UseTodoEdit
       setTimeout(() => mutation.reset(), 500)
     },
     onError: (error: ApiError) => {
-      form.setError(error.data?.field ?? 'root', { message: error.data?.message })
+      if (error.data?.field) {
+        form.setError(error.data.field, { message: error.data?.message })
+      } else {
+        confirm({ title: '送信エラー', description: error.data?.message, hideCancelButton: true })
+      }
     }
   })
 
