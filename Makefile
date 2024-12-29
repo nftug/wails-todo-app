@@ -1,13 +1,14 @@
-.PHONEY: all build run test prepare deps winbuild
+.PHONEY: all build run test prepare deps
 
 all: test build
 
 build: prepare
 	wails build -ldflags="-s -w" -trimpath
 
-winbuild: prepare
-	wails generate module
-	env GOOS=windows GOARCH=amd64 CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc \
+# ネイティブバイナリを使用しないので不要
+# winbuild: prepare
+# 	wails generate module
+#	env GOOS=windows GOARCH=amd64 CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc \
 		wails build -ldflags="-s -w" -trimpath -skipbindings
 
 run: prepare

@@ -54,7 +54,6 @@ func main() {
 			// dialog.AllDialogActionTypes,
 			// dialog.AllDialogButtons,
 		},
-		HideWindowOnClose: false,
 		Mac: &mac.Options{
 			TitleBar: &mac.TitleBar{
 				FullSizeContent: true,
