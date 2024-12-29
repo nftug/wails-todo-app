@@ -87,8 +87,8 @@ const TodoEditModal: React.FC<Props> = ({ open, itemId, onClose }) => {
             name="dueDate"
             label="期限"
             views={['year', 'day', 'hours', 'minutes']}
-            fullWidth
-            margin="normal"
+            textFieldProps={{ fullWidth: true, margin: 'normal' }}
+            pickerProps={{ format: 'YYYY/MM/DD HH:mm', ampm: false, disablePast: true }}
           />
         </FormProvider>
       </DialogContent>

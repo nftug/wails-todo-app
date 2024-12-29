@@ -1,15 +1,16 @@
 import { TextFieldProps } from '@mui/material'
-import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers'
+import { DateTimePicker, DateTimePickerProps, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs'
 import 'dayjs/locale/ja'
 import { Controller, FieldPath, FieldValues, useFormContext } from 'react-hook-form'
 
-interface Props<TFieldValues extends FieldValues>
-  extends Omit<TextFieldProps, 'onChange' | 'value'> {
+interface Props<TFieldValues extends FieldValues> {
   name: FieldPath<TFieldValues>
   label: string
   views?: ('year' | 'month' | 'day' | 'hours' | 'minutes' | 'seconds')[]
+  textFieldProps: Omit<TextFieldProps, 'onChange' | 'value'>
+  pickerProps: DateTimePickerProps<dayjs.Dayjs>
 }
 
 dayjs.locale('ja')
@@ -18,7 +19,8 @@ const DateTimePickerField = <TFieldValues extends FieldValues>({
   name,
   label,
   views,
-  ...textFieldProps
+  textFieldProps,
+  pickerProps
 }: Props<TFieldValues>) => {
   const { formState, control } = useFormContext()
 
@@ -39,11 +41,10 @@ const DateTimePickerField = <TFieldValues extends FieldValues>({
                 error: !!formState.errors[name],
                 helperText: formState.errors[name]?.message as string,
                 ...textFieldProps
-              }
+              },
+              field: { clearable: true, onClear: () => onChange(null) }
             }}
-            format="YYYY/MM/DD HH:mm"
-            ampm={false}
-            minDateTime={dayjs()}
+            {...pickerProps}
           />
         )}
       />
