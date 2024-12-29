@@ -3,19 +3,17 @@ package todo
 import (
 	"context"
 	"time"
-
-	"github.com/google/uuid"
 )
 
 type TodoRepository interface {
-	Find(ctx context.Context, id uuid.UUID) (*Todo, error)
+	Find(ctx context.Context, id int) (*Todo, error)
 	Save(ctx context.Context, entity *Todo) error
-	Delete(ctx context.Context, entity *Todo) error
+	Delete(ctx context.Context, id int) error
 	FindAllForNotification(ctx context.Context, dueDate time.Time) ([]*Todo, error)
 }
 
 type TodoQueryService interface {
-	Find(ctx context.Context, id uuid.UUID) (*DetailsResponse, error)
+	Find(ctx context.Context, id int) (*DetailsResponse, error)
 	FindAll(ctx context.Context, q Query) ([]*ItemResponse, error)
 }
 

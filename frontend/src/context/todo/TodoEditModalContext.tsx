@@ -3,16 +3,16 @@ import { createContext, useState } from 'react'
 import sleep from 'sleep-promise'
 
 interface TodoEditModalContextType {
-  openModal: (itemId?: string) => void
+  openModal: (itemId?: number) => void
 }
 
 export const TodoEditModalContext = createContext<TodoEditModalContextType>(undefined!)
 
 export const TodoEditModalProvider = ({ children }: { children?: React.ReactNode }) => {
   const [open, setOpen] = useState(false)
-  const [itemId, setItemId] = useState<string | null>(null)
+  const [itemId, setItemId] = useState<number | null>(null)
 
-  const openModal = (id?: string) => {
+  const openModal = (id?: number) => {
     setItemId(id ?? null) // IDを更新して、データ読み込み開始
     setOpen(true)
   }

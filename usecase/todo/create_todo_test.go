@@ -2,18 +2,20 @@ package todo_test
 
 import (
 	"context"
+	"encoding/json"
 	"testing"
 	"time"
 
 	"github.com/nftug/wails-todo-app/domain/todo"
 	todoInfra "github.com/nftug/wails-todo-app/infrastructure/todo"
 	"github.com/nftug/wails-todo-app/library/testutil"
+	"github.com/nftug/wails-todo-app/library/util"
 	"github.com/nftug/wails-todo-app/shared/enums"
 	todoUseCase "github.com/nftug/wails-todo-app/usecase/todo"
 	"github.com/samber/do"
 	"github.com/samber/lo"
 	"github.com/stretchr/testify/assert"
-	"gorm.io/gorm"
+	"go.etcd.io/bbolt"
 )
 
 // 正常系
@@ -35,15 +37,23 @@ func TestCreateTodo(t *testing.T) {
 
 	// Assert
 	var actual todoInfra.TodoDBSchema
-	db := do.MustInvoke[*gorm.DB](injector)
-	err = db.Where("id = ?", resp.ID).Take(&actual).Error
+	db := do.MustInvoke[*bbolt.DB](injector)
+
+	var item []byte
+	err = db.View(func(tx *bbolt.Tx) error {
+		b := tx.Bucket([]byte(todoInfra.TodoBucket))
+		item = b.Get(util.Itob(resp.ID))
+		return nil
+	})
+	assert.NoError(t, err)
+
+	err = json.Unmarshal(item, &actual)
 	assert.NoError(t, err)
 
 	dueDateWant := lo.TernaryF(cmd.DueDate == nil,
 		func() *time.Time { return nil }, func() *time.Time { return lo.ToPtr(cmd.DueDate.UTC()) })
 
-	assert.Equal(t, 1, actual.PK)
-	assert.Equal(t, resp.ID, actual.ID.String())
+	assert.Equal(t, resp.ID, actual.ID)
 	assert.Equal(t, cmd.Title, actual.Title)
 	assert.Equal(t, cmd.Description, actual.Description)
 	assert.Equal(t, lo.FromPtrOr(cmd.InitialStatus, "Todo"), actual.Status)

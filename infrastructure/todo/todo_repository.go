@@ -2,6 +2,8 @@ package todo
 
 import (
 	"context"
+	"encoding/json"
+	"sort"
 	"time"
 
 	"github.com/nftug/wails-todo-app/domain/todo"
@@ -9,31 +11,47 @@ import (
 	"github.com/nftug/wails-todo-app/shared/enums"
 	"github.com/samber/do"
 	"github.com/samber/lo"
-	"gorm.io/gorm"
+	"go.etcd.io/bbolt"
 )
 
 type todoRepository struct {
-	db *gorm.DB
+	db *bbolt.DB
 	*persistence.Repository[*todo.Todo, *TodoDBSchema]
 }
 
 func NewTodoRepository(i *do.Injector) (todo.TodoRepository, error) {
-	db := do.MustInvoke[*gorm.DB](i)
-	return &todoRepository{db, persistence.NewRepository[*todo.Todo, *TodoDBSchema](i)}, nil
+	return &todoRepository{
+		db:         do.MustInvoke[*bbolt.DB](i),
+		Repository: persistence.NewRepository[*todo.Todo, *TodoDBSchema](i, TodoBucket),
+	}, nil
 }
 
 func (t *todoRepository) FindAllForNotification(ctx context.Context, dueDate time.Time) ([]*todo.Todo, error) {
-	q := t.db.WithContext(ctx)
-
-	q = q.Where("notified_at IS NULL")
-	q = q.Where("due_date <= ?", dueDate.UTC())
-	q = q.Where("status = ?", enums.StatusTodo)
-
 	var cols []TodoDBSchema
-	if err := q.Order("due_date").Find(&cols).Error; err != nil {
+
+	if err := t.db.View(func(tx *bbolt.Tx) error {
+		b := tx.Bucket([]byte(TodoBucket))
+		return b.ForEach(func(k, v []byte) error {
+			var col TodoDBSchema
+			if err := json.Unmarshal(v, &col); err != nil {
+				return err
+			}
+
+			if col.NotifiedAt == nil &&
+				col.DueDate != nil && dueDate.UTC().After(lo.FromPtr(col.DueDate)) &&
+				col.Status == enums.StatusTodo {
+				cols = append(cols, col)
+			}
+
+			return nil
+		})
+	}); err != nil {
 		return nil, err
 	}
 
+	sort.Slice(cols, func(i, j int) bool {
+		return lo.FromPtr(cols[i].DueDate).Before(lo.FromPtr(cols[j].DueDate))
+	})
 	ret := lo.Map(cols, func(x TodoDBSchema, _ int) *todo.Todo { return x.ToEntity() })
 	return ret, nil
 }

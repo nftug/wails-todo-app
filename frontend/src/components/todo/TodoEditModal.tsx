@@ -18,7 +18,7 @@ import { useEffect, useState } from 'react'
 
 interface Props {
   open: boolean
-  itemId: string | null
+  itemId: number | null
   onClose: () => void
 }
 

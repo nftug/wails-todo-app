@@ -2,8 +2,6 @@ package interfaces
 
 import (
 	"time"
-
-	"github.com/google/uuid"
 )
 
 type Equaler[TSelf any] interface {
@@ -12,9 +10,8 @@ type Equaler[TSelf any] interface {
 
 type Entity[TSelfPtr any] interface {
 	Equaler[TSelfPtr]
-	PK() int
-	ID() uuid.UUID
+	ID() int
 	CreatedAt() time.Time
 	UpdatedAt() *time.Time
-	SetPK(pk int)
+	SetID(id int)
 }

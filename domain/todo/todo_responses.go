@@ -7,7 +7,7 @@ import (
 )
 
 type ItemResponse struct {
-	ID          string            `json:"id"`
+	ID          int               `json:"id"`
 	Title       string            `json:"title"`
 	Description *string           `json:"description"`
 	Status      enums.StatusValue `json:"status"`
@@ -16,7 +16,7 @@ type ItemResponse struct {
 }
 
 type DetailsResponse struct {
-	ID              string            `json:"id"`
+	ID              int               `json:"id"`
 	Title           string            `json:"title"`
 	Description     *string           `json:"description"`
 	Status          enums.StatusValue `json:"status"`

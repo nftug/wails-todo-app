@@ -5,15 +5,13 @@ import (
 	"time"
 
 	"github.com/Songmu/flextime"
-	"github.com/google/uuid"
 	"github.com/nftug/wails-todo-app/domain/todo/internal/valueobject"
 	"github.com/nftug/wails-todo-app/library/nullable"
 	"github.com/nftug/wails-todo-app/shared/enums"
 )
 
 type Todo struct {
-	pk          int
-	id          uuid.UUID
+	id          int
 	title       valueobject.Title
 	description valueobject.Description
 	status      valueobject.Status
@@ -25,8 +23,7 @@ type Todo struct {
 
 // Getter
 
-func (t *Todo) PK() int                    { return t.pk }
-func (t *Todo) ID() uuid.UUID              { return t.id }
+func (t *Todo) ID() int                    { return t.id }
 func (t *Todo) Title() string              { return t.title.Value() }
 func (t *Todo) Description() *string       { return t.description.Value() }
 func (t *Todo) Status() enums.StatusValue  { return t.status.Value() }
@@ -37,8 +34,7 @@ func (t *Todo) CreatedAt() time.Time       { return t.createdAt }
 func (t *Todo) UpdatedAt() *time.Time      { return t.updatedAt.Value() }
 
 func Reconstruct(
-	pk int,
-	id uuid.UUID,
+	id int,
 	title string,
 	description *string,
 	status enums.StatusValue,
@@ -48,7 +44,6 @@ func Reconstruct(
 	createdAt time.Time,
 	updatedAt *time.Time) *Todo {
 	return &Todo{
-		pk:          pk,
 		id:          id,
 		title:       valueobject.ReconstructTitle(title),
 		description: valueobject.ReconstructDescription(description),
@@ -79,7 +74,6 @@ func NewTodo(command CreateCommand) (*Todo, error) {
 	}
 
 	return &Todo{
-		id:          uuid.New(),
 		title:       title,
 		description: desc,
 		status:      status,
@@ -134,7 +128,7 @@ func (t *Todo) ClearNotifiedAt() {
 	t.notifiedAt = nullable.NewEmpty[time.Time]()
 }
 
-func (t *Todo) SetPK(pk int) { t.pk = pk }
+func (t *Todo) SetID(id int) { t.id = id }
 
 func (t *Todo) Equals(other *Todo) bool {
 	return reflect.DeepEqual(t.id, other.id)

@@ -34,17 +34,17 @@ export const useTodoCommandAtoms = () => {
     return ret
   }
 
-  const updateTodo = async (id: string, command: todo.UpdateCommand) => {
+  const updateTodo = async (id: number, command: todo.UpdateCommand) => {
     await api.update(id, command)
     await updateList()
   }
 
-  const deleteTodo = async (id: string) => {
+  const deleteTodo = async (id: number) => {
     await api.delete(id)
     await updateList()
   }
 
-  const updateStatus = async (id: string, status: enums.StatusValue) => {
+  const updateStatus = async (id: number, status: enums.StatusValue) => {
     await api.updateStatus(id, { status })
     await updateList()
   }

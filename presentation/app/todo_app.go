@@ -3,7 +3,6 @@ package app
 import (
 	"context"
 
-	"github.com/google/uuid"
 	"github.com/nftug/wails-todo-app/domain/todo"
 	"github.com/nftug/wails-todo-app/shared/dtos"
 	usecase "github.com/nftug/wails-todo-app/usecase/todo"
@@ -44,24 +43,20 @@ func (a *TodoApp) CreateTodo(command todo.CreateCommand) (*dtos.CreatedResponse,
 	return a.createTodo.Execute(a.ctx, command)
 }
 
-func (a *TodoApp) UpdateTodo(id string, command todo.UpdateCommand) error {
-	parsedID, _ := uuid.Parse(id)
-	return a.updateTodo.Execute(a.ctx, parsedID, command)
+func (a *TodoApp) UpdateTodo(id int, command todo.UpdateCommand) error {
+	return a.updateTodo.Execute(a.ctx, id, command)
 }
 
-func (a *TodoApp) UpdateTodoStatus(id string, command todo.UpdateStatusCommand) error {
-	parsedID, _ := uuid.Parse(id)
-	return a.updateTodoStatus.Execute(a.ctx, parsedID, command)
+func (a *TodoApp) UpdateTodoStatus(id int, command todo.UpdateStatusCommand) error {
+	return a.updateTodoStatus.Execute(a.ctx, id, command)
 }
 
-func (a *TodoApp) DeleteTodo(id string) error {
-	parsedID, _ := uuid.Parse(id)
-	return a.deleteTodo.Execute(a.ctx, parsedID)
+func (a *TodoApp) DeleteTodo(id int) error {
+	return a.deleteTodo.Execute(a.ctx, id)
 }
 
-func (a *TodoApp) GetTodoDetails(id string) (*todo.DetailsResponse, error) {
-	parsedID, _ := uuid.Parse(id)
-	return a.getTodo.Execute(a.ctx, parsedID)
+func (a *TodoApp) GetTodoDetails(id int) (*todo.DetailsResponse, error) {
+	return a.getTodo.Execute(a.ctx, id)
 }
 
 func (a *TodoApp) GetTodoList(query todo.Query) ([]*todo.ItemResponse, error) {

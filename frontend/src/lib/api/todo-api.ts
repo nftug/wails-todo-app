@@ -3,11 +3,11 @@ import { useInjection } from 'inversify-react'
 
 export interface ITodoApi {
   create(command: todo.CreateCommand): Promise<dtos.CreatedResponse>
-  delete(id: string): Promise<void>
-  getDetails(id: string): Promise<todo.DetailsResponse>
+  delete(id: number): Promise<void>
+  getDetails(id: number): Promise<todo.DetailsResponse>
   search(query: todo.Query): Promise<todo.ItemResponse[]>
-  update(id: string, command: todo.UpdateCommand): Promise<void>
-  updateStatus(id: string, command: todo.UpdateStatusCommand): Promise<void>
+  update(id: number, command: todo.UpdateCommand): Promise<void>
+  updateStatus(id: number, command: todo.UpdateStatusCommand): Promise<void>
 }
 
 export const TodoApiType = Symbol.for('TodoApi')

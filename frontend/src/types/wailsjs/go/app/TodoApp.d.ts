@@ -5,12 +5,12 @@ import {dtos} from '../models';
 
 export function CreateTodo(arg1:todo.CreateCommand):Promise<dtos.CreatedResponse>;
 
-export function DeleteTodo(arg1:string):Promise<void>;
+export function DeleteTodo(arg1:number):Promise<void>;
 
-export function GetTodoDetails(arg1:string):Promise<todo.DetailsResponse>;
+export function GetTodoDetails(arg1:number):Promise<todo.DetailsResponse>;
 
 export function GetTodoList(arg1:todo.Query):Promise<Array<todo.ItemResponse>>;
 
-export function UpdateTodo(arg1:string,arg2:todo.UpdateCommand):Promise<void>;
+export function UpdateTodo(arg1:number,arg2:todo.UpdateCommand):Promise<void>;
 
-export function UpdateTodoStatus(arg1:string,arg2:todo.UpdateStatusCommand):Promise<void>;
+export function UpdateTodoStatus(arg1:number,arg2:todo.UpdateStatusCommand):Promise<void>;

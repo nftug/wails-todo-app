@@ -19,7 +19,7 @@ func NewTodoNotificationSender(i *do.Injector) (todo.TodoNotificationSender, err
 
 func (t *todoNotificationSender) Send(ctx context.Context, item *todo.Todo) error {
 	dto := todo.ItemResponse{
-		ID:          item.ID().String(),
+		ID:          item.ID(),
 		Title:       item.Title(),
 		Description: item.Description(),
 		Status:      item.Status(),

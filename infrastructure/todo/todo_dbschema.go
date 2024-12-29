@@ -3,29 +3,27 @@ package todo
 import (
 	"time"
 
-	"github.com/google/uuid"
 	"github.com/nftug/wails-todo-app/domain/todo"
 	"github.com/nftug/wails-todo-app/shared/enums"
 )
 
 type TodoDBSchema struct {
-	PK              int       `gorm:"primaryKey"`
-	ID              uuid.UUID `gorm:"type:uuid;uniqueIndex"`
-	Title           string
-	Description     *string
-	Status          enums.StatusValue
-	StatusUpdatedAt time.Time
-	DueDate         *time.Time `gorm:"type:TIMESTAMP;null;default:null"`
-	NotifiedAt      *time.Time `gorm:"type:TIMESTAMP;null;default:null"`
-	CreatedAt       time.Time  `gorm:"type:TIMESTAMP;null;"`
-	UpdatedAt       *time.Time `gorm:"type:TIMESTAMP;null;default:null"`
+	ID              int               `json:"id"`
+	Title           string            `json:"title"`
+	Description     *string           `json:"description"`
+	Status          enums.StatusValue `json:"status"`
+	StatusUpdatedAt time.Time         `json:"statusUpdatedAt"`
+	DueDate         *time.Time        `json:"dueDate"`
+	NotifiedAt      *time.Time        `json:"notifiedAt"`
+	CreatedAt       time.Time         `json:"createdAt"`
+	UpdatedAt       *time.Time        `json:"updatedAt"`
 }
 
 func (t TodoDBSchema) TableName() string { return "todos" }
 
 func (t *TodoDBSchema) ToEntity() *todo.Todo {
 	return todo.Reconstruct(
-		t.PK, t.ID,
+		t.ID,
 		t.Title, t.Description,
 		t.Status, t.StatusUpdatedAt,
 		t.DueDate,
@@ -36,7 +34,6 @@ func (t *TodoDBSchema) ToEntity() *todo.Todo {
 
 func (t *TodoDBSchema) Transfer(e *todo.Todo) *TodoDBSchema {
 	return &TodoDBSchema{
-		PK:              e.PK(),
 		ID:              e.ID(),
 		Title:           e.Title(),
 		Description:     e.Description(),
@@ -49,11 +46,11 @@ func (t *TodoDBSchema) Transfer(e *todo.Todo) *TodoDBSchema {
 	}
 }
 
-func (t *TodoDBSchema) GetPK() int { return t.PK }
+func (t *TodoDBSchema) GetID() int { return t.ID }
 
 func (t *TodoDBSchema) ToDetailsResponse() *todo.DetailsResponse {
 	return &todo.DetailsResponse{
-		ID:              t.ID.String(),
+		ID:              t.ID,
 		Title:           t.Title,
 		Description:     t.Description,
 		Status:          t.Status,
@@ -67,7 +64,7 @@ func (t *TodoDBSchema) ToDetailsResponse() *todo.DetailsResponse {
 
 func (t *TodoDBSchema) ToItemResponse() *todo.ItemResponse {
 	return &todo.ItemResponse{
-		ID:          t.ID.String(),
+		ID:          t.ID,
 		Title:       t.Title,
 		Description: t.Description,
 		Status:      t.Status,

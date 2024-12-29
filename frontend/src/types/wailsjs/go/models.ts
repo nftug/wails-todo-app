@@ -1,7 +1,7 @@
 export namespace dtos {
 	
 	export interface CreatedResponse {
-	    id: string;
+	    id: number;
 	}
 
 }
@@ -34,7 +34,7 @@ export namespace todo {
 	    dueDate?: any;
 	}
 	export interface DetailsResponse {
-	    id: string;
+	    id: number;
 	    title: string;
 	    description?: string;
 	    status: enums.StatusValue;
@@ -50,7 +50,7 @@ export namespace todo {
 	    updatedAt?: any;
 	}
 	export interface ItemResponse {
-	    id: string;
+	    id: number;
 	    title: string;
 	    description?: string;
 	    status: enums.StatusValue;
