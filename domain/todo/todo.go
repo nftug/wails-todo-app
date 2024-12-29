@@ -29,9 +29,9 @@ func (t *Todo) Description() *string       { return t.description.Value() }
 func (t *Todo) Status() enums.StatusValue  { return t.status.Value() }
 func (t *Todo) StatusUpdatedAt() time.Time { return t.status.UpdatedAt() }
 func (t *Todo) DueDate() *time.Time        { return t.dueDate.Value() }
-func (t *Todo) NotifiedAt() *time.Time     { return t.notifiedAt.Value() }
+func (t *Todo) NotifiedAt() *time.Time     { return t.notifiedAt.ToCopiedPtr() }
 func (t *Todo) CreatedAt() time.Time       { return t.createdAt }
-func (t *Todo) UpdatedAt() *time.Time      { return t.updatedAt.Value() }
+func (t *Todo) UpdatedAt() *time.Time      { return t.updatedAt.ToCopiedPtr() }
 
 func Reconstruct(
 	id int,
@@ -49,9 +49,9 @@ func Reconstruct(
 		description: valueobject.ReconstructDescription(description),
 		status:      valueobject.ReconstructStatus(status, statusUpdatedAt),
 		dueDate:     valueobject.ReconstructDueDate(dueDate),
-		notifiedAt:  nullable.NewByPtr(notifiedAt),
+		notifiedAt:  nullable.New(notifiedAt),
 		createdAt:   createdAt,
-		updatedAt:   nullable.NewByPtr(updatedAt),
+		updatedAt:   nullable.New(updatedAt),
 	}
 }
 
@@ -78,9 +78,7 @@ func NewTodo(command CreateCommand) (*Todo, error) {
 		description: desc,
 		status:      status,
 		dueDate:     dueDate,
-		notifiedAt:  nullable.NewEmpty[time.Time](),
 		createdAt:   flextime.Now().UTC(),
-		updatedAt:   nullable.NewEmpty[time.Time](),
 	}, nil
 }
 
@@ -100,7 +98,7 @@ func (t *Todo) Update(command UpdateCommand) error {
 
 	// Due dateが以前と異なる場合は、未通知状態に戻す
 	if !dueDate.Equals(t.dueDate) {
-		t.notifiedAt = nullable.NewEmpty[time.Time]()
+		t.notifiedAt = nullable.Nullable[time.Time]{}
 	}
 
 	t.dueDate = dueDate
@@ -125,7 +123,7 @@ func (t *Todo) SetNotifiedAt(notifiedAt time.Time) {
 }
 
 func (t *Todo) ClearNotifiedAt() {
-	t.notifiedAt = nullable.NewEmpty[time.Time]()
+	t.notifiedAt = nullable.Nullable[time.Time]{}
 }
 
 func (t *Todo) SetID(id int) { t.id = id }
