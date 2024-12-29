@@ -1,5 +1,4 @@
-import { useTodoCommandAtoms } from '@/atoms/todo-atoms'
-import { TodoEditModalContext } from '@/context/todo/TodoEditModalContext'
+import { useDeleteTodo } from '@/features/todo/hooks/useDeleteTodo'
 import { overflowEllipsisStyle } from '@/lib/layout/styles'
 import { todo } from '@/types/wailsjs/go/models'
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -15,20 +14,15 @@ import {
   Typography
 } from '@mui/material'
 import { useConfirm } from 'material-ui-confirm'
-import { useContext } from 'react'
 
 interface TodoItemProps {
   item: todo.ItemResponse
+  onClickEdit: (itemId: number) => void
 }
 
-const TodoItem: React.FC<TodoItemProps> = ({ item }) => {
-  const { deleteTodo } = useTodoCommandAtoms()
+const TodoItem: React.FC<TodoItemProps> = ({ item, onClickEdit }) => {
+  const deleteTodo = useDeleteTodo()
   const confirm = useConfirm()
-  const { openModal } = useContext(TodoEditModalContext)
-
-  const handleEditItem = () => {
-    openModal(item.id)
-  }
 
   const handleDeleteItem = async () => {
     try {
@@ -45,7 +39,8 @@ const TodoItem: React.FC<TodoItemProps> = ({ item }) => {
     } catch {
       return
     }
-    await deleteTodo(item.id)
+
+    deleteTodo.mutate(item.id)
   }
 
   return (
@@ -68,7 +63,12 @@ const TodoItem: React.FC<TodoItemProps> = ({ item }) => {
       </CardContent>
 
       <CardActions>
-        <Button size="small" color="primary" onClick={handleEditItem} startIcon={<EditIcon />}>
+        <Button
+          size="small"
+          color="primary"
+          onClick={() => onClickEdit(item.id)}
+          startIcon={<EditIcon />}
+        >
           Edit
         </Button>
         <Button size="small" color="error" onClick={handleDeleteItem} startIcon={<DeleteIcon />}>

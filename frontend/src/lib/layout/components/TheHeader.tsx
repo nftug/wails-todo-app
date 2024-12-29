@@ -1,4 +1,4 @@
-import { DrawerDispatchContext } from '@/context/layout/HeaderContext'
+import { DrawerDispatchContext } from '@/lib/layout/components/HeaderContext'
 import MenuIcon from '@mui/icons-material/Menu'
 import { AppBar, IconButton, Toolbar, Typography } from '@mui/material'
 import { useContext } from 'react'

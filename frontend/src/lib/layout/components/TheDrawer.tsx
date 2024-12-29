@@ -1,4 +1,4 @@
-import { DrawerContext, DrawerDispatchContext } from '@/context/layout/HeaderContext'
+import { DrawerContext, DrawerDispatchContext } from '@/lib/layout/components/HeaderContext'
 import { Home, Info, Settings } from '@mui/icons-material'
 import {
   Box,

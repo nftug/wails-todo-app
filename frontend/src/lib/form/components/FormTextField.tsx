@@ -1,24 +1,25 @@
 import { TextField, TextFieldProps } from '@mui/material'
-import { FieldPath, FieldValues, UseFormReturn } from 'react-hook-form'
+import { FieldPath, FieldValues, useFormContext, useWatch } from 'react-hook-form'
 
 interface Props<TFieldValues extends FieldValues>
   extends Omit<TextFieldProps, 'onChange' | 'value'> {
   name: FieldPath<TFieldValues>
-  form: UseFormReturn<TFieldValues>
 }
 
 const FormTextField = <TFieldValues extends FieldValues>({
   name,
-  form,
   ...textFieldProps
 }: Props<TFieldValues>) => {
+  const { register, formState, control } = useFormContext()
+  const value = useWatch({ control, name })
+
   return (
     <TextField
-      {...form.register(name)}
+      {...register(name)}
       {...textFieldProps}
-      error={!!form.formState.errors[name]}
-      helperText={form.formState.errors[name]?.message as string}
-      slotProps={{ inputLabel: { shrink: !!form.watch(name) } }}
+      error={!!formState.errors[name]}
+      helperText={formState.errors[name]?.message as string}
+      slotProps={{ inputLabel: { shrink: !!value } }}
     />
   )
 }
