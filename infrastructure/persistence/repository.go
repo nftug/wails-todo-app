@@ -12,18 +12,15 @@ import (
 )
 
 type Repository[
-	TEntityPtr interfaces.Entity[TEntityPtr],
-	TSchema RepositorySchema[TEntityPtr, TSchema],
+	TEntityPtr interfaces.Entity[TEntityPtr], TSchema RepositorySchema[TEntityPtr, TSchema],
 ] struct {
 	db         *bbolt.DB
 	bucketName string
 }
 
 func NewRepository[
-	TEntityPtr interfaces.Entity[TEntityPtr],
-	TSchema RepositorySchema[TEntityPtr, TSchema],
-](
-	i *do.Injector, bucketName string) *Repository[TEntityPtr, TSchema] {
+	TEntityPtr interfaces.Entity[TEntityPtr], TSchema RepositorySchema[TEntityPtr, TSchema],
+](i *do.Injector, bucketName string) *Repository[TEntityPtr, TSchema] {
 	return &Repository[TEntityPtr, TSchema]{
 		db:         do.MustInvoke[*bbolt.DB](i),
 		bucketName: bucketName,

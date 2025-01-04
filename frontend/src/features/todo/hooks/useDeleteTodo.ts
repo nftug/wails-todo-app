@@ -1,5 +1,5 @@
-import { DeleteTodo } from '@/types/wailsjs/go/app/TodoApp'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { DeleteTodo } from '@wailsjs/go/app/TodoApp'
 import { useRef } from 'react'
 import { handleApiError } from '../../../lib/api/errors'
 

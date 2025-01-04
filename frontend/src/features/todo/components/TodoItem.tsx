@@ -1,6 +1,5 @@
 import { useDeleteTodo } from '@/features/todo/hooks/useDeleteTodo'
 import { overflowEllipsisStyle } from '@/lib/layout/styles'
-import { todo } from '@/types/wailsjs/go/models'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import {
@@ -13,6 +12,7 @@ import {
   DialogContentText,
   Typography
 } from '@mui/material'
+import { todo } from '@wailsjs/go/models'
 import { useConfirm } from 'material-ui-confirm'
 
 interface TodoItemProps {

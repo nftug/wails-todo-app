@@ -1,7 +1,7 @@
 import { handleApiError } from '@/lib/api/errors'
-import { GetTodoList } from '@/types/wailsjs/go/app/TodoApp'
-import { todo } from '@/types/wailsjs/go/models'
 import { useQuery } from '@tanstack/react-query'
+import { GetTodoList } from '@wailsjs/go/app/TodoApp'
+import { todo } from '@wailsjs/go/models'
 import { useConfirm } from 'material-ui-confirm'
 import { useEffect } from 'react'
 

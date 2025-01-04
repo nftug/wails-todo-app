@@ -1,7 +1,7 @@
 import TodoItem from '@/features/todo/components/TodoItem'
 import { useTodoQuery } from '@/features/todo/hooks/useTodoQuery'
-import { todo } from '@/types/wailsjs/go/models'
 import { Box, List, ListItem, SxProps, Theme, Typography } from '@mui/material'
+import { todo } from '@wailsjs/go/models'
 
 interface Props {
   query?: todo.Query

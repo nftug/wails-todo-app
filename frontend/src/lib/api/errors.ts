@@ -1,4 +1,4 @@
-import { enums } from '@/types/wailsjs/go/models'
+import { enums } from '@wailsjs/go/models'
 
 interface ApiErrorData {
   field: string
